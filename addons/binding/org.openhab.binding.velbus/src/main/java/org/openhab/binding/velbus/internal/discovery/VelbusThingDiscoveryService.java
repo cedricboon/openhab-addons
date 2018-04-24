@@ -20,6 +20,7 @@ import org.eclipse.smarthome.config.discovery.DiscoveryResultBuilder;
 import org.eclipse.smarthome.core.thing.ThingUID;
 import org.openhab.binding.velbus.handler.VelbusBridgeHandler;
 import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
+import org.openhab.binding.velbus.internal.VelbusFirstGenerationDeviceModuleAddress;
 import org.openhab.binding.velbus.internal.VelbusModule;
 import org.openhab.binding.velbus.internal.VelbusModuleAddress;
 import org.openhab.binding.velbus.internal.VelbusPacketListener;
@@ -102,6 +103,11 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
 
         VelbusModule velbusModule = null;
         switch (moduleType) {
+            case MODULE_TYPE_VMB1BL:
+                velbusModule = new VelbusModule(new VelbusFirstGenerationDeviceModuleAddress(address), moduleType,
+                        highByteOfSerialNumber, lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek,
+                        THING_TYPE_VMB1BL, 1);
+                break;
             case MODULE_TYPE_VMB1BLS:
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 0), moduleType, highByteOfSerialNumber,
                         lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMB1BLS, 1);
@@ -125,6 +131,11 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
             case MODULE_TYPE_VMB1RYNOS:
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 0), moduleType, highByteOfSerialNumber,
                         lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMB1RYNOS, 5);
+                break;
+            case MODULE_TYPE_VMB2BL:
+                velbusModule = new VelbusModule(new VelbusFirstGenerationDeviceModuleAddress(address), moduleType,
+                        highByteOfSerialNumber, lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek,
+                        THING_TYPE_VMB2BL, 2);
                 break;
             case MODULE_TYPE_VMB2BLE:
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 0), moduleType, highByteOfSerialNumber,

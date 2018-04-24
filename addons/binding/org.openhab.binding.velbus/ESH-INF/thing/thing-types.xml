@@ -10,6 +10,20 @@
 		<config-description-ref uri="bridge-type:velbus:bridge" />
 	</bridge-type>
 
+	<thing-type id="vmb1bl">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge" />
+		</supported-bridge-type-refs>
+
+		<label>VMB1BL</label>
+		<description>1-channel blind control module for din rail</description>
+		<channels>
+			<channel id="CH1" typeId="rollershutter" />
+		</channels>
+
+		<config-description-ref uri="thing-type:velbus:1channelDevice" />
+	</thing-type>
+
 	<thing-type id="vmb1bls">
 		<supported-bridge-type-refs>
 			<bridge-type-ref id="bridge" />
@@ -100,6 +114,21 @@
 		</channels>
 
 		<config-description-ref uri="thing-type:velbus:5channelDevice" />
+	</thing-type>
+
+	<thing-type id="vmb2bl">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge" />
+		</supported-bridge-type-refs>
+
+		<label>VMB2BL</label>
+		<description>2-channel blind control module</description>
+		<channels>
+			<channel id="CH1" typeId="rollershutter" />
+			<channel id="CH2" typeId="rollershutter" />
+		</channels>
+
+		<config-description-ref uri="thing-type:velbus:2channelDevice" />
 	</thing-type>
 
 	<thing-type id="vmb2ble">
@@ -415,7 +444,7 @@
 			<channel id="CH9" typeId="temperature" />
 		</channels>
 
-        <config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbgp4">
@@ -437,7 +466,7 @@
 			<channel id="CH9" typeId="temperature" />
 		</channels>
 
-        <config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbgp4pir">
@@ -459,7 +488,7 @@
 			<channel id="CH9" typeId="temperature" />
 		</channels>
 
-        <config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbgpo">
@@ -505,7 +534,7 @@
 			<channel id="CH33" typeId="temperature" />
 		</channels>
 
-        <config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbgpod">
@@ -551,7 +580,7 @@
 			<channel id="CH33" typeId="temperature" />
 		</channels>
 
-        <config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbpirc">
@@ -571,7 +600,7 @@
 			<channel id="CH7" typeId="trigger-channel" />
 		</channels>
 
-        <config-description-ref uri="thing-type:velbus:7channelDevice" />
+		<config-description-ref uri="thing-type:velbus:7channelDevice" />
 	</thing-type>
 
 	<thing-type id="vmbpirm">
@@ -591,7 +620,7 @@
 			<channel id="CH7" typeId="trigger-channel" />
 		</channels>
 
-        <config-description-ref uri="thing-type:velbus:7channelDevice" />
+		<config-description-ref uri="thing-type:velbus:7channelDevice" />
 	</thing-type>
 
 	<thing-type id="vmbpiro">
@@ -613,7 +642,7 @@
 			<channel id="CH9" typeId="temperature" />
 		</channels>
 
-        <config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<channel-type id="switch">

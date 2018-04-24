@@ -79,6 +79,10 @@ public class VelbusModuleAddress {
         return "CH" + getChannelNumber(velbusChannelIdentifier);
     }
 
+    public int getChannelIndex(VelbusChannelIdentifier velbusChannelIdentifier) {
+        return this.getChannelNumber(velbusChannelIdentifier) - 1;
+    }
+
     public int getChannelNumber(VelbusChannelIdentifier velbusChannelIdentifier) {
         byte[] activeAddresses = getActiveAddresses();
 

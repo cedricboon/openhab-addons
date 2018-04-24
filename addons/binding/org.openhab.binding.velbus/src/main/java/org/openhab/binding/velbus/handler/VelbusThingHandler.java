@@ -111,7 +111,7 @@ public abstract class VelbusThingHandler extends BaseThingHandler implements Vel
         }
     }
 
-    private VelbusModuleAddress createVelbusModuleAddress(Thing thing, int numberOfSubAddresses) {
+    protected VelbusModuleAddress createVelbusModuleAddress(Thing thing, int numberOfSubAddresses) {
         byte address = hexToByte((String) getConfig().get(MODULE_ADDRESS));
 
         byte[] subAddresses = new byte[numberOfSubAddresses];
@@ -149,7 +149,7 @@ public abstract class VelbusThingHandler extends BaseThingHandler implements Vel
         velbusBridgeHandler.sendPacket(packetBytes);
     }
 
-    private byte hexToByte(String hexString) {
+    protected byte hexToByte(String hexString) {
         if (hexString.length() > 2) {
             throw new IllegalArgumentException("hexString contains more than one byte: " + hexString);
         }

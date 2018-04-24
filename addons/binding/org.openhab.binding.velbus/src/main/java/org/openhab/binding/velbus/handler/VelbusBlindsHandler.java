@@ -25,6 +25,8 @@ import org.eclipse.smarthome.core.thing.ThingTypeUID;
 import org.eclipse.smarthome.core.types.Command;
 import org.eclipse.smarthome.core.types.RefreshType;
 import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
+import org.openhab.binding.velbus.internal.VelbusFirstGenerationDeviceModuleAddress;
+import org.openhab.binding.velbus.internal.VelbusModuleAddress;
 import org.openhab.binding.velbus.internal.packets.VelbusBlindOffPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusBlindPositionPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusBlindUpDownPacket;
@@ -39,7 +41,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusStatusRequestPacket;
  */
 public class VelbusBlindsHandler extends VelbusThingHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(
-            Arrays.asList(THING_TYPE_VMB1BLS, THING_TYPE_VMB2BLE));
+            Arrays.asList(THING_TYPE_VMB1BL, THING_TYPE_VMB1BLS, THING_TYPE_VMB2BL, THING_TYPE_VMB2BLE));
 
     public VelbusBlindsHandler(Thing thing) {
         super(thing, 0, "Rollershutter");
@@ -96,6 +98,22 @@ public class VelbusBlindsHandler extends VelbusThingHandler {
         } else {
             logger.debug("The command '{}' is not supported by this handler.", command.getClass());
         }
+    }
+
+    @Override
+    protected VelbusModuleAddress createVelbusModuleAddress(Thing thing, int numberOfSubAddresses) {
+        byte address = hexToByte((String) getConfig().get(MODULE_ADDRESS));
+
+        if (isFirstGenerationDevice()) {
+            return new VelbusFirstGenerationDeviceModuleAddress(address);
+        }
+
+        return new VelbusModuleAddress(address, numberOfSubAddresses);
+    }
+
+    private Boolean isFirstGenerationDevice() {
+        ThingTypeUID thingTypeUID = this.getThing().getThingTypeUID();
+        return thingTypeUID == THING_TYPE_VMB1BL || thingTypeUID == THING_TYPE_VMB2BL;
     }
 
     @Override

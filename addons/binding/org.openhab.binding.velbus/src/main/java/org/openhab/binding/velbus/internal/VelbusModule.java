@@ -109,7 +109,7 @@ public class VelbusModule {
         }
 
         if (channelNames.length <= 8) {
-            channelNames[channelIdentifier.getChannelNumberFromBitNumber() - 1][namePartNumber - 1] = contents
+            channelNames[velbusModuleAddress.getChannelIndex(channelIdentifier)][namePartNumber - 1] = contents
                     .toString();
         } else {
             channelNames[channelIdentifier.getChannelByte() - 1][namePartNumber - 1] = contents.toString();
