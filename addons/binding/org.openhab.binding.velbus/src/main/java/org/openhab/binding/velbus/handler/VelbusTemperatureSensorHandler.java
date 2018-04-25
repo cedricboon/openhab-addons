@@ -74,7 +74,7 @@ public abstract class VelbusTemperatureSensorHandler extends VelbusSensorHandler
         }
 
         refreshJob = scheduler.scheduleWithFixedDelay(() -> {
-            sendSensorTemperatureRequest(velbusBridgeHandler);
+            sendSensorReadoutRequest(velbusBridgeHandler);
         }, 0, refreshInterval, TimeUnit.SECONDS);
     }
 
@@ -88,12 +88,12 @@ public abstract class VelbusTemperatureSensorHandler extends VelbusSensorHandler
 
         if (command instanceof RefreshType) {
             if (channelUID.equals(temperatureChannel)) {
-                sendSensorTemperatureRequest(velbusBridgeHandler);
+                sendSensorReadoutRequest(velbusBridgeHandler);
+            }
         }
     }
-        }
 
-    protected void sendSensorTemperatureRequest(VelbusBridgeHandler velbusBridgeHandler) {
+    protected void sendSensorReadoutRequest(VelbusBridgeHandler velbusBridgeHandler) {
         VelbusSensorTemperatureRequestPacket packet = new VelbusSensorTemperatureRequestPacket(
                 getModuleAddress().getAddress());
 

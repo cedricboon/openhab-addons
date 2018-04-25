@@ -582,6 +582,31 @@
 
 		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
 	</thing-type>
+	
+	   <thing-type id="vmbmeteo">
+        <supported-bridge-type-refs>
+            <bridge-type-ref id="bridge" />
+        </supported-bridge-type-refs>
+
+        <label>VMBMETEO</label>
+        <description>Weather station with thermometer, anemometer, rain sensor and light sensor</description>
+        <channels>
+            <channel id="CH1" typeId="trigger-channel" />
+            <channel id="CH2" typeId="trigger-channel" />
+            <channel id="CH3" typeId="trigger-channel" />
+            <channel id="CH4" typeId="trigger-channel" />
+            <channel id="CH5" typeId="trigger-channel" />
+            <channel id="CH6" typeId="trigger-channel" />
+            <channel id="CH7" typeId="trigger-channel" />
+            <channel id="CH8" typeId="trigger-channel" />
+            <channel id="CH10" typeId="temperature" />
+            <channel id="CH11" typeId="rainfall" />
+            <channel id="CH12" typeId="illuminance" />
+            <channel id="CH13" typeId="windspeed" />
+        </channels>
+        
+        <config-description-ref uri="thing-type:velbus:13channelDevice" />
+    </thing-type>
 
 	<thing-type id="vmbpirc">
 		<supported-bridge-type-refs>
@@ -670,7 +695,30 @@
 		<category>Temperature</category>
 		<state readOnly="true" pattern="%.1f °C">
 		</state>
-	</channel-type>
+	</channel-type>	
+    <channel-type id="rainfall">
+        <item-type>Number:Length</item-type>
+        <label>Rainfall</label>
+        <description>Currently measured quantity of rain</description>
+        <category>Rainfall</category>
+        <state readOnly="true" pattern="%.1f mm">
+        </state>
+    </channel-type>
+    <channel-type id="illuminance">
+        <item-type>Number:Illuminance</item-type>
+        <label>Illuminance</label>
+        <description>Currently measured illuminance</description>
+        <category>Illuminance</category>
+        <state readOnly="true" pattern="%d lx">
+        </state>
+    </channel-type>
+    <channel-type id="windspeed">
+        <item-type>Number:Speed</item-type>
+        <label>Wind Speed</label>
+        <description>Currently measured wind speed</description>
+        <category>Wind</category>
+        <state readOnly="true" pattern="%.1f km/h" />
+    </channel-type>
 	<channel-type id="trigger-channel">
 		<kind>trigger</kind>
 		<label>Trigger Channel</label>

@@ -221,6 +221,10 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
                         lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBGPOD, 33);
                 break;
+            case MODULE_TYPE_VMBMETEO:
+                velbusModule = new VelbusModule(new VelbusModuleAddress(address, 0), moduleType, highByteOfSerialNumber,
+                        lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBMETEO, 13);
+                break;
             case MODULE_TYPE_VMBPIRC:
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 0), moduleType, highByteOfSerialNumber,
                         lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBPIRC, 7);
