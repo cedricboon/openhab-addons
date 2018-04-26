@@ -332,6 +332,12 @@
 			<label>Address</label>
 			<description>The velbus address of the device</description>
 		</parameter>
+		<parameter name="refresh" type="integer">
+			<label>Refresh interval</label>
+			<description>Refresh interval for the sensors (in seconds), default 300. If set to 0 or left empty, no refresh will be scheduled.</description>
+			<default>300</default>
+			<advanced>true</advanced>
+		</parameter>
 		<parameter name="CH1" type="text">
 			<label>CH1 name</label>
 			<description>The name of CH1.</description>
