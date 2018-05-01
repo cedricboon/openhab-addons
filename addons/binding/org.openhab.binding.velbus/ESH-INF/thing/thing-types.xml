@@ -420,6 +420,15 @@
 			<channel id="CH7" typeId="trigger-channel" />
 			<channel id="CH8" typeId="trigger-channel" />
 			<channel id="CH9" typeId="temperature" />
+			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
+			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
+			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
+			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
+			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
+			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
+			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
+			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
+			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
 		</channels>
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
@@ -442,6 +451,15 @@
 			<channel id="CH7" typeId="trigger-channel" />
 			<channel id="CH8" typeId="trigger-channel" />
 			<channel id="CH9" typeId="temperature" />
+			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
+			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
+			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
+			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
+			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
+			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
+			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
+			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
+			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
 		</channels>
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
@@ -464,6 +482,15 @@
 			<channel id="CH7" typeId="trigger-channel" />
 			<channel id="CH8" typeId="trigger-channel" />
 			<channel id="CH9" typeId="temperature" />
+			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
+			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
+			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
+			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
+			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
+			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
+			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
+			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
+			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
 		</channels>
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
@@ -486,6 +513,15 @@
 			<channel id="CH7" typeId="trigger-channel" />
 			<channel id="CH8" typeId="trigger-channel" />
 			<channel id="CH9" typeId="temperature" />
+			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
+			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
+			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
+			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
+			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
+			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
+			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
+			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
+			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
 		</channels>
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
@@ -532,6 +568,15 @@
 			<channel id="CH31" typeId="trigger-channel" />
 			<channel id="CH32" typeId="trigger-channel" />
 			<channel id="CH33" typeId="temperature" />
+			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
+			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
+			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
+			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
+			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
+			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
+			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
+			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
+			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
 		</channels>
 
 		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
@@ -578,35 +623,44 @@
 			<channel id="CH31" typeId="trigger-channel" />
 			<channel id="CH32" typeId="trigger-channel" />
 			<channel id="CH33" typeId="temperature" />
+			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
+			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
+			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
+			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
+			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
+			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
+			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
+			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
+			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
 		</channels>
 
 		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
 	</thing-type>
-	
-	   <thing-type id="vmbmeteo">
-        <supported-bridge-type-refs>
-            <bridge-type-ref id="bridge" />
-        </supported-bridge-type-refs>
 
-        <label>VMBMETEO</label>
-        <description>Weather station with thermometer, anemometer, rain sensor and light sensor</description>
-        <channels>
-            <channel id="CH1" typeId="trigger-channel" />
-            <channel id="CH2" typeId="trigger-channel" />
-            <channel id="CH3" typeId="trigger-channel" />
-            <channel id="CH4" typeId="trigger-channel" />
-            <channel id="CH5" typeId="trigger-channel" />
-            <channel id="CH6" typeId="trigger-channel" />
-            <channel id="CH7" typeId="trigger-channel" />
-            <channel id="CH8" typeId="trigger-channel" />
-            <channel id="CH10" typeId="temperature" />
-            <channel id="CH11" typeId="rainfall" />
-            <channel id="CH12" typeId="illuminance" />
-            <channel id="CH13" typeId="windspeed" />
-        </channels>
-        
-        <config-description-ref uri="thing-type:velbus:13channelDevice" />
-    </thing-type>
+	<thing-type id="vmbmeteo">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge" />
+		</supported-bridge-type-refs>
+
+		<label>VMBMETEO</label>
+		<description>Weather station with thermometer, anemometer, rain sensor and light sensor</description>
+		<channels>
+			<channel id="CH1" typeId="trigger-channel" />
+			<channel id="CH2" typeId="trigger-channel" />
+			<channel id="CH3" typeId="trigger-channel" />
+			<channel id="CH4" typeId="trigger-channel" />
+			<channel id="CH5" typeId="trigger-channel" />
+			<channel id="CH6" typeId="trigger-channel" />
+			<channel id="CH7" typeId="trigger-channel" />
+			<channel id="CH8" typeId="trigger-channel" />
+			<channel id="CH10" typeId="temperature" />
+			<channel id="CH11" typeId="rainfall" />
+			<channel id="CH12" typeId="illuminance" />
+			<channel id="CH13" typeId="windspeed" />
+		</channels>
+
+		<config-description-ref uri="thing-type:velbus:13channelDevice" />
+	</thing-type>
 
 	<thing-type id="vmbpirc">
 		<supported-bridge-type-refs>
@@ -691,34 +745,106 @@
 	<channel-type id="temperature">
 		<item-type>Number:Temperature</item-type>
 		<label>Temperature</label>
-		<description>Current temperature in degrees celsius</description>
+		<description>Current temperature</description>
 		<category>Temperature</category>
-		<state readOnly="true" pattern="%.1f °C">
+		<state readOnly="true" pattern="%.1f %unit%">
 		</state>
-	</channel-type>	
-    <channel-type id="rainfall">
-        <item-type>Number:Length</item-type>
-        <label>Rainfall</label>
-        <description>Currently measured quantity of rain</description>
-        <category>Rainfall</category>
-        <state readOnly="true" pattern="%.1f mm">
-        </state>
-    </channel-type>
-    <channel-type id="illuminance">
-        <item-type>Number:Illuminance</item-type>
-        <label>Illuminance</label>
-        <description>Currently measured illuminance</description>
-        <category>Illuminance</category>
-        <state readOnly="true" pattern="%d lx">
-        </state>
-    </channel-type>
-    <channel-type id="windspeed">
-        <item-type>Number:Speed</item-type>
-        <label>Wind Speed</label>
-        <description>Currently measured wind speed</description>
-        <category>Wind</category>
-        <state readOnly="true" pattern="%.1f km/h" />
-    </channel-type>
+	</channel-type>
+	<channel-type id="currentTemperatureSetpoint">
+		<item-type>Number:Temperature</item-type>
+		<label>Current Temperature Setpoint</label>
+		<description>Current temperature setpoint</description>
+		<category>Temperature</category>
+		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="heatingModeComfortTemperatureSetpoint">
+		<item-type>Number:Temperature</item-type>
+		<label>Heating Mode Comfort Temperature Setpoint</label>
+		<description>Heating mode comfort temperature setpoint</description>
+		<category>Temperature</category>
+		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="heatingModeDayTemperatureSetpoint">
+		<item-type>Number:Temperature</item-type>
+		<label>Heating Mode Day Temperature Setpoint</label>
+		<description>Heating mode day temperature setpoint</description>
+		<category>Temperature</category>
+		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="heatingModeNightTemperatureSetpoint">
+		<item-type>Number:Temperature</item-type>
+		<label>Heating Mode Night Temperature Setpoint</label>
+		<description>Heating mode night temperature setpoint</description>
+		<category>Temperature</category>
+		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="heatingModeAntifrostTemperatureSetpoint">
+		<item-type>Number:Temperature</item-type>
+		<label>Heating Mode Antifrost Temperature Setpoint</label>
+		<description>Heating mode antifrost temperature setpoint</description>
+		<category>Temperature</category>
+		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="coolingModeComfortTemperatureSetpoint">
+		<item-type>Number:Temperature</item-type>
+		<label>Cooling Mode Comfort Temperature Setpoint</label>
+		<description>Cooling mode comfort temperature setpoint</description>
+		<category>Temperature</category>
+		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="coolingModeDayTemperatureSetpoint">
+		<item-type>Number:Temperature</item-type>
+		<label>Cooling Mode Day Temperature Setpoint</label>
+		<description>Cooling mode day temperature setpoint</description>
+		<category>Temperature</category>
+		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="coolingModeNightTemperatureSetpoint">
+		<item-type>Number:Temperature</item-type>
+		<label>Cooling Mode Night Temperature Setpoint</label>
+		<description>Cooling mode night temperature setpoint</description>
+		<category>Temperature</category>
+		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="coolingModeSafeTemperatureSetpoint">
+		<item-type>Number:Temperature</item-type>
+		<label>Cooling Mode Safe Temperature Setpoint</label>
+		<description>Cooling mode safe temperature setpoint</description>
+		<category>Temperature</category>
+		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="rainfall">
+		<item-type>Number:Length</item-type>
+		<label>Rainfall</label>
+		<description>Currently measured quantity of rain</description>
+		<category>Rainfall</category>
+		<state readOnly="true" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="illuminance">
+		<item-type>Number:Illuminance</item-type>
+		<label>Illuminance</label>
+		<description>Currently measured illuminance</description>
+		<category>Illuminance</category>
+		<state readOnly="true" pattern="%d %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="windspeed">
+		<item-type>Number:Speed</item-type>
+		<label>Wind Speed</label>
+		<description>Currently measured wind speed</description>
+		<category>Wind</category>
+		<state readOnly="true" pattern="%.1f %unit%" />
+	</channel-type>
 	<channel-type id="trigger-channel">
 		<kind>trigger</kind>
 		<label>Trigger Channel</label>

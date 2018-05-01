@@ -24,9 +24,9 @@ import org.eclipse.smarthome.core.thing.ThingTypeUID;
  *
  * @author Cedric Boon - Initial contribution
  */
-public class VelbusVMBGPHandler extends VelbusTemperatureSensorHandler {
-    public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMBGP1,
-            THING_TYPE_VMBGP2, THING_TYPE_VMBGP4, THING_TYPE_VMBGP4, THING_TYPE_VMBGP4PIR));
+public class VelbusVMBGPHandler extends VelbusThermostatHandler {
+    public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(
+            Arrays.asList(THING_TYPE_VMBGP1, THING_TYPE_VMBGP2, THING_TYPE_VMBGP4, THING_TYPE_VMBGP4PIR));
 
     public VelbusVMBGPHandler(Thing thing) {
         super(thing, 4, new ChannelUID(thing.getUID(), "CH9"));
