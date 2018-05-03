@@ -22,13 +22,14 @@ import org.eclipse.smarthome.core.thing.ThingUID;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandlerFactory;
 import org.eclipse.smarthome.core.thing.binding.ThingHandler;
 import org.eclipse.smarthome.core.thing.binding.ThingHandlerFactory;
-import org.openhab.binding.velbus.handler.VelbusBridgeHandler;
-import org.openhab.binding.velbus.handler.VelbusSensorHandler;
 import org.openhab.binding.velbus.handler.VelbusBlindsHandler;
+import org.openhab.binding.velbus.handler.VelbusBridgeHandler;
 import org.openhab.binding.velbus.handler.VelbusDimmerHandler;
 import org.openhab.binding.velbus.handler.VelbusRelayHandler;
+import org.openhab.binding.velbus.handler.VelbusSensorHandler;
 import org.openhab.binding.velbus.handler.VelbusVMBGPHandler;
 import org.openhab.binding.velbus.handler.VelbusVMBGPOHandler;
+import org.openhab.binding.velbus.handler.VelbusVMBMeteoHandler;
 import org.openhab.binding.velbus.handler.VelbusVMBPIROHandler;
 import org.openhab.binding.velbus.internal.discovery.VelbusThingDiscoveryService;
 import org.osgi.framework.ServiceRegistration;
@@ -66,6 +67,8 @@ public class VelbusHandlerFactory extends BaseThingHandlerFactory {
             thingHandler = new VelbusBlindsHandler(thing);
         } else if (VelbusSensorHandler.SUPPORTED_THING_TYPES.contains(thingTypeUID)) {
             thingHandler = new VelbusSensorHandler(thing);
+        } else if (VelbusVMBMeteoHandler.SUPPORTED_THING_TYPES.contains(thingTypeUID)) {
+            thingHandler = new VelbusVMBMeteoHandler(thing);
         } else if (VelbusVMBGPHandler.SUPPORTED_THING_TYPES.contains(thingTypeUID)) {
             thingHandler = new VelbusVMBGPHandler(thing);
         } else if (VelbusVMBGPOHandler.SUPPORTED_THING_TYPES.contains(thingTypeUID)) {
@@ -96,7 +99,7 @@ public class VelbusHandlerFactory extends BaseThingHandlerFactory {
         ServiceRegistration<?> serviceReg = this.discoveryServiceRegs.get(bridgeHandler.getThing().getUID());
         if (serviceReg != null) {
             VelbusThingDiscoveryService service = (VelbusThingDiscoveryService) bundleContext
-                .getService(serviceReg.getReference());
+                    .getService(serviceReg.getReference());
             if (service != null) {
                 service.deactivate();
             }
