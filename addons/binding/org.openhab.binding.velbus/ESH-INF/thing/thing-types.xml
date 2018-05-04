@@ -491,6 +491,16 @@
 			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
 			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
 			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
+            <channel id="CLOCKALARM1ENABLED" typeId="switch" />
+            <channel id="CLOCKALARM1WAKEUPHOUR" typeId="clockalarmwakeuphour" />
+            <channel id="CLOCKALARM1WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
+            <channel id="CLOCKALARM1BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
+            <channel id="CLOCKALARM1BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
+            <channel id="CLOCKALARM2ENABLED" typeId="switch" />
+            <channel id="CLOCKALARM2WAKEUPHOUR" typeId="clockalarmwakeuphour" />
+            <channel id="CLOCKALARM2WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
+            <channel id="CLOCKALARM2BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
+            <channel id="CLOCKALARM2BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
 		</channels>
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
@@ -750,6 +760,34 @@
 		<state readOnly="true" pattern="%.1f %unit%">
 		</state>
 	</channel-type>
+	<channel-type id="clockalarmwakeuphour">
+		<item-type>Number</item-type>
+		<label>Alarm Wakeup Hour</label>
+		<description>Alarm wakeup hour</description>
+		<state readOnly="false" min="0" max="23">
+		</state>
+	</channel-type>
+	<channel-type id="clockalarmwakeupminute">
+		<item-type>Number</item-type>
+		<label>Alarm Wakeup Minute</label>
+		<description>Alarm wakeup minute</description>
+		<state readOnly="false" min="0" max="59">
+		</state>
+	</channel-type>
+	   <channel-type id="clockalarmbedtimehour">
+        <item-type>Number</item-type>
+        <label>Alarm Bedtime Hour</label>
+        <description>Alarm bedtime hour</description>
+        <state readOnly="false" min="0" max="23">
+        </state>
+    </channel-type>
+    <channel-type id="clockalarmbedtimeminute">
+        <item-type>Number</item-type>
+        <label>Alarm Bedtime Minute</label>
+        <description>Alarm bedtime minute</description>
+        <state readOnly="false" min="0" max="59">
+        </state>
+    </channel-type>
 	<channel-type id="currentTemperatureSetpoint">
 		<item-type>Number:Temperature</item-type>
 		<label>Current Temperature Setpoint</label>

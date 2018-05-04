@@ -123,7 +123,9 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_SUBTYPE = (byte) 0xB0;
     public static final byte COMMAND_DIMMERCONTROLLER_STATUS = (byte) 0xB8;
     public static final byte COMMAND_TEMP_SENSOR_SETTINGS_PART4 = (byte) 0xB9;
+    public static final byte COMMAND_SET_ALARM_CLOCK = (byte) 0xC3;
     public static final byte COMMAND_TEMP_SENSOR_SETTINGS_PART3 = (byte) 0xC6;
+    public static final byte COMMAND_READ_MEMORY_BLOCK = (byte) 0xC9;
     public static final byte COMMAND_BLIND_STATUS = (byte) 0xEC;
     public static final byte COMMAND_SET_TEMP = (byte) 0xE4;
     public static final byte COMMAND_SENSOR_READOUT_REQUEST = (byte) 0xE5;
@@ -138,6 +140,7 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_MODULE_NAME_PART3 = (byte) 0xF2;
     public static final byte COMMAND_STATUS_REQUEST = (byte) 0xFA;
     public static final byte COMMAND_RELAY_STATUS = (byte) 0xFB;
+    public static final byte COMMAND_READ_DATA_FROM_MEMORY = (byte) 0xFD;
     public static final byte COMMAND_MODULE_TYPE = (byte) 0xFF;
 
     // Module properties
