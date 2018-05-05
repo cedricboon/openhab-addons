@@ -113,7 +113,7 @@ public class VelbusBlindsHandler extends VelbusThingHandler {
 
     private Boolean isFirstGenerationDevice() {
         ThingTypeUID thingTypeUID = this.getThing().getThingTypeUID();
-        return thingTypeUID == THING_TYPE_VMB1BL || thingTypeUID == THING_TYPE_VMB2BL;
+        return thingTypeUID.equals(THING_TYPE_VMB1BL) || thingTypeUID.equals(THING_TYPE_VMB2BL);
     }
 
     @Override

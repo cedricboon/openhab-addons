@@ -83,8 +83,8 @@ public class VelbusDimmerHandler extends VelbusThingHandler {
 
     private Boolean isFirstGenerationDevice() {
         ThingTypeUID thingTypeUID = this.getThing().getThingTypeUID();
-        return thingTypeUID == THING_TYPE_VMB1DM || thingTypeUID == THING_TYPE_VMB1LED
-                || thingTypeUID == THING_TYPE_VMBDME;
+        return thingTypeUID.equals(THING_TYPE_VMB1DM) || thingTypeUID.equals(THING_TYPE_VMB1LED)
+                || thingTypeUID.equals(THING_TYPE_VMBDME);
     }
 
     @Override
