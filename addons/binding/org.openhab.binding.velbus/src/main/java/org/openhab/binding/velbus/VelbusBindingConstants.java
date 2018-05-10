@@ -121,11 +121,14 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_BLIND_POS = 0x1C;
     public static final byte COMMAND_SENSOR_RAW_DATA = (byte) 0xA9;
     public static final byte COMMAND_SUBTYPE = (byte) 0xB0;
+    public static final byte COMMAND_SET_REALTIME_DATE = (byte) 0xB7;
     public static final byte COMMAND_DIMMERCONTROLLER_STATUS = (byte) 0xB8;
     public static final byte COMMAND_TEMP_SENSOR_SETTINGS_PART4 = (byte) 0xB9;
     public static final byte COMMAND_SET_ALARM_CLOCK = (byte) 0xC3;
     public static final byte COMMAND_TEMP_SENSOR_SETTINGS_PART3 = (byte) 0xC6;
     public static final byte COMMAND_READ_MEMORY_BLOCK = (byte) 0xC9;
+    public static final byte COMMAND_MEMORY_DATA_BLOCK = (byte) 0xCC;
+    public static final byte COMMAND_SET_REALTIME_CLOCK = (byte) 0xD8;
     public static final byte COMMAND_BLIND_STATUS = (byte) 0xEC;
     public static final byte COMMAND_SET_TEMP = (byte) 0xE4;
     public static final byte COMMAND_SENSOR_READOUT_REQUEST = (byte) 0xE5;
@@ -141,12 +144,14 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_STATUS_REQUEST = (byte) 0xFA;
     public static final byte COMMAND_RELAY_STATUS = (byte) 0xFB;
     public static final byte COMMAND_READ_DATA_FROM_MEMORY = (byte) 0xFD;
+    public static final byte COMMAND_MEMORY_DATA = (byte) 0xFE;
     public static final byte COMMAND_MODULE_TYPE = (byte) 0xFF;
 
     // Module properties
     public static final String PORT = "port";
     public static final String MODULE_ADDRESS = "address";
     public static final String REFRESH_INTERVAL = "refresh";
+    public static final String TIME_UPDATE_INTERVAL = "timeUpdateInterval";
     public static final String MODULE_SERIAL_NUMBER = "serial number";
     public static final String MODULE_MEMORY_MAP_VERSION = "memory map version";
     public static final String MODULE_BUILD = "build";

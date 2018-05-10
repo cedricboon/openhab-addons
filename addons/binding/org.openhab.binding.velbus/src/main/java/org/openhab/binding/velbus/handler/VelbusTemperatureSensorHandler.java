@@ -33,7 +33,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusSensorTemperatureReques
  *
  * @author Cedric Boon - Initial contribution
  */
-public abstract class VelbusTemperatureSensorHandler extends VelbusSensorHandler {
+public abstract class VelbusTemperatureSensorHandler extends VelbusSensorWithAlarmClockHandler {
     private ScheduledFuture<?> refreshJob;
     private ChannelUID temperatureChannel;
 

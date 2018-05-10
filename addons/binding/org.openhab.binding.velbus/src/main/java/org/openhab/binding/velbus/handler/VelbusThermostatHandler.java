@@ -32,23 +32,23 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
     private final double THERMOSTAT_TEMPERATURE_SETPOINT_RESOLUTION = 0.5;
 
     private final ChannelUID CURRENT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
-            "CURRENTTEMPERATURESETPOINT");
+            "thermostat#CURRENTTEMPERATURESETPOINT");
     private final ChannelUID HEATING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
-            "HEATINGMODECOMFORTTEMPERATURESETPOINT");
+            "thermostat#HEATINGMODECOMFORTTEMPERATURESETPOINT");
     private final ChannelUID HEATING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
-            "HEATINGMODEDAYTEMPERATURESETPOINT");
+            "thermostat#HEATINGMODEDAYTEMPERATURESETPOINT");
     private final ChannelUID HEATING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
-            "HEATINGMODENIGHTTEMPERATURESETPOINT");
+            "thermostat#HEATINGMODENIGHTTEMPERATURESETPOINT");
     private final ChannelUID HEATING_MODE_ANTIFROST_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
-            "HEATINGMODEANTIFROSTTEMPERATURESETPOINT");
+            "thermostat#HEATINGMODEANTIFROSTTEMPERATURESETPOINT");
     private final ChannelUID COOLING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
-            "COOLINGMODECOMFORTTEMPERATURESETPOINT");
+            "thermostat#COOLINGMODECOMFORTTEMPERATURESETPOINT");
     private final ChannelUID COOLING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
-            "COOLINGMODEDAYTEMPERATURESETPOINT");
+            "thermostat#COOLINGMODEDAYTEMPERATURESETPOINT");
     private final ChannelUID COOLING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
-            "COOLINGMODENIGHTTEMPERATURESETPOINT");
+            "thermostat#COOLINGMODENIGHTTEMPERATURESETPOINT");
     private final ChannelUID COOLING_MODE_SAFE_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
-            "COOLINGMODESAFETEMPERATURESETPOINT");
+            "thermostat#COOLINGMODESAFETEMPERATURESETPOINT");
 
     public VelbusThermostatHandler(Thing thing, int numberOfSubAddresses, ChannelUID temperatureChannel) {
         super(thing, numberOfSubAddresses, temperatureChannel);

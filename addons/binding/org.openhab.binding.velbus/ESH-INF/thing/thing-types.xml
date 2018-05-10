@@ -153,16 +153,10 @@
 
 		<label>VMB2PBN</label>
 		<description>Push-button interface for Niko 1- or 2-fold push-buttons</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="8channelInputModule" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:8channelDevice" />
 	</thing-type>
@@ -244,14 +238,9 @@
 
 		<label>VMB6IN</label>
 		<description>6-channel input module</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="6channelInputModule" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:6channelDevice" />
 	</thing-type>
@@ -263,16 +252,10 @@
 
 		<label>VMB6PBN</label>
 		<description>Push-button interface module for Niko 4- or 6-fold push-button</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="8channelInputModule" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:8channelDevice" />
 	</thing-type>
@@ -284,16 +267,10 @@
 
 		<label>VMB7IN</label>
 		<description>7-channel input module (potentialfree + pulse)</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="8channelInputModule" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:8channelDevice" />
 	</thing-type>
@@ -305,16 +282,9 @@
 
 		<label>VMB8IR</label>
 		<description>Infrared remote control receiver module</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="8channelInputModule" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:8channelDevice" />
 	</thing-type>
@@ -326,16 +296,9 @@
 
 		<label>VMB8PB</label>
 		<description>8-Channel Push Button module</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="8channelInputModule" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:8channelDevice" />
 	</thing-type>
@@ -347,16 +310,11 @@
 
 		<label>VMB8PBU</label>
 		<description>Push-button interface with 8 channels for universal mounting</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="8channelInputModule" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
+
 
 		<config-description-ref uri="thing-type:velbus:8channelDevice" />
 	</thing-type>
@@ -410,26 +368,11 @@
 
 		<label>VMBGP1</label>
 		<description>Glass control module with 1 touch key</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-			<channel id="CH9" typeId="temperature" />
-			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
-			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
-			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
-			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
-			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
-			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
-			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
-			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
-			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="thermostat" typeId="thermostat" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
@@ -441,26 +384,11 @@
 
 		<label>VMBGP2</label>
 		<description>Glass control module with 2 touch keys</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-			<channel id="CH9" typeId="temperature" />
-			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
-			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
-			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
-			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
-			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
-			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
-			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
-			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
-			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="thermostat" typeId="thermostat" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
@@ -472,36 +400,11 @@
 
 		<label>VMBGP4</label>
 		<description>Glass control module with 4 touch keys</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-			<channel id="CH9" typeId="temperature" />
-			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
-			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
-			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
-			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
-			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
-			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
-			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
-			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
-			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
-            <channel id="CLOCKALARM1ENABLED" typeId="switch" />
-            <channel id="CLOCKALARM1WAKEUPHOUR" typeId="clockalarmwakeuphour" />
-            <channel id="CLOCKALARM1WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
-            <channel id="CLOCKALARM1BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
-            <channel id="CLOCKALARM1BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
-            <channel id="CLOCKALARM2ENABLED" typeId="switch" />
-            <channel id="CLOCKALARM2WAKEUPHOUR" typeId="clockalarmwakeuphour" />
-            <channel id="CLOCKALARM2WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
-            <channel id="CLOCKALARM2BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
-            <channel id="CLOCKALARM2BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="thermostat" typeId="thermostat" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
@@ -513,26 +416,11 @@
 
 		<label>VMBGP4PIR</label>
 		<description>Glass control module with 4 touch keys and built-in motion and twilight sensor</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-			<channel id="CH9" typeId="temperature" />
-			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
-			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
-			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
-			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
-			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
-			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
-			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
-			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
-			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
-		</channels>
+		<channel-groups>
+			<channel-group id="glasspannel" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="thermostat" typeId="thermostat" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
@@ -544,50 +432,11 @@
 
 		<label>VMBGPO</label>
 		<description>Glass control module with oled display</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-			<channel id="CH9" typeId="trigger-channel" />
-			<channel id="CH10" typeId="trigger-channel" />
-			<channel id="CH11" typeId="trigger-channel" />
-			<channel id="CH12" typeId="trigger-channel" />
-			<channel id="CH13" typeId="trigger-channel" />
-			<channel id="CH14" typeId="trigger-channel" />
-			<channel id="CH15" typeId="trigger-channel" />
-			<channel id="CH16" typeId="trigger-channel" />
-			<channel id="CH17" typeId="trigger-channel" />
-			<channel id="CH18" typeId="trigger-channel" />
-			<channel id="CH19" typeId="trigger-channel" />
-			<channel id="CH20" typeId="trigger-channel" />
-			<channel id="CH21" typeId="trigger-channel" />
-			<channel id="CH22" typeId="trigger-channel" />
-			<channel id="CH23" typeId="trigger-channel" />
-			<channel id="CH24" typeId="trigger-channel" />
-			<channel id="CH25" typeId="trigger-channel" />
-			<channel id="CH26" typeId="trigger-channel" />
-			<channel id="CH27" typeId="trigger-channel" />
-			<channel id="CH28" typeId="trigger-channel" />
-			<channel id="CH29" typeId="trigger-channel" />
-			<channel id="CH30" typeId="trigger-channel" />
-			<channel id="CH31" typeId="trigger-channel" />
-			<channel id="CH32" typeId="trigger-channel" />
-			<channel id="CH33" typeId="temperature" />
-			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
-			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
-			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
-			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
-			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
-			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
-			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
-			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
-			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="33channelInputModuleWithTemperatureSensor" />
+			<channel-group id="thermostat" typeId="thermostat" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
 	</thing-type>
@@ -599,50 +448,11 @@
 
 		<label>VMBGPOD</label>
 		<description>Glass control module with oled display and temperature controller</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-			<channel id="CH9" typeId="trigger-channel" />
-			<channel id="CH10" typeId="trigger-channel" />
-			<channel id="CH11" typeId="trigger-channel" />
-			<channel id="CH12" typeId="trigger-channel" />
-			<channel id="CH13" typeId="trigger-channel" />
-			<channel id="CH14" typeId="trigger-channel" />
-			<channel id="CH15" typeId="trigger-channel" />
-			<channel id="CH16" typeId="trigger-channel" />
-			<channel id="CH17" typeId="trigger-channel" />
-			<channel id="CH18" typeId="trigger-channel" />
-			<channel id="CH19" typeId="trigger-channel" />
-			<channel id="CH20" typeId="trigger-channel" />
-			<channel id="CH21" typeId="trigger-channel" />
-			<channel id="CH22" typeId="trigger-channel" />
-			<channel id="CH23" typeId="trigger-channel" />
-			<channel id="CH24" typeId="trigger-channel" />
-			<channel id="CH25" typeId="trigger-channel" />
-			<channel id="CH26" typeId="trigger-channel" />
-			<channel id="CH27" typeId="trigger-channel" />
-			<channel id="CH28" typeId="trigger-channel" />
-			<channel id="CH29" typeId="trigger-channel" />
-			<channel id="CH30" typeId="trigger-channel" />
-			<channel id="CH31" typeId="trigger-channel" />
-			<channel id="CH32" typeId="trigger-channel" />
-			<channel id="CH33" typeId="temperature" />
-			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
-			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
-			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
-			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
-			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
-			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
-			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
-			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
-			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="33channelInputModuleWithTemperatureSensor" />
+			<channel-group id="thermostat" typeId="thermostat" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
 	</thing-type>
@@ -654,20 +464,11 @@
 
 		<label>VMBMETEO</label>
 		<description>Weather station with thermometer, anemometer, rain sensor and light sensor</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-			<channel id="CH10" typeId="temperature" />
-			<channel id="CH11" typeId="rainfall" />
-			<channel id="CH12" typeId="illuminance" />
-			<channel id="CH13" typeId="windspeed" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="8channelInputModule" />
+			<channel-group id="weatherStation" typeId="weatherStation" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:13channelDevice" />
 	</thing-type>
@@ -679,15 +480,10 @@
 
 		<label>VMBPIRC</label>
 		<description>Motion and twilight sensor for ceiling mounting</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="7channelInputModule" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:7channelDevice" />
 	</thing-type>
@@ -699,15 +495,10 @@
 
 		<label>VMBPIRM</label>
 		<description>Mini motion and twilight sensor for recessed or surface mounting</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="7channelInputModule" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:7channelDevice" />
 	</thing-type>
@@ -719,17 +510,10 @@
 
 		<label>VMBPIRO</label>
 		<description>Outdoor motion, twilight and temperature sensor, Theben</description>
-		<channels>
-			<channel id="CH1" typeId="trigger-channel" />
-			<channel id="CH2" typeId="trigger-channel" />
-			<channel id="CH3" typeId="trigger-channel" />
-			<channel id="CH4" typeId="trigger-channel" />
-			<channel id="CH5" typeId="trigger-channel" />
-			<channel id="CH6" typeId="trigger-channel" />
-			<channel id="CH7" typeId="trigger-channel" />
-			<channel id="CH8" typeId="trigger-channel" />
-			<channel id="CH9" typeId="temperature" />
-		</channels>
+		<channel-groups>
+			<channel-group id="input" typeId="9channelInputModule" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
@@ -774,20 +558,20 @@
 		<state readOnly="false" min="0" max="59">
 		</state>
 	</channel-type>
-	   <channel-type id="clockalarmbedtimehour">
-        <item-type>Number</item-type>
-        <label>Alarm Bedtime Hour</label>
-        <description>Alarm bedtime hour</description>
-        <state readOnly="false" min="0" max="23">
-        </state>
-    </channel-type>
-    <channel-type id="clockalarmbedtimeminute">
-        <item-type>Number</item-type>
-        <label>Alarm Bedtime Minute</label>
-        <description>Alarm bedtime minute</description>
-        <state readOnly="false" min="0" max="59">
-        </state>
-    </channel-type>
+	<channel-type id="clockalarmbedtimehour">
+		<item-type>Number</item-type>
+		<label>Alarm Bedtime Hour</label>
+		<description>Alarm bedtime hour</description>
+		<state readOnly="false" min="0" max="23">
+		</state>
+	</channel-type>
+	<channel-type id="clockalarmbedtimeminute">
+		<item-type>Number</item-type>
+		<label>Alarm Bedtime Minute</label>
+		<description>Alarm bedtime minute</description>
+		<state readOnly="false" min="0" max="59">
+		</state>
+	</channel-type>
 	<channel-type id="currentTemperatureSetpoint">
 		<item-type>Number:Temperature</item-type>
 		<label>Current Temperature Setpoint</label>
@@ -894,4 +678,139 @@
 			</options>
 		</event>
 	</channel-type>
+	<channel-group-type id="6channelInputModule">
+		<label>Input</label>
+		<description>This is a generic module with 7 input channels.</description>
+		<channels>
+			<channel id="CH1" typeId="trigger-channel" />
+			<channel id="CH2" typeId="trigger-channel" />
+			<channel id="CH3" typeId="trigger-channel" />
+			<channel id="CH4" typeId="trigger-channel" />
+			<channel id="CH5" typeId="trigger-channel" />
+			<channel id="CH6" typeId="trigger-channel" />
+			<channel id="CH7" typeId="trigger-channel" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="7channelInputModule">
+		<label>Input</label>
+		<description>This is a generic module with 7 input channels.</description>
+		<channels>
+			<channel id="CH1" typeId="trigger-channel" />
+			<channel id="CH2" typeId="trigger-channel" />
+			<channel id="CH3" typeId="trigger-channel" />
+			<channel id="CH4" typeId="trigger-channel" />
+			<channel id="CH5" typeId="trigger-channel" />
+			<channel id="CH6" typeId="trigger-channel" />
+			<channel id="CH7" typeId="trigger-channel" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="8channelInputModule">
+		<label>Input</label>
+		<description>This is a generic module with 8 input channels.</description>
+		<channels>
+			<channel id="CH1" typeId="trigger-channel" />
+			<channel id="CH2" typeId="trigger-channel" />
+			<channel id="CH3" typeId="trigger-channel" />
+			<channel id="CH4" typeId="trigger-channel" />
+			<channel id="CH5" typeId="trigger-channel" />
+			<channel id="CH6" typeId="trigger-channel" />
+			<channel id="CH7" typeId="trigger-channel" />
+			<channel id="CH8" typeId="trigger-channel" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="9channelInputModuleWithTemperatureSensor">
+		<label>Input Module with Temperature sensor</label>
+		<description>This is a generic module with 8 input channels and a temperature sensor.</description>
+		<channels>
+			<channel id="CH1" typeId="trigger-channel" />
+			<channel id="CH2" typeId="trigger-channel" />
+			<channel id="CH3" typeId="trigger-channel" />
+			<channel id="CH4" typeId="trigger-channel" />
+			<channel id="CH5" typeId="trigger-channel" />
+			<channel id="CH6" typeId="trigger-channel" />
+			<channel id="CH7" typeId="trigger-channel" />
+			<channel id="CH8" typeId="trigger-channel" />
+			<channel id="CH9" typeId="temperature" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="33channelInputModuleWithTemperatureSensor">
+		<label>Input Module with Temperature sensor</label>
+		<description>This is a generic module with 32 input channels and a temperature sensor.</description>
+		<channels>
+			<channel id="CH1" typeId="trigger-channel" />
+			<channel id="CH2" typeId="trigger-channel" />
+			<channel id="CH3" typeId="trigger-channel" />
+			<channel id="CH4" typeId="trigger-channel" />
+			<channel id="CH5" typeId="trigger-channel" />
+			<channel id="CH6" typeId="trigger-channel" />
+			<channel id="CH7" typeId="trigger-channel" />
+			<channel id="CH8" typeId="trigger-channel" />
+			<channel id="CH9" typeId="trigger-channel" />
+			<channel id="CH10" typeId="trigger-channel" />
+			<channel id="CH11" typeId="trigger-channel" />
+			<channel id="CH12" typeId="trigger-channel" />
+			<channel id="CH13" typeId="trigger-channel" />
+			<channel id="CH14" typeId="trigger-channel" />
+			<channel id="CH15" typeId="trigger-channel" />
+			<channel id="CH16" typeId="trigger-channel" />
+			<channel id="CH17" typeId="trigger-channel" />
+			<channel id="CH18" typeId="trigger-channel" />
+			<channel id="CH19" typeId="trigger-channel" />
+			<channel id="CH20" typeId="trigger-channel" />
+			<channel id="CH21" typeId="trigger-channel" />
+			<channel id="CH22" typeId="trigger-channel" />
+			<channel id="CH23" typeId="trigger-channel" />
+			<channel id="CH24" typeId="trigger-channel" />
+			<channel id="CH25" typeId="trigger-channel" />
+			<channel id="CH26" typeId="trigger-channel" />
+			<channel id="CH27" typeId="trigger-channel" />
+			<channel id="CH28" typeId="trigger-channel" />
+			<channel id="CH29" typeId="trigger-channel" />
+			<channel id="CH30" typeId="trigger-channel" />
+			<channel id="CH31" typeId="trigger-channel" />
+			<channel id="CH32" typeId="trigger-channel" />
+			<channel id="CH33" typeId="temperature" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="thermostat">
+		<label>Thermostat</label>
+		<description>This is a thermostat that supports heating/cooling and comfort/day/night/safe modes.</description>
+		<category>Temperatures</category>
+		<channels>
+			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
+			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
+			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
+			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
+			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
+			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
+			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
+			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
+			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="weatherStation">
+		<label>Weather Station</label>
+		<description>This is a weather station with channels for temperature, rainfall, illuminance and windspeed.
+		</description>
+		<channel id="CH10" typeId="temperature" />
+		<channel id="CH11" typeId="rainfall" />
+		<channel id="CH12" typeId="illuminance" />
+		<channel id="CH13" typeId="windspeed" />
+	</channel-group-type>
+	<channel-group-type id="clockAlarm">
+		<label>Clock Alarm</label>
+		<description>This is a clock alarm with two configurable alarms that can be programmed with a wake up time and a bed
+			time.
+		</description>
+		<channel id="CLOCKALARM1ENABLED" typeId="switch" />
+		<channel id="CLOCKALARM1WAKEUPHOUR" typeId="clockalarmwakeuphour" />
+		<channel id="CLOCKALARM1WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
+		<channel id="CLOCKALARM1BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
+		<channel id="CLOCKALARM1BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
+		<channel id="CLOCKALARM2ENABLED" typeId="switch" />
+		<channel id="CLOCKALARM2WAKEUPHOUR" typeId="clockalarmwakeuphour" />
+		<channel id="CLOCKALARM2WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
+		<channel id="CLOCKALARM2BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
+		<channel id="CLOCKALARM2BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
+	</channel-group-type>
 </thing:thing-descriptions>

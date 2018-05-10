@@ -161,6 +161,12 @@
 			<label>Address</label>
 			<description>The velbus address of the device</description>
 		</parameter>
+		<parameter name="timeUpdateInterval" type="integer">
+			<label>Time Update interval</label>
+			<description>The interval (in minutes) at which the realtime clock of the module will be updated, default 360. If set to 0 or left empty, no refresh will be scheduled.</description>
+			<default>360</default>
+			<advanced>true</advanced>
+		</parameter>
 		<parameter name="CH1" type="text">
 			<label>CH1 name</label>
 			<description>The name of CH1.</description>
@@ -260,6 +266,67 @@
 		</parameter>
 	</config-description>
 
+	<config-description uri="thing-type:velbus:8channelDeviceWithClock">
+		<parameter name="address" type="text" required="true">
+			<label>Address</label>
+			<description>The velbus address of the device</description>
+		</parameter>
+		<parameter name="timeUpdateInterval" type="integer">
+			<label>Time Update interval</label>
+			<description>The interval (in minutes) at which the realtime clock of the module will be updated, default 360. If set to 0 or left empty, no refresh will be scheduled.</description>
+			<default>360</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH1" type="text">
+			<label>CH1 name</label>
+			<description>The name of CH1.</description>
+			<default>CH1</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH2" type="text">
+			<label>CH2 name</label>
+			<description>The name of CH2.</description>
+			<default>CH2</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH3" type="text">
+			<label>CH3 name</label>
+			<description>The name of CH3.</description>
+			<default>CH3</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH4" type="text">
+			<label>CH4 name</label>
+			<description>The name of CH4.</description>
+			<default>CH4</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH5" type="text">
+			<label>CH5 name</label>
+			<description>The name of CH5.</description>
+			<default>CH5</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH6" type="text">
+			<label>CH6 name</label>
+			<description>The name of CH6.</description>
+			<default>CH6</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH7" type="text">
+			<label>CH7 name</label>
+			<description>The name of CH7.</description>
+			<default>CH7</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH8" type="text">
+			<label>CH8 name</label>
+			<description>The name of CH8.</description>
+			<default>CH8</default>
+			<advanced>true</advanced>
+		</parameter>
+	</config-description>
+
 	<config-description uri="thing-type:velbus:9channelDeviceWithTemperatureSensor">
 		<parameter name="address" type="text" required="true">
 			<label>Address</label>
@@ -269,6 +336,12 @@
 			<label>Refresh interval</label>
 			<description>Refresh interval for the temperature sensor (in seconds), default 300. If set to 0 or left empty, no refresh will be scheduled.</description>
 			<default>300</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="timeUpdateInterval" type="integer">
+			<label>Time Update interval</label>
+			<description>The interval (in minutes) at which the realtime clock of the module will be updated, default 360. If set to 0 or left empty, no refresh will be scheduled.</description>
+			<default>360</default>
 			<advanced>true</advanced>
 		</parameter>
 		<parameter name="CH1" type="text">
@@ -336,6 +409,12 @@
 			<label>Refresh interval</label>
 			<description>Refresh interval for the sensors (in seconds), default 300. If set to 0 or left empty, no refresh will be scheduled.</description>
 			<default>300</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="timeUpdateInterval" type="integer">
+			<label>Time Update interval</label>
+			<description>The interval (in minutes) at which the realtime clock of the module will be updated, default 360. If set to 0 or left empty, no refresh will be scheduled.</description>
+			<default>360</default>
 			<advanced>true</advanced>
 		</parameter>
 		<parameter name="CH1" type="text">
@@ -427,6 +506,12 @@
 			<label>Refresh interval</label>
 			<description>Refresh interval for the temperature sensor (in seconds), default 300. If set to 0 or left empty, no refresh will be scheduled.</description>
 			<default>300</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="timeUpdateInterval" type="integer">
+			<label>Time Update interval</label>
+			<description>The interval (in minutes) at which the realtime clock of the module will be updated, default 360. If set to 0 or left empty, no refresh will be scheduled.</description>
+			<default>360</default>
 			<advanced>true</advanced>
 		</parameter>
 		<parameter name="CH1" type="text">

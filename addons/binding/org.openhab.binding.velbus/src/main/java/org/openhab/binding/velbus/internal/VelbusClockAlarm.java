@@ -9,18 +9,18 @@
 package org.openhab.binding.velbus.internal;
 
 /**
- * The {@link VelbusAlarmClockConfiguration} represents a class that contains the configuration of a velbus alarm clock.
+ * The {@link VelbusClockAlarm} represents a class that contains the state representation of a velbus clock alarm.
  *
  * @author Cedric Boon - Initial contribution
  */
-public class VelbusAlarmClockConfiguration {
+public class VelbusClockAlarm {
     private boolean enabled;
     private byte wakeupHour;
     private byte wakeupMinute;
     private byte bedtimeHour;
     private byte bedtimeMinute;
 
-    public VelbusAlarmClockConfiguration() {
+    public VelbusClockAlarm() {
         this.enabled = true;
         this.wakeupHour = 7;
         this.wakeupMinute = 0;

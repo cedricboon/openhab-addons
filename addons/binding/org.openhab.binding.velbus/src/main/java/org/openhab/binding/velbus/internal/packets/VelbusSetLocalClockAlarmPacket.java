@@ -10,7 +10,7 @@ package org.openhab.binding.velbus.internal.packets;
 
 import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_SET_ALARM_CLOCK;
 
-import org.openhab.binding.velbus.internal.VelbusAlarmClockConfiguration;
+import org.openhab.binding.velbus.internal.VelbusClockAlarm;
 
 /**
  * The {@link VelbusSetLocalClockAlarmPacket} represents a Velbus packet that can be used to
@@ -20,21 +20,19 @@ import org.openhab.binding.velbus.internal.VelbusAlarmClockConfiguration;
  */
 public class VelbusSetLocalClockAlarmPacket extends VelbusPacket {
     private byte alarmNumber;
-    private VelbusAlarmClockConfiguration alarmClockConfiguration;
+    private VelbusClockAlarm alarmClock;
 
-    public VelbusSetLocalClockAlarmPacket(byte address, byte alarmNumber,
-            VelbusAlarmClockConfiguration alarmClockConfiguration) {
+    public VelbusSetLocalClockAlarmPacket(byte address, byte alarmNumber, VelbusClockAlarm alarmClock) {
         super(address, PRIO_LOW);
 
         this.alarmNumber = alarmNumber;
-        this.alarmClockConfiguration = alarmClockConfiguration;
+        this.alarmClock = alarmClock;
     }
 
     @Override
     protected byte[] getDataBytes() {
-        return new byte[] { COMMAND_SET_ALARM_CLOCK, alarmNumber, alarmClockConfiguration.getWakeupHour(),
-                alarmClockConfiguration.getWakeupMinute(), alarmClockConfiguration.getBedtimeHour(),
-                alarmClockConfiguration.getBedtimeMinute(),
-                alarmClockConfiguration.isEnabled() ? (byte) 0x01 : (byte) 0x00 };
+        return new byte[] { COMMAND_SET_ALARM_CLOCK, alarmNumber, alarmClock.getWakeupHour(),
+                alarmClock.getWakeupMinute(), alarmClock.getBedtimeHour(), alarmClock.getBedtimeMinute(),
+                alarmClock.isEnabled() ? (byte) 0x01 : (byte) 0x00 };
     }
 }
