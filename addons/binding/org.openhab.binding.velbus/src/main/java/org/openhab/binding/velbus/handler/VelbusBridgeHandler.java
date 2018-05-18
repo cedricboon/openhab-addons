@@ -130,7 +130,7 @@ public class VelbusBridgeHandler extends BaseBridgeHandler implements SerialPort
         packetListeners.put(Byte.valueOf(address), packetListener);
     }
 
-    public void unregisterRelayStatusListener(byte address, VelbusPacketListener packetListener) {
+    public void unregisterRelayStatusListener(byte address) {
         packetListeners.remove(Byte.valueOf(address));
     }
 

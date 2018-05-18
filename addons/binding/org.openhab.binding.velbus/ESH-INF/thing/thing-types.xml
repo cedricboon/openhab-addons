@@ -517,7 +517,30 @@
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
-
+	<channel-type id="heatingOperatingMode">
+		<item-type>String</item-type>
+		<label>Operating Mode</label>
+		<description>Operating mode (heating/cooling) for the thermostat in Velbus</description>
+		<state>
+			<options>
+				<option value="HEATING">Heating</option>
+				<option value="COOLING">Cooling</option>
+			</options>
+		</state>
+	</channel-type>
+	<channel-type id="heatingMode">
+		<item-type>String</item-type>
+		<label>Mode</label>
+		<description>Mode (comfort/day/night/safe) for the thermostat in Velbus</description>
+		<state>
+			<options>
+				<option value="COMFORT">Comfort</option>
+				<option value="DAY">Day</option>
+                <option value="NIGHT">Night</option>
+                <option value="SAFE">Safe</option>
+			</options>
+		</state>
+	</channel-type>
 	<channel-type id="switch">
 		<item-type>Switch</item-type>
 		<label>Switch</label>
@@ -705,7 +728,7 @@
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="8channelInputModule">
-		<label>Input</lasbel>
+		<label>Input</label>
 		<description>
 			This is a generic module with 8 input channels.
 		</description>
@@ -788,31 +811,37 @@
 			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
 			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
 			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
+			<channel id="OPERATINGMODE" typeId="heatingOperatingMode" />
+			<channel id="MODE" typeId="heatingMode" />
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="weatherStation">
 		<label>Weather Station</label>
 		<description>This is a weather station with channels for temperature, rainfall, illuminance and windspeed.
 		</description>
-		<channel id="CH10" typeId="temperature" />
-		<channel id="CH11" typeId="rainfall" />
-		<channel id="CH12" typeId="illuminance" />
-		<channel id="CH13" typeId="windspeed" />
+		<channels>
+			<channel id="CH10" typeId="temperature" />
+			<channel id="CH11" typeId="rainfall" />
+			<channel id="CH12" typeId="illuminance" />
+			<channel id="CH13" typeId="windspeed" />
+		</channels>
 	</channel-group-type>
 	<channel-group-type id="clockAlarm">
 		<label>Clock Alarm</label>
 		<description>This is a clock alarm with two configurable alarms that can be programmed with a wake up time and a bed
 			time.
 		</description>
-		<channel id="CLOCKALARM1ENABLED" typeId="switch" />
-		<channel id="CLOCKALARM1WAKEUPHOUR" typeId="clockalarmwakeuphour" />
-		<channel id="CLOCKALARM1WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
-		<channel id="CLOCKALARM1BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
-		<channel id="CLOCKALARM1BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
-		<channel id="CLOCKALARM2ENABLED" typeId="switch" />
-		<channel id="CLOCKALARM2WAKEUPHOUR" typeId="clockalarmwakeuphour" />
-		<channel id="CLOCKALARM2WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
-		<channel id="CLOCKALARM2BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
-		<channel id="CLOCKALARM2BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
+		<channels>
+			<channel id="CLOCKALARM1ENABLED" typeId="switch" />
+			<channel id="CLOCKALARM1WAKEUPHOUR" typeId="clockalarmwakeuphour" />
+			<channel id="CLOCKALARM1WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
+			<channel id="CLOCKALARM1BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
+			<channel id="CLOCKALARM1BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
+			<channel id="CLOCKALARM2ENABLED" typeId="switch" />
+			<channel id="CLOCKALARM2WAKEUPHOUR" typeId="clockalarmwakeuphour" />
+			<channel id="CLOCKALARM2WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
+			<channel id="CLOCKALARM2BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
+			<channel id="CLOCKALARM2BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
+		</channels>
 	</channel-group-type>
 </thing:thing-descriptions>

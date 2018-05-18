@@ -22,7 +22,7 @@ import org.eclipse.smarthome.core.thing.ThingTypeUID;
 public class VelbusMemoryMap {
     private static final HashMap<ThingTypeUID, Integer> alarmConfigurationMemoryAddresses = new HashMap<ThingTypeUID, Integer>();
 
-    {
+    static {
         alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB2PBN, 0x0093);
         alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB6PBN, 0x0093);
         alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB7IN, 0x0093);

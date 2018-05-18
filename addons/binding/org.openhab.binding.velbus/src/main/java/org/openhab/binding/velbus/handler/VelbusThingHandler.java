@@ -68,6 +68,21 @@ public abstract class VelbusThingHandler extends BaseThingHandler implements Vel
         initializeChannelStates();
     }
 
+    @Override
+    public void handleRemoval() {
+        VelbusBridgeHandler velbusBridgeHandler = getVelbusBridgeHandler();
+
+        if (velbusBridgeHandler != null && velbusModuleAddress != null) {
+            byte[] activeAddresses = velbusModuleAddress.getActiveAddresses();
+
+            for (int i = 0; i < activeAddresses.length; i++) {
+                this.velbusBridgeHandler.unregisterRelayStatusListener(activeAddresses[i]);
+            }
+        }
+
+        super.handleRemoval();
+    }
+
     protected VelbusModuleAddress getModuleAddress() {
         return velbusModuleAddress;
     }
@@ -135,7 +150,11 @@ public abstract class VelbusThingHandler extends BaseThingHandler implements Vel
         for (int i = 0; i < channels.size(); i++) {
             Channel channel = channels.get(i);
             String channelUID = channel.getUID().getId();
-            channelUID = channelUID.substring(channelUID.indexOf("#")).replace("#", "");
+
+            if (channelUID.contains("#")) {
+                channelUID = channelUID.substring(channelUID.indexOf("#")).replace("#", "");
+            }
+
             if (getConfig().containsKey(channelUID)) {
                 String channelName = getConfig().get(channelUID).toString();
                 if (!channelName.equals(channel.getLabel())) {

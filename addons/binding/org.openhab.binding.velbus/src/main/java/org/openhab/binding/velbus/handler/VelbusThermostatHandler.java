@@ -11,6 +11,7 @@ package org.openhab.binding.velbus.handler;
 import static org.openhab.binding.velbus.VelbusBindingConstants.*;
 
 import org.eclipse.smarthome.core.library.types.QuantityType;
+import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.library.unit.SIUnits;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
@@ -21,6 +22,8 @@ import org.eclipse.smarthome.core.types.RefreshType;
 import org.openhab.binding.velbus.internal.packets.VelbusPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusSensorSettingsRequestPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusSetTemperaturePacket;
+import org.openhab.binding.velbus.internal.packets.VelbusThermostatModePacket;
+import org.openhab.binding.velbus.internal.packets.VelbusThermostatOperatingModePacket;
 
 /**
  * The {@link VelbusThermostatHandler} is responsible for handling commands, which are
@@ -30,6 +33,22 @@ import org.openhab.binding.velbus.internal.packets.VelbusSetTemperaturePacket;
  */
 public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHandler {
     private final double THERMOSTAT_TEMPERATURE_SETPOINT_RESOLUTION = 0.5;
+
+    private final StringType OPERATING_MODE_HEATING = new StringType("HEATING");
+    private final StringType OPERATING_MODE_COOLING = new StringType("COOLING");
+
+    private final byte OPERATING_MODE_MASK = (byte) 0x80;
+    private final byte COOLING_MODE_MASK = (byte) 0x80;
+
+    private final StringType MODE_COMFORT = new StringType("COMFORT");
+    private final StringType MODE_DAY = new StringType("DAY");
+    private final StringType MODE_NIGHT = new StringType("NIGHT");
+    private final StringType MODE_SAFE = new StringType("SAFE");
+
+    private final byte MODE_MASK = (byte) 0x70;
+    private final byte COMFORT_MODE_MASK = (byte) 0x40;
+    private final byte DAY_MODE_MASK = (byte) 0x20;
+    private final byte NIGHT_MODE_MASK = (byte) 0x10;
 
     private final ChannelUID CURRENT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
             "thermostat#CURRENTTEMPERATURESETPOINT");
@@ -49,6 +68,8 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
             "thermostat#COOLINGMODENIGHTTEMPERATURESETPOINT");
     private final ChannelUID COOLING_MODE_SAFE_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
             "thermostat#COOLINGMODESAFETEMPERATURESETPOINT");
+    private final ChannelUID OPERATING_MODE_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#OPERATINGMODE");
+    private final ChannelUID MODE_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#MODE");
 
     public VelbusThermostatHandler(Thing thing, int numberOfSubAddresses, ChannelUID temperatureChannel) {
         super(thing, numberOfSubAddresses, temperatureChannel);
@@ -84,6 +105,32 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
                 byte[] packetBytes = packet.getBytes();
                 velbusBridgeHandler.sendPacket(packetBytes);
             }
+        } else if (channelUID.equals(OPERATING_MODE_CHANNEL) && command instanceof StringType) {
+            byte commandByte = ((StringType) command).equals(OPERATING_MODE_HEATING) ? COMMAND_SET_HEATING_MODE
+                    : COMMAND_SET_COOLING_MODE;
+
+            VelbusThermostatOperatingModePacket packet = new VelbusThermostatOperatingModePacket(
+                    getModuleAddress().getAddress(), commandByte);
+
+            byte[] packetBytes = packet.getBytes();
+            velbusBridgeHandler.sendPacket(packetBytes);
+        } else if (channelUID.equals(MODE_CHANNEL) && command instanceof StringType) {
+            byte commandByte = COMMAND_SWITCH_TO_SAFE_MODE;
+
+            StringType stringTypeCommand = (StringType) command;
+            if (stringTypeCommand.equals(MODE_COMFORT)) {
+                commandByte = COMMAND_SWITCH_TO_COMFORT_MODE;
+            } else if (stringTypeCommand.equals(MODE_DAY)) {
+                commandByte = COMMAND_SWITCH_TO_DAY_MODE;
+            } else if (stringTypeCommand.equals(MODE_NIGHT)) {
+                commandByte = COMMAND_SWITCH_TO_NIGHT_MODE;
+            }
+
+            VelbusThermostatModePacket packet = new VelbusThermostatModePacket(getModuleAddress().getAddress(),
+                    commandByte);
+
+            byte[] packetBytes = packet.getBytes();
+            velbusBridgeHandler.sendPacket(packetBytes);
         } else {
             logger.debug("The command '{}' is not supported by this handler.", command.getClass());
         }
@@ -149,6 +196,24 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
                         new QuantityType<>(coolingModeNightTemperatureSet, SIUnits.CELSIUS));
                 updateState(COOLING_MODE_SAFE_TEMPERATURE_SETPOINT_CHANNEL,
                         new QuantityType<>(coolingModeSafeTemperatureSet, SIUnits.CELSIUS));
+            } else if (command == COMMAND_TEMP_SENSOR_STATUS && packet.length >= 5) {
+                byte operatingMode = packet[5];
+
+                if ((operatingMode & OPERATING_MODE_MASK) == COOLING_MODE_MASK) {
+                    updateState(OPERATING_MODE_CHANNEL, OPERATING_MODE_COOLING);
+                } else {
+                    updateState(OPERATING_MODE_CHANNEL, OPERATING_MODE_HEATING);
+                }
+
+                if ((operatingMode & MODE_MASK) == COMFORT_MODE_MASK) {
+                    updateState(MODE_CHANNEL, MODE_COMFORT);
+                } else if ((operatingMode & MODE_MASK) == DAY_MODE_MASK) {
+                    updateState(MODE_CHANNEL, MODE_DAY);
+                } else if ((operatingMode & MODE_MASK) == NIGHT_MODE_MASK) {
+                    updateState(MODE_CHANNEL, MODE_NIGHT);
+                } else {
+                    updateState(MODE_CHANNEL, MODE_SAFE);
+                }
             }
         }
     }
@@ -162,7 +227,8 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
                 || channelUID.equals(COOLING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL)
                 || channelUID.equals(COOLING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL)
                 || channelUID.equals(COOLING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL)
-                || channelUID.equals(COOLING_MODE_SAFE_TEMPERATURE_SETPOINT_CHANNEL);
+                || channelUID.equals(COOLING_MODE_SAFE_TEMPERATURE_SETPOINT_CHANNEL)
+                || channelUID.equals(OPERATING_MODE_CHANNEL) || channelUID.equals(MODE_CHANNEL);
     }
 
     protected byte determineTemperatureVariable(ChannelUID channelUID) {
