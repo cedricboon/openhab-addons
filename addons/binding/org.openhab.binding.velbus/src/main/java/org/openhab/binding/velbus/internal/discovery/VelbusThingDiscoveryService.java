@@ -288,7 +288,7 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
 
         DiscoveryResult discoveryResult = DiscoveryResultBuilder.create(velbusModule.getThingUID(bridgeUID))
                 .withThingType(velbusModule.getThingTypeUID()).withProperties(velbusModule.getProperties())
-                .withRepresentationProperty(MODULE_ADDRESS).withBridge(bridgeUID).withLabel(velbusModule.getLabel())
+                .withRepresentationProperty(ADDRESS).withBridge(bridgeUID).withLabel(velbusModule.getLabel())
                 .build();
 
         thingDiscovered(discoveryResult);

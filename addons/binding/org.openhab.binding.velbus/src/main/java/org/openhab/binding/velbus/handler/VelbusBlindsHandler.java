@@ -102,7 +102,7 @@ public class VelbusBlindsHandler extends VelbusThingHandler {
 
     @Override
     protected VelbusModuleAddress createVelbusModuleAddress(Thing thing, int numberOfSubAddresses) {
-        byte address = hexToByte((String) getConfig().get(MODULE_ADDRESS));
+        byte address = hexToByte((String) getConfig().get(ADDRESS));
 
         if (isFirstGenerationDevice()) {
             return new VelbusFirstGenerationDeviceModuleAddress(address);

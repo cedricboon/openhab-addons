@@ -52,7 +52,7 @@ public class VelbusVMB4DCTest extends AbstractVelbusThingTest {
         super.setup();
 
         thingProperties = new HashMap<>();
-        thingProperties.put(MODULE_ADDRESS, TEST_MODULE_ADDRESS);
+        thingProperties.put(ADDRESS, TEST_MODULE_ADDRESS);
         dimmerThing = ThingBuilder.create(THING_TYPE_VMB4DC, "testdimmer").withLabel("Dimmer Thing")
                 .withBridge(bridge.getUID()).withConfiguration(new Configuration(thingProperties))
                 .withChannel(ChannelBuilder.create(CHANNEL_CH1, "Dimmer").withType(BRIGHTNESS_CHANNEL_TYPEUID).build())

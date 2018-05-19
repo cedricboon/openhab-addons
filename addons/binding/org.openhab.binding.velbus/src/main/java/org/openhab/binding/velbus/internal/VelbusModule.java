@@ -119,7 +119,7 @@ public class VelbusModule {
     public Map<String, Object> getProperties() {
         Map<String, Object> properties = new TreeMap<String, Object>();
 
-        properties.put(MODULE_ADDRESS, getAddress());
+        properties.put(ADDRESS, getAddress());
         properties.put(MODULE_SERIAL_NUMBER, getModuleSerialNumber());
         properties.put(MODULE_MEMORY_MAP_VERSION, getMemoryMapVersion());
         properties.put(MODULE_BUILD, getModuleBuild());

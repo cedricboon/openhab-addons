@@ -25,9 +25,11 @@ import org.eclipse.smarthome.core.thing.binding.ThingHandlerFactory;
 import org.openhab.binding.velbus.handler.VelbusBlindsHandler;
 import org.openhab.binding.velbus.handler.VelbusBridgeHandler;
 import org.openhab.binding.velbus.handler.VelbusDimmerHandler;
+import org.openhab.binding.velbus.handler.VelbusNetworkBridgeHandler;
 import org.openhab.binding.velbus.handler.VelbusRelayHandler;
 import org.openhab.binding.velbus.handler.VelbusSensorHandler;
 import org.openhab.binding.velbus.handler.VelbusSensorWithAlarmClockHandler;
+import org.openhab.binding.velbus.handler.VelbusSerialBridgeHandler;
 import org.openhab.binding.velbus.handler.VelbusVMBGPHandler;
 import org.openhab.binding.velbus.handler.VelbusVMBGPOHandler;
 import org.openhab.binding.velbus.handler.VelbusVMBMeteoHandler;
@@ -57,7 +59,9 @@ public class VelbusHandlerFactory extends BaseThingHandlerFactory {
         ThingHandler thingHandler = null;
 
         if (BRIDGE_THING_TYPES_UIDS.contains(thingTypeUID)) {
-            VelbusBridgeHandler velbusBridgeHandler = new VelbusBridgeHandler((Bridge) thing);
+            VelbusBridgeHandler velbusBridgeHandler = thingTypeUID.equals(NETWORK_BRIDGE_THING_TYPE)
+                    ? new VelbusNetworkBridgeHandler((Bridge) thing)
+                    : new VelbusSerialBridgeHandler((Bridge) thing);
             registerDiscoveryService(velbusBridgeHandler);
             thingHandler = velbusBridgeHandler;
         } else if (VelbusRelayHandler.SUPPORTED_THING_TYPES.contains(thingTypeUID)) {

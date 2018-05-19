@@ -25,8 +25,9 @@ public class VelbusBindingConstants {
 
     public static final String BINDING_ID = "velbus";
 
-    // bridge
+    // bridges
     public static final ThingTypeUID BRIDGE_THING_TYPE = new ThingTypeUID(BINDING_ID, "bridge");
+    public static final ThingTypeUID NETWORK_BRIDGE_THING_TYPE = new ThingTypeUID(BINDING_ID, "networkbridge");
 
     // generic thing types
     public static final ThingTypeUID THING_TYPE_VMB1BL = new ThingTypeUID(BINDING_ID, "vmb1bl");
@@ -64,7 +65,8 @@ public class VelbusBindingConstants {
     public static final ThingTypeUID THING_TYPE_VMBPIRO = new ThingTypeUID(BINDING_ID, "vmbpiro");
 
     // thing type sets
-    public static final Set<ThingTypeUID> BRIDGE_THING_TYPES_UIDS = Collections.singleton(BRIDGE_THING_TYPE);
+    public static final Set<ThingTypeUID> BRIDGE_THING_TYPES_UIDS = Collections
+            .unmodifiableSet(new HashSet<>(Arrays.asList(BRIDGE_THING_TYPE, NETWORK_BRIDGE_THING_TYPE)));
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections.unmodifiableSet(
             new HashSet<>(Arrays.asList(THING_TYPE_VMB1BL, THING_TYPE_VMB1BLS, THING_TYPE_VMB1DM, THING_TYPE_VMB1LED,
                     THING_TYPE_VMB1RY, THING_TYPE_VMB1RYNO, THING_TYPE_VMB1RYNOS, THING_TYPE_VMB2BL, THING_TYPE_VMB2BLE,
@@ -156,7 +158,7 @@ public class VelbusBindingConstants {
 
     // Module properties
     public static final String PORT = "port";
-    public static final String MODULE_ADDRESS = "address";
+    public static final String ADDRESS = "address";
     public static final String REFRESH_INTERVAL = "refresh";
     public static final String TIME_UPDATE_INTERVAL = "timeUpdateInterval";
     public static final String MODULE_SERIAL_NUMBER = "serial number";

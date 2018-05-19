@@ -129,7 +129,7 @@ public abstract class VelbusThingHandler extends BaseThingHandler implements Vel
     }
 
     protected VelbusModuleAddress createVelbusModuleAddress(Thing thing, int numberOfSubAddresses) {
-        byte address = hexToByte((String) getConfig().get(MODULE_ADDRESS));
+        byte address = hexToByte((String) getConfig().get(ADDRESS));
 
         byte[] subAddresses = new byte[numberOfSubAddresses];
         for (int i = 0; i < numberOfSubAddresses; i++) {

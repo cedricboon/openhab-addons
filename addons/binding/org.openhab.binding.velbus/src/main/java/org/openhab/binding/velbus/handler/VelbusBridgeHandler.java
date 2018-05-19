@@ -8,48 +8,27 @@
  */
 package org.openhab.binding.velbus.handler;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.PORT;
-
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TooManyListenersException;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.ChannelUID;
-import org.eclipse.smarthome.core.thing.ThingStatus;
-import org.eclipse.smarthome.core.thing.ThingStatusDetail;
 import org.eclipse.smarthome.core.thing.binding.BaseBridgeHandler;
 import org.eclipse.smarthome.core.types.Command;
-import org.openhab.binding.velbus.internal.VelbusPacketInputStream;
 import org.openhab.binding.velbus.internal.VelbusPacketListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import gnu.io.NRSerialPort;
-import gnu.io.SerialPortEvent;
-import gnu.io.SerialPortEventListener;
 
 /**
- * {@link VelbusBridgeHandler} is the handler for a Velbus Serial-interface and connects it to
+ * {@link VelbusBridgeHandler} is an abstract handler for a Velbus interface and connects it to
  * the framework.
  *
  * @author Cedric Boon - Initial contribution
  */
-public class VelbusBridgeHandler extends BaseBridgeHandler implements SerialPortEventListener {
-
-    private Logger logger = LoggerFactory.getLogger(VelbusBridgeHandler.class);
-
-    private static final int BAUD = 9600;
-    private NRSerialPort serialPort;
-    private OutputStream outputStream;
-    private VelbusPacketInputStream inputStream;
+public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
     private long lastPacketTimeMillis;
 
-    private VelbusPacketListener defaultPacketListener;
-    private Map<Byte, VelbusPacketListener> packetListeners = new HashMap<Byte, VelbusPacketListener>();
+    protected VelbusPacketListener defaultPacketListener;
+    protected Map<Byte, VelbusPacketListener> packetListeners = new HashMap<Byte, VelbusPacketListener>();
 
     public VelbusBridgeHandler(Bridge velbusBridge) {
         super(velbusBridge);
@@ -58,39 +37,6 @@ public class VelbusBridgeHandler extends BaseBridgeHandler implements SerialPort
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
         // There is nothing to handle in the bridge handler
-    }
-
-    @Override
-    public void initialize() {
-        logger.debug("Initializing velbus bridge handler.");
-
-        String port = (String) getConfig().get(PORT);
-        if (port != null) {
-            serialPort = new NRSerialPort(port, BAUD);
-            if (serialPort.connect()) {
-                updateStatus(ThingStatus.ONLINE);
-                logger.debug("Bridge online on serial port {}", port);
-
-                outputStream = serialPort.getOutputStream();
-                inputStream = new VelbusPacketInputStream(serialPort.getInputStream());
-
-                try {
-                    serialPort.addEventListener(this);
-                    serialPort.notifyOnDataAvailable(true);
-                } catch (TooManyListenersException e) {
-                    updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
-                            "Failed to register event listener on serial port " + port);
-                    logger.debug("Failed to register event listener on serial port {}", port);
-                }
-            } else {
-                updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
-                        "Failed to connect to serial port " + port);
-                logger.debug("Failed to connect to serial port {}", port);
-            }
-        } else {
-            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR, "Serial port name not configured");
-            logger.debug("Serial port name not configured");
-        }
     }
 
     public synchronized void sendPacket(byte[] packet) {
@@ -108,14 +54,22 @@ public class VelbusBridgeHandler extends BaseBridgeHandler implements SerialPort
             return;
         }
 
-        try {
-            outputStream.write(packet);
-            outputStream.flush();
-        } catch (IOException e) {
-            logger.error("Serial port write error", e);
-        }
+        writePacket(packet);
 
         lastPacketTimeMillis = System.currentTimeMillis();
+    }
+
+    protected abstract void writePacket(byte[] packet);
+
+    protected void readPacket(byte[] packet) {
+        byte address = packet[2];
+
+        VelbusPacketListener packetListener = packetListeners.get(address);
+        if (packetListener != null) {
+            packetListener.onPacketReceived(packet);
+        } else if (defaultPacketListener != null) {
+            defaultPacketListener.onPacketReceived(packet);
+        }
     }
 
     public void setDefaultPacketListener(VelbusPacketListener velbusPacketListener) {
@@ -124,7 +78,7 @@ public class VelbusBridgeHandler extends BaseBridgeHandler implements SerialPort
 
     public void registerPacketListener(byte address, VelbusPacketListener packetListener) {
         if (packetListener == null) {
-            throw new IllegalArgumentException("It's not allowed to pass a null RelayStatusListener.");
+            throw new IllegalArgumentException("It's not allowed to pass a null VelbusPacketListener.");
         }
 
         packetListeners.put(Byte.valueOf(address), packetListener);
@@ -132,36 +86,5 @@ public class VelbusBridgeHandler extends BaseBridgeHandler implements SerialPort
 
     public void unregisterRelayStatusListener(byte address) {
         packetListeners.remove(Byte.valueOf(address));
-    }
-
-    @Override
-    public void dispose() {
-        if (serialPort != null) {
-            serialPort.disconnect();
-            serialPort = null;
-        }
-    }
-
-    @Override
-    public void serialEvent(SerialPortEvent event) {
-        logger.debug("Serial port event triggered");
-
-        if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-            try {
-                byte[] packet;
-                while ((packet = inputStream.readPacket()) != null) {
-                    byte address = packet[2];
-
-                    VelbusPacketListener packetListener = packetListeners.get(address);
-                    if (packetListener != null) {
-                        packetListener.onPacketReceived(packet);
-                    } else if (defaultPacketListener != null) {
-                        defaultPacketListener.onPacketReceived(packet);
-                    }
-                }
-            } catch (IOException e) {
-                logger.error("Serial port read error", e);
-            }
-        }
     }
 }
