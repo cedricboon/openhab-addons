@@ -24,7 +24,7 @@ public class VelbusClockAlarm {
         this.enabled = true;
         this.wakeupHour = 7;
         this.wakeupMinute = 0;
-        this.bedtimeHour = 22;
+        this.bedtimeHour = 23;
         this.bedtimeMinute = 0;
     }
 

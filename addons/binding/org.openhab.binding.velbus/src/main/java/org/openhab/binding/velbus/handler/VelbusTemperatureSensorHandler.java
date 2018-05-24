@@ -80,6 +80,8 @@ public abstract class VelbusTemperatureSensorHandler extends VelbusSensorWithAla
 
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
+        super.handleCommand(channelUID, command);
+
         VelbusBridgeHandler velbusBridgeHandler = getVelbusBridgeHandler();
         if (velbusBridgeHandler == null) {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.BRIDGE_OFFLINE);

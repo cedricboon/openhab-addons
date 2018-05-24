@@ -45,6 +45,7 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMB2PBN,
             THING_TYPE_VMB6PBN, THING_TYPE_VMB7IN, THING_TYPE_VMB8PBU, THING_TYPE_VMBPIRC, THING_TYPE_VMBPIRM));
 
+    private final byte ALARM_CONFIGURATION_MEMORY_SIZE = 0x09;
     private final byte ALARM_1_ENABLED_MASK = 0x01;
     private final byte ALARM_2_ENABLED_MASK = 0x04;
 
@@ -67,6 +68,7 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
     private final ChannelUID CLOCK_ALARM_2_BEDTIME_MINUTE = new ChannelUID(thing.getUID(),
             "clockAlarm#CLOCKALARM2BEDTIMEMINUTE");
 
+    private int clockAlarmConfigurationMemoryAddress;
     private VelbusClockAlarmConfiguration alarmClockConfiguration = new VelbusClockAlarmConfiguration();
     private ScheduledFuture<?> timeUpdateJob;
 
@@ -81,6 +83,9 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
     @Override
     public void initialize() {
         super.initialize();
+
+        this.clockAlarmConfigurationMemoryAddress = VelbusMemoryMap
+                .getAlarmConfigurationMemoryAddress(this.thing.getThingTypeUID());
 
         initializeTimeUpdate();
     }
@@ -195,79 +200,78 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
         if (packet[0] == VelbusPacket.STX && packet.length >= 5) {
             byte command = packet[4];
 
-            if ((command == COMMAND_MEMORY_DATA_BLOCK || command == COMMAND_MEMORY_DATA) && packet.length >= 7) {
+            if ((command == COMMAND_MEMORY_DATA_BLOCK && packet.length >= 11)
+                    || (command == COMMAND_MEMORY_DATA && packet.length >= 8)) {
                 byte highMemoryAddress = packet[5];
                 byte lowMemoryAddress = packet[6];
-                int memoryAddress = (highMemoryAddress * 0x100) + lowMemoryAddress;
+                int memoryAddress = ((highMemoryAddress & 0xff) << 8) | (lowMemoryAddress & 0xff);
+                byte[] data = (command == COMMAND_MEMORY_DATA_BLOCK)
+                        ? new byte[] { packet[7], packet[8], packet[9], packet[10] }
+                        : new byte[] { packet[7] };
 
-                int alarmClockConfigurationMemoryAddress = VelbusMemoryMap
-                        .getAlarmConfigurationMemoryAddress(this.thing.getThingTypeUID());
+                for (int i = 0; i < data.length; i++) {
 
-                VelbusClockAlarm alarmClock1 = this.alarmClockConfiguration.getAlarmClock1();
-                VelbusClockAlarm alarmClock2 = this.alarmClockConfiguration.getAlarmClock2();
-
-                if (command == COMMAND_MEMORY_DATA_BLOCK && packet.length >= 11) {
-                    byte memoryData1 = packet[7];
-                    byte memoryData2 = packet[8];
-                    byte memoryData3 = packet[9];
-                    byte memoryData4 = packet[10];
-
-                    if (memoryAddress == alarmClockConfigurationMemoryAddress) {
-                        alarmClock1.setEnabled((memoryData1 & ALARM_1_ENABLED_MASK) > 0);
-                        alarmClock2.setEnabled((memoryData1 & ALARM_2_ENABLED_MASK) > 0);
-                        alarmClock1.setWakeupHour(memoryData2);
-                        alarmClock1.setWakeupMinute(memoryData3);
-                        alarmClock1.setBedtimeHour(memoryData4);
-
-                        updateAlarmClockStateForMemoryBlock1();
-
-                    } else if (memoryAddress == alarmClockConfigurationMemoryAddress + 4) {
-                        alarmClock1.setBedtimeMinute(memoryData1);
-                        alarmClock2.setWakeupHour(memoryData2);
-                        alarmClock2.setWakeupMinute(memoryData3);
-                        alarmClock2.setBedtimeHour(memoryData4);
-
-                        updateAlarmClockStateForMemoryBlock2();
-                    }
-
-                } else if (command == COMMAND_MEMORY_DATA && packet.length >= 8) {
-                    byte memoryData = packet[7];
-
-                    if (memoryAddress == alarmClockConfigurationMemoryAddress + 8) {
-                        alarmClock2.setBedtimeMinute(memoryData);
-
-                        updateAlarmClockStateForMemoryBlock3();
+                    if (isClockAlarmConfigurationByte(memoryAddress + i)) {
+                        setClockAlarmConfigurationByte(memoryAddress + i, data[i]);
                     }
                 }
             }
         }
     }
 
-    protected void updateAlarmClockStateForMemoryBlock1() {
+    public Boolean isClockAlarmConfigurationByte(int memoryAddress) {
+        return memoryAddress >= this.clockAlarmConfigurationMemoryAddress
+                && memoryAddress < (this.clockAlarmConfigurationMemoryAddress + ALARM_CONFIGURATION_MEMORY_SIZE);
+    }
+
+    public void setClockAlarmConfigurationByte(int memoryAddress, byte data) {
         VelbusClockAlarm alarmClock1 = this.alarmClockConfiguration.getAlarmClock1();
         VelbusClockAlarm alarmClock2 = this.alarmClockConfiguration.getAlarmClock2();
 
-        updateState(CLOCK_ALARM_1_ENABLED, alarmClock1.isEnabled() ? OnOffType.ON : OnOffType.OFF);
-        updateState(CLOCK_ALARM_2_ENABLED, alarmClock2.isEnabled() ? OnOffType.ON : OnOffType.OFF);
-        updateState(CLOCK_ALARM_1_WAKEUP_HOUR, new DecimalType(alarmClock2.getWakeupHour()));
-        updateState(CLOCK_ALARM_1_WAKEUP_MINUTE, new DecimalType(alarmClock2.getWakeupMinute()));
-        updateState(CLOCK_ALARM_1_BEDTIME_HOUR, new DecimalType(alarmClock2.getBedtimeHour()));
-    }
-
-    protected void updateAlarmClockStateForMemoryBlock2() {
-        VelbusClockAlarm alarmClock1 = this.alarmClockConfiguration.getAlarmClock1();
-        VelbusClockAlarm alarmClock2 = this.alarmClockConfiguration.getAlarmClock2();
-
-        updateState(CLOCK_ALARM_1_BEDTIME_MINUTE, new DecimalType(alarmClock1.getBedtimeMinute()));
-        updateState(CLOCK_ALARM_2_WAKEUP_HOUR, new DecimalType(alarmClock2.getWakeupHour()));
-        updateState(CLOCK_ALARM_2_WAKEUP_MINUTE, new DecimalType(alarmClock2.getWakeupMinute()));
-        updateState(CLOCK_ALARM_2_BEDTIME_HOUR, new DecimalType(alarmClock2.getBedtimeHour()));
-    }
-
-    protected void updateAlarmClockStateForMemoryBlock3() {
-        VelbusClockAlarm alarmClock2 = this.alarmClockConfiguration.getAlarmClock2();
-
-        updateState(CLOCK_ALARM_2_BEDTIME_MINUTE, new DecimalType(alarmClock2.getBedtimeMinute()));
+        switch (memoryAddress - this.clockAlarmConfigurationMemoryAddress) {
+            case 0:
+                alarmClock1.setEnabled((data & ALARM_1_ENABLED_MASK) > 0);
+                alarmClock2.setEnabled((data & ALARM_2_ENABLED_MASK) > 0);
+                updateState(CLOCK_ALARM_1_ENABLED, alarmClock1.isEnabled() ? OnOffType.ON : OnOffType.OFF);
+                updateState(CLOCK_ALARM_2_ENABLED, alarmClock2.isEnabled() ? OnOffType.ON : OnOffType.OFF);
+                break;
+            case 1:
+                alarmClock1.setWakeupHour(data);
+                updateState(CLOCK_ALARM_1_WAKEUP_HOUR, new DecimalType(alarmClock1.getWakeupHour()));
+                break;
+            case 2:
+                alarmClock1.setWakeupMinute(data);
+                updateState(CLOCK_ALARM_1_WAKEUP_MINUTE, new DecimalType(alarmClock1.getWakeupMinute()));
+                break;
+            case 3:
+                alarmClock1.setBedtimeHour(data);
+                updateState(CLOCK_ALARM_1_BEDTIME_HOUR, new DecimalType(alarmClock1.getBedtimeHour()));
+                break;
+            case 4:
+                alarmClock1.setBedtimeMinute(data);
+                updateState(CLOCK_ALARM_1_BEDTIME_MINUTE, new DecimalType(alarmClock1.getBedtimeMinute()));
+                break;
+            case 5:
+                alarmClock2.setWakeupHour(data);
+                updateState(CLOCK_ALARM_2_WAKEUP_HOUR, new DecimalType(alarmClock2.getWakeupHour()));
+                break;
+            case 6:
+                alarmClock2.setWakeupMinute(data);
+                updateState(CLOCK_ALARM_2_WAKEUP_MINUTE, new DecimalType(alarmClock2.getWakeupMinute()));
+                break;
+            case 7:
+                alarmClock2.setBedtimeHour(data);
+                updateState(CLOCK_ALARM_2_BEDTIME_HOUR, new DecimalType(alarmClock2.getBedtimeHour()));
+                break;
+            case 8:
+                alarmClock2.setBedtimeMinute(data);
+                updateState(CLOCK_ALARM_2_BEDTIME_MINUTE, new DecimalType(alarmClock2.getBedtimeMinute()));
+                break;
+            default:
+                throw new IllegalArgumentException("The memory address '" + memoryAddress
+                        + "' does not represent a clock alarm configuration for the thing '" + this.thing.getUID()
+                        + "'.");
+        }
     }
 
     protected boolean isAlarmClockChannel(ChannelUID channelUID) {
