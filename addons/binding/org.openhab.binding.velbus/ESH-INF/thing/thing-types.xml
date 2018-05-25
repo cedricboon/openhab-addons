@@ -606,102 +606,21 @@
 		<state readOnly="true" pattern="%.1f %unit%">
 		</state>
 	</channel-type>
-	<channel-type id="clockalarmwakeuphour">
+	<channel-type id="hour">
 		<item-type>Number</item-type>
-		<label>Alarm Wakeup Hour</label>
-		<description>Alarm wakeup hour</description>
+		<label>Hour</label>
 		<state readOnly="false" min="0" max="23">
 		</state>
 	</channel-type>
-	<channel-type id="clockalarmwakeupminute">
+	<channel-type id="minute">
 		<item-type>Number</item-type>
-		<label>Alarm Wakeup Minute</label>
-		<description>Alarm wakeup minute</description>
+		<label>Minute</label>
 		<state readOnly="false" min="0" max="59">
 		</state>
 	</channel-type>
-	<channel-type id="clockalarmbedtimehour">
-		<item-type>Number</item-type>
-		<label>Alarm Bedtime Hour</label>
-		<description>Alarm bedtime hour</description>
-		<state readOnly="false" min="0" max="23">
-		</state>
-	</channel-type>
-	<channel-type id="clockalarmbedtimeminute">
-		<item-type>Number</item-type>
-		<label>Alarm Bedtime Minute</label>
-		<description>Alarm bedtime minute</description>
-		<state readOnly="false" min="0" max="59">
-		</state>
-	</channel-type>
-	<channel-type id="currentTemperatureSetpoint">
+	<channel-type id="temperatureSetpoint">
 		<item-type>Number:Temperature</item-type>
-		<label>Current Temperature Setpoint</label>
-		<description>Current temperature setpoint</description>
-		<category>Temperature</category>
-		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
-		</state>
-	</channel-type>
-	<channel-type id="heatingModeComfortTemperatureSetpoint">
-		<item-type>Number:Temperature</item-type>
-		<label>Heating Mode Comfort Temperature Setpoint</label>
-		<description>Heating mode comfort temperature setpoint</description>
-		<category>Temperature</category>
-		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
-		</state>
-	</channel-type>
-	<channel-type id="heatingModeDayTemperatureSetpoint">
-		<item-type>Number:Temperature</item-type>
-		<label>Heating Mode Day Temperature Setpoint</label>
-		<description>Heating mode day temperature setpoint</description>
-		<category>Temperature</category>
-		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
-		</state>
-	</channel-type>
-	<channel-type id="heatingModeNightTemperatureSetpoint">
-		<item-type>Number:Temperature</item-type>
-		<label>Heating Mode Night Temperature Setpoint</label>
-		<description>Heating mode night temperature setpoint</description>
-		<category>Temperature</category>
-		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
-		</state>
-	</channel-type>
-	<channel-type id="heatingModeAntifrostTemperatureSetpoint">
-		<item-type>Number:Temperature</item-type>
-		<label>Heating Mode Antifrost Temperature Setpoint</label>
-		<description>Heating mode antifrost temperature setpoint</description>
-		<category>Temperature</category>
-		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
-		</state>
-	</channel-type>
-	<channel-type id="coolingModeComfortTemperatureSetpoint">
-		<item-type>Number:Temperature</item-type>
-		<label>Cooling Mode Comfort Temperature Setpoint</label>
-		<description>Cooling mode comfort temperature setpoint</description>
-		<category>Temperature</category>
-		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
-		</state>
-	</channel-type>
-	<channel-type id="coolingModeDayTemperatureSetpoint">
-		<item-type>Number:Temperature</item-type>
-		<label>Cooling Mode Day Temperature Setpoint</label>
-		<description>Cooling mode day temperature setpoint</description>
-		<category>Temperature</category>
-		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
-		</state>
-	</channel-type>
-	<channel-type id="coolingModeNightTemperatureSetpoint">
-		<item-type>Number:Temperature</item-type>
-		<label>Cooling Mode Night Temperature Setpoint</label>
-		<description>Cooling mode night temperature setpoint</description>
-		<category>Temperature</category>
-		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
-		</state>
-	</channel-type>
-	<channel-type id="coolingModeSafeTemperatureSetpoint">
-		<item-type>Number:Temperature</item-type>
-		<label>Cooling Mode Safe Temperature Setpoint</label>
-		<description>Cooling mode safe temperature setpoint</description>
+		<label>Temperature Setpoint</label>
 		<category>Temperature</category>
 		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
 		</state>
@@ -737,6 +656,16 @@
 				<option value="PRESSED">pressed</option>
 				<option value="RELEASED">released</option>
 				<option value="LONG_PRESSED">long pressed</option>
+			</options>
+		</event>
+	</channel-type>
+	<channel-type id="thermostat-trigger-channel">
+		<kind>trigger</kind>
+		<label>Thermostat Trigger Channel</label>
+		<event>
+			<options>
+				<option value="PRESSED">pressed</option>
+				<option value="RELEASED">released</option>
 			</options>
 		</event>
 	</channel-type>
@@ -841,17 +770,59 @@
 		<description>This is a thermostat that supports heating/cooling and comfort/day/night/safe modes.</description>
 		<category>Temperatures</category>
 		<channels>
-			<channel id="CURRENTTEMPERATURESETPOINT" typeId="currentTemperatureSetpoint" />
-			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="heatingModeComfortTemperatureSetpoint" />
-			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="heatingModeDayTemperatureSetpoint" />
-			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="heatingModeNightTemperatureSetpoint" />
-			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="heatingModeAntifrostTemperatureSetpoint" />
-			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="coolingModeComfortTemperatureSetpoint" />
-			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="coolingModeDayTemperatureSetpoint" />
-			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="coolingModeNightTemperatureSetpoint" />
-			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="coolingModeSafeTemperatureSetpoint" />
+			<channel id="CURRENTTEMPERATURESETPOINT" typeId="temperatureSetpoint">
+				<label>Current Temperature Setpoint</label>
+			</channel>
+			<channel id="HEATINGMODECOMFORTTEMPERATURESETPOINT" typeId="temperatureSetpoint">
+				<label>Heating Mode Comfort Temperature Setpoint</label>
+			</channel>
+			<channel id="HEATINGMODEDAYTEMPERATURESETPOINT" typeId="temperatureSetpoint">
+				<label>Heating Mode Day Temperature Setpoint</label>
+			</channel>
+			<channel id="HEATINGMODENIGHTTEMPERATURESETPOINT" typeId="temperatureSetpoint">
+				<label>Heating Mode Night Temperature Setpoint</label>
+			</channel>
+			<channel id="HEATINGMODEANTIFROSTTEMPERATURESETPOINT" typeId="temperatureSetpoint">
+				<label>Heating Mode Antifrost Temperature Setpoint</label>
+			</channel>
+			<channel id="COOLINGMODECOMFORTTEMPERATURESETPOINT" typeId="temperatureSetpoint">
+				<label>Cooling Mode Comfort Temperature Setpoint</label>
+			</channel>
+			<channel id="COOLINGMODEDAYTEMPERATURESETPOINT" typeId="temperatureSetpoint">
+				<label>Cooling Mode Day Temperature Setpoint</label>
+			</channel>
+			<channel id="COOLINGMODENIGHTTEMPERATURESETPOINT" typeId="temperatureSetpoint">
+				<label>Cooling Mode Night Temperature Setpoint</label>
+			</channel>
+			<channel id="COOLINGMODESAFETEMPERATURESETPOINT" typeId="temperatureSetpoint">
+				<label>Cooling Mode Safe Temperature Setpoint</label>
+			</channel>
 			<channel id="OPERATINGMODE" typeId="heatingOperatingMode" />
 			<channel id="MODE" typeId="heatingMode" />
+			<channel id="HEATER" typeId="thermostat-trigger-channel">
+				<label>Heater</label>
+			</channel>
+			<channel id="BOOST" typeId="thermostat-trigger-channel">
+				<label>Boost</label>
+			</channel>
+			<channel id="PUMP" typeId="thermostat-trigger-channel">
+				<label>Pump</label>
+			</channel>
+			<channel id="COOLER" typeId="thermostat-trigger-channel">
+				<label>Cooler</label>
+			</channel>
+			<channel id="ALARM1" typeId="thermostat-trigger-channel">
+				<label>Alarm 1</label>
+			</channel>
+			<channel id="ALARM2" typeId="thermostat-trigger-channel">
+				<label>Alarm 2</label>
+			</channel>
+			<channel id="ALARM3" typeId="thermostat-trigger-channel">
+				<label>Alarm 3</label>
+			</channel>
+			<channel id="ALARM4" typeId="thermostat-trigger-channel">
+				<label>Alarm 4</label>
+			</channel>
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="weatherStation">
@@ -871,16 +842,36 @@
 			time.
 		</description>
 		<channels>
-			<channel id="CLOCKALARM1ENABLED" typeId="switch" />
-			<channel id="CLOCKALARM1WAKEUPHOUR" typeId="clockalarmwakeuphour" />
-			<channel id="CLOCKALARM1WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
-			<channel id="CLOCKALARM1BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
-			<channel id="CLOCKALARM1BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
-			<channel id="CLOCKALARM2ENABLED" typeId="switch" />
-			<channel id="CLOCKALARM2WAKEUPHOUR" typeId="clockalarmwakeuphour" />
-			<channel id="CLOCKALARM2WAKEUPMINUTE" typeId="clockalarmwakeupminute" />
-			<channel id="CLOCKALARM2BEDTIMEHOUR" typeId="clockalarmbedtimehour" />
-			<channel id="CLOCKALARM2BEDTIMEMINUTE" typeId="clockalarmbedtimeminute" />
+			<channel id="CLOCKALARM1ENABLED" typeId="switch">
+				<label>Clock Alarm 1 Enabled</label>
+			</channel>
+			<channel id="CLOCKALARM1WAKEUPHOUR" typeId="hour">
+				<label>Clock Alarm 1 Wakeup Hour</label>
+			</channel>
+			<channel id="CLOCKALARM1WAKEUPMINUTE" typeId="minute">
+				<label>Clock Alarm 1 Wakup Minute</label>
+			</channel>
+			<channel id="CLOCKALARM1BEDTIMEHOUR" typeId="hour">
+				<label>Clock Alarm 1 Bedtime Hour</label>
+			</channel>
+			<channel id="CLOCKALARM1BEDTIMEMINUTE" typeId="minute">
+				<label>Clock Alarm 1 Bedtime Minute</label>
+			</channel>
+			<channel id="CLOCKALARM2ENABLED" typeId="switch">
+				<label>Clock Alarm 2 Enabled</label>
+			</channel>
+			<channel id="CLOCKALARM2WAKEUPHOUR" typeId="hour">
+				<label>Clock Alarm 2 Wakeup Hour</label>
+			</channel>
+			<channel id="CLOCKALARM2WAKEUPMINUTE" typeId="minute">
+				<label>Clock Alarm 2 Wakeup Minute</label>
+			</channel>
+			<channel id="CLOCKALARM2BEDTIMEHOUR" typeId="hour">
+				<label>Clock Alarm 2 Bedtime Hour</label>
+			</channel>
+			<channel id="CLOCKALARM2BEDTIMEMINUTE" typeId="minute">
+				<label>Clock Alarm 2 Bedtime Minute</label>
+			</channel>
 		</channels>
 	</channel-group-type>
 </thing:thing-descriptions>

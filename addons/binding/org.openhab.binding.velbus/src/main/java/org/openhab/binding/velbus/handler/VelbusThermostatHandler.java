@@ -14,6 +14,7 @@ import org.eclipse.smarthome.core.library.types.QuantityType;
 import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.library.unit.SIUnits;
 import org.eclipse.smarthome.core.thing.ChannelUID;
+import org.eclipse.smarthome.core.thing.CommonTriggerEvents;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.ThingStatusDetail;
@@ -70,6 +71,14 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
             "thermostat#COOLINGMODESAFETEMPERATURESETPOINT");
     private final ChannelUID OPERATING_MODE_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#OPERATINGMODE");
     private final ChannelUID MODE_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#MODE");
+    private final ChannelUID HEATER_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#HEATER");
+    private final ChannelUID BOOST_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#BOOST");
+    private final ChannelUID PUMP_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#PUMP");
+    private final ChannelUID COOLER_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#COOLER");
+    private final ChannelUID ALARM1_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#ALARM1");
+    private final ChannelUID ALARM2_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#ALARM2");
+    private final ChannelUID ALARM3_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#ALARM3");
+    private final ChannelUID ALARM4_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#ALARM4");
 
     public VelbusThermostatHandler(Thing thing, int numberOfSubAddresses, ChannelUID temperatureChannel) {
         super(thing, numberOfSubAddresses, temperatureChannel);
@@ -143,6 +152,7 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
         logger.trace("onPacketReceived() was called");
 
         if (packet[0] == VelbusPacket.STX && packet.length >= 5) {
+            byte address = packet[2];
             byte command = packet[4];
 
             if (command == COMMAND_TEMP_SENSOR_SETTINGS_PART1 && packet.length >= 9) {
@@ -214,7 +224,40 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
                 } else {
                     updateState(MODE_CHANNEL, MODE_SAFE);
                 }
+            } else if (address != this.getModuleAddress().getAddress() && command == COMMAND_PUSH_BUTTON_STATUS) {
+                byte outputChannelsJustActivated = packet[5];
+                byte outputChannelsJustDeactivated = packet[6];
+
+                triggerThermostatChannels(outputChannelsJustActivated, CommonTriggerEvents.PRESSED);
+                triggerThermostatChannels(outputChannelsJustDeactivated, CommonTriggerEvents.RELEASED);
             }
+        }
+    }
+
+    private void triggerThermostatChannels(byte outputChannels, String event) {
+        if ((outputChannels & 0x01) == 0x01) {
+            triggerChannel(HEATER_CHANNEL, event);
+        }
+        if ((outputChannels & 0x02) == 0x02) {
+            triggerChannel(BOOST_CHANNEL, event);
+        }
+        if ((outputChannels & 0x04) == 0x04) {
+            triggerChannel(PUMP_CHANNEL, event);
+        }
+        if ((outputChannels & 0x08) == 0x08) {
+            triggerChannel(COOLER_CHANNEL, event);
+        }
+        if ((outputChannels & 0x10) == 0x10) {
+            triggerChannel(ALARM1_CHANNEL, event);
+        }
+        if ((outputChannels & 0x20) == 0x20) {
+            triggerChannel(ALARM2_CHANNEL, event);
+        }
+        if ((outputChannels & 0x40) == 0x40) {
+            triggerChannel(ALARM3_CHANNEL, event);
+        }
+        if ((outputChannels & 0x80) == 0x80) {
+            triggerChannel(ALARM4_CHANNEL, event);
         }
     }
 
