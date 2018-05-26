@@ -41,13 +41,15 @@ public class VelbusDimmerPacket extends VelbusPacket {
     protected byte[] getDataBytes() {
         byte dimspeedHighByte = DIMSPEED_HIGH_BYTE;
         byte dimspeedLowByte = DIMSPEED_LOW_BYTE;
+        byte dimValue = percentage;
 
         if (isFirstGenerationDevice) {
             dimspeedHighByte = FIRST_GENERATION_DEVICE_DIMSPEED_HIGH_BYTE;
             dimspeedLowByte = FIRST_GENERATION_DEVICE_DIMSPEED_LOW_BYTE;
+            dimValue = (byte) ((percentage / 100) * 64);
         }
 
-        return new byte[] { command, channel, percentage, dimspeedHighByte, dimspeedLowByte };
+        return new byte[] { command, channel, dimValue, dimspeedHighByte, dimspeedLowByte };
     }
 
 }
