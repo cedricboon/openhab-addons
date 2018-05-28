@@ -34,6 +34,7 @@ import org.openhab.binding.velbus.internal.VelbusPacketListener;
 import org.openhab.binding.velbus.internal.packets.VelbusReadMemoryBlockPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusReadMemoryPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusStatusRequestPacket;
+import org.openhab.binding.velbus.internal.packets.VelbusWriteMemoryPacket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -179,18 +180,22 @@ public abstract class VelbusThingHandler extends BaseThingHandler implements Vel
         return HexUtils.hexToBytes(hexString)[0];
     }
 
-    protected void sendReadMemoryBlockPacket(VelbusBridgeHandler velbusBridgeHandler,
-            int alarmClockConfigurationMemoryAddress, int offset) {
+    protected void sendReadMemoryBlockPacket(VelbusBridgeHandler velbusBridgeHandler, int memoryAddress) {
         VelbusReadMemoryBlockPacket packet = new VelbusReadMemoryBlockPacket(getModuleAddress().getAddress(),
-                alarmClockConfigurationMemoryAddress + offset);
+                memoryAddress);
         byte[] packetBytes = packet.getBytes();
         velbusBridgeHandler.sendPacket(packetBytes);
     }
 
-    protected void sendReadMemoryPacket(VelbusBridgeHandler velbusBridgeHandler,
-            int alarmClockConfigurationMemoryAddress, int offset) {
-        VelbusReadMemoryPacket packet = new VelbusReadMemoryPacket(getModuleAddress().getAddress(),
-                alarmClockConfigurationMemoryAddress + offset);
+    protected void sendReadMemoryPacket(VelbusBridgeHandler velbusBridgeHandler, int memoryAddress) {
+        VelbusReadMemoryPacket packet = new VelbusReadMemoryPacket(getModuleAddress().getAddress(), memoryAddress);
+        byte[] packetBytes = packet.getBytes();
+        velbusBridgeHandler.sendPacket(packetBytes);
+    }
+
+    protected void sendWriteMemoryPacket(VelbusBridgeHandler velbusBridgeHandler, int memoryAddress, byte data) {
+        VelbusWriteMemoryPacket packet = new VelbusWriteMemoryPacket(getModuleAddress().getAddress(), memoryAddress,
+                data);
         byte[] packetBytes = packet.getBytes();
         velbusBridgeHandler.sendPacket(packetBytes);
     }

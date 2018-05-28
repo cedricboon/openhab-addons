@@ -13,6 +13,7 @@ import static org.openhab.binding.velbus.VelbusBindingConstants.*;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
@@ -29,7 +30,6 @@ import org.eclipse.smarthome.core.types.Command;
 import org.eclipse.smarthome.core.types.RefreshType;
 import org.openhab.binding.velbus.internal.VelbusClockAlarm;
 import org.openhab.binding.velbus.internal.VelbusClockAlarmConfiguration;
-import org.openhab.binding.velbus.internal.VelbusMemoryMap;
 import org.openhab.binding.velbus.internal.packets.VelbusPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusSetDatePacket;
 import org.openhab.binding.velbus.internal.packets.VelbusSetLocalClockAlarmPacket;
@@ -44,6 +44,24 @@ import org.openhab.binding.velbus.internal.packets.VelbusSetRealtimeClockPacket;
 public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMB2PBN,
             THING_TYPE_VMB6PBN, THING_TYPE_VMB7IN, THING_TYPE_VMB8PBU, THING_TYPE_VMBPIRC, THING_TYPE_VMBPIRM));
+    private static final HashMap<ThingTypeUID, Integer> alarmConfigurationMemoryAddresses = new HashMap<ThingTypeUID, Integer>();
+
+    static {
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB2PBN, 0x0093);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB6PBN, 0x0093);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB7IN, 0x0093);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB8PBU, 0x0093);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBPIRC, 0x0031);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBPIRM, 0x0031);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBPIRO, 0x0031);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBMETEO, 0x0083);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBGP1, 0x00A4);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBGP2, 0x00A4);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBGP4, 0x00A4);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBGP4PIR, 0x00A4);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBGPO, 0x0284);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBGPOD, 0x0284);
+    }
 
     private final byte ALARM_CONFIGURATION_MEMORY_SIZE = 0x09;
     private final byte ALARM_1_ENABLED_MASK = 0x01;
@@ -84,8 +102,7 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
     public void initialize() {
         super.initialize();
 
-        this.clockAlarmConfigurationMemoryAddress = VelbusMemoryMap
-                .getAlarmConfigurationMemoryAddress(this.thing.getThingTypeUID());
+        this.clockAlarmConfigurationMemoryAddress = alarmConfigurationMemoryAddresses.get(thing.getThingTypeUID());
 
         initializeTimeUpdate();
     }
@@ -150,12 +167,9 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
         }
 
         if (isAlarmClockChannel(channelUID) && command instanceof RefreshType) {
-            int alarmClockConfigurationMemoryAddress = VelbusMemoryMap
-                    .getAlarmConfigurationMemoryAddress(this.thing.getThingTypeUID());
-
-            sendReadMemoryBlockPacket(velbusBridgeHandler, alarmClockConfigurationMemoryAddress, 0);
-            sendReadMemoryBlockPacket(velbusBridgeHandler, alarmClockConfigurationMemoryAddress, 4);
-            sendReadMemoryPacket(velbusBridgeHandler, alarmClockConfigurationMemoryAddress, 8);
+            sendReadMemoryBlockPacket(velbusBridgeHandler, this.clockAlarmConfigurationMemoryAddress + 0);
+            sendReadMemoryBlockPacket(velbusBridgeHandler, this.clockAlarmConfigurationMemoryAddress + 4);
+            sendReadMemoryPacket(velbusBridgeHandler, this.clockAlarmConfigurationMemoryAddress + 8);
         } else if (isAlarmClockChannel(channelUID)) {
             byte alarmNumber = determineAlarmNumber(channelUID);
             VelbusClockAlarm alarmClock = alarmClockConfiguration.getAlarmClock(alarmNumber);

@@ -470,6 +470,7 @@
 			<channel-group id="input" typeId="33channelInputModuleWithTemperatureSensor" />
 			<channel-group id="thermostat" typeId="thermostat" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
+			<channel-group id="oledDisplay" typeId="oledDisplay" />
 		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
@@ -487,6 +488,7 @@
 			<channel-group id="input" typeId="33channelInputModuleWithTemperatureSensor" />
 			<channel-group id="thermostat" typeId="thermostat" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
+			<channel-group id="oledDisplay" typeId="oledDisplay" />
 		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
@@ -579,6 +581,10 @@
 				<option value="SAFE">Safe</option>
 			</options>
 		</state>
+	</channel-type>
+	<channel-type id="text">
+		<item-type>String</item-type>
+		<label>Text</label>
 	</channel-type>
 	<channel-type id="switch">
 		<item-type>Switch</item-type>
@@ -763,6 +769,17 @@
 			<channel id="CH31" typeId="trigger-channel" />
 			<channel id="CH32" typeId="trigger-channel" />
 			<channel id="CH33" typeId="temperature" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="oledDisplay">
+		<label>O-LED Display</label>
+		<channels>
+			<channel id="MEMO" typeId="text">
+				<label>Memo</label>
+			</channel>
+			<channel id="SCREENSAVER" typeId="switch">
+				<label>Screensaver</label>
+			</channel>
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="thermostat">
