@@ -123,6 +123,7 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_BLIND_POS = 0x1C;
     public static final byte COMMAND_SENSOR_RAW_DATA = (byte) 0xA9;
     public static final byte COMMAND_TEXT = (byte) 0xAC;
+    public static final byte COMMAND_DAYLIGHT_SAVING_STATUS = (byte) 0xAF;
     public static final byte COMMAND_SUBTYPE = (byte) 0xB0;
     public static final byte COMMAND_SET_REALTIME_DATE = (byte) 0xB7;
     public static final byte COMMAND_DIMMERCONTROLLER_STATUS = (byte) 0xB8;

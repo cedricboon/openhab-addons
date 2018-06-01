@@ -10,7 +10,7 @@ package org.openhab.binding.velbus.internal.packets;
 
 import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_SET_REALTIME_DATE;
 
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 
 /**
  * The {@link VelbusSetDatePacket} represents a Velbus packet that can be used to
@@ -19,33 +19,32 @@ import java.util.Calendar;
  * @author Cedric Boon - Initial contribution
  */
 public class VelbusSetDatePacket extends VelbusPacket {
-    private Calendar calendar;
+    private ZonedDateTime zonedDateTime;
 
-    public VelbusSetDatePacket(byte address, Calendar calendar) {
+    public VelbusSetDatePacket(byte address, ZonedDateTime zonedDateTime) {
         super(address, PRIO_LOW);
 
-        this.calendar = calendar;
+        this.zonedDateTime = zonedDateTime;
     }
 
     public byte getDay() {
-        return (byte) calendar.get(Calendar.DAY_OF_MONTH);
+        return (byte) this.zonedDateTime.getDayOfMonth();
     }
 
     public byte getMonth() {
-        return (byte) calendar.get(Calendar.MONTH);
+        return (byte) this.zonedDateTime.getMonthValue();
     }
 
     public byte getYearHighByte() {
-        return (byte) ((calendar.get(Calendar.YEAR) & 0xff00) / 0x100);
+        return (byte) ((zonedDateTime.getYear() & 0xff00) / 0x100);
     }
 
     public byte getYearLowByte() {
-        return (byte) (calendar.get(Calendar.YEAR) & 0xff);
+        return (byte) (zonedDateTime.getYear() & 0xff);
     }
 
     @Override
     protected byte[] getDataBytes() {
-        return new byte[] { COMMAND_SET_REALTIME_DATE, this.getDay(), this.getMonth(), getYearHighByte(),
-                getYearLowByte() };
+        return new byte[] { COMMAND_SET_REALTIME_DATE, getDay(), getMonth(), getYearHighByte(), getYearLowByte() };
     }
 }

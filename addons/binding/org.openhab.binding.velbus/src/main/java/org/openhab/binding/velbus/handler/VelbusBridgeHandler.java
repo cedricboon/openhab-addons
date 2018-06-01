@@ -8,8 +8,15 @@
  */
 package org.openhab.binding.velbus.handler;
 
+import static org.openhab.binding.velbus.VelbusBindingConstants.TIME_UPDATE_INTERVAL;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.smarthome.core.thing.Bridge;
@@ -17,6 +24,9 @@ import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.binding.BaseBridgeHandler;
 import org.eclipse.smarthome.core.types.Command;
 import org.openhab.binding.velbus.internal.VelbusPacketListener;
+import org.openhab.binding.velbus.internal.packets.VelbusSetDatePacket;
+import org.openhab.binding.velbus.internal.packets.VelbusSetDaylightSavingsStatusPacket;
+import org.openhab.binding.velbus.internal.packets.VelbusSetRealtimeClockPacket;
 
 /**
  * {@link VelbusBridgeHandler} is an abstract handler for a Velbus interface and connects it to
@@ -30,8 +40,67 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
     protected VelbusPacketListener defaultPacketListener;
     protected Map<Byte, VelbusPacketListener> packetListeners = new HashMap<Byte, VelbusPacketListener>();
 
+    private ScheduledFuture<?> timeUpdateJob;
+
     public VelbusBridgeHandler(Bridge velbusBridge) {
         super(velbusBridge);
+    }
+
+    @Override
+    public void initialize() {
+        initializeTimeUpdate();
+    }
+
+    private void initializeTimeUpdate() {
+        Object timeUpdateIntervalObject = getConfig().get(TIME_UPDATE_INTERVAL);
+        if (timeUpdateIntervalObject != null) {
+            int timeUpdateInterval = ((BigDecimal) timeUpdateIntervalObject).intValue();
+
+            if (timeUpdateInterval > 0) {
+                startTimeUpdates(timeUpdateInterval);
+            }
+        }
+    }
+
+    private void startTimeUpdates(int timeUpdatesInterval) {
+        timeUpdateJob = scheduler.scheduleWithFixedDelay(() -> {
+            updateDateTime();
+        }, 0, timeUpdatesInterval, TimeUnit.SECONDS);
+    }
+
+    protected void updateDateTime() {
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(), TimeZone.getDefault().toZoneId());
+
+        updateDate(zonedDateTime);
+        updateTime(zonedDateTime);
+        updateDaylightSavingsStatus(zonedDateTime);
+    }
+
+    protected void updateTime(ZonedDateTime zonedDateTime) {
+        VelbusSetRealtimeClockPacket packet = new VelbusSetRealtimeClockPacket((byte) 0x00, zonedDateTime);
+
+        byte[] packetBytes = packet.getBytes();
+        this.sendPacket(packetBytes);
+    }
+
+    protected void updateDate(ZonedDateTime zonedDateTime) {
+        VelbusSetDatePacket packet = new VelbusSetDatePacket((byte) 0x00, zonedDateTime);
+
+        byte[] packetBytes = packet.getBytes();
+        this.sendPacket(packetBytes);
+    }
+
+    protected void updateDaylightSavingsStatus(ZonedDateTime zonedDateTime) {
+        VelbusSetDaylightSavingsStatusPacket packet = new VelbusSetDaylightSavingsStatusPacket((byte) 0x00,
+                zonedDateTime);
+
+        byte[] packetBytes = packet.getBytes();
+        this.sendPacket(packetBytes);
+    }
+
+    @Override
+    public void dispose() {
+        timeUpdateJob.cancel(true);
     }
 
     @Override

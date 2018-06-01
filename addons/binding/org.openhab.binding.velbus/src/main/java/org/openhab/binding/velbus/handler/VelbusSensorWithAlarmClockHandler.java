@@ -10,14 +10,10 @@ package org.openhab.binding.velbus.handler;
 
 import static org.openhab.binding.velbus.VelbusBindingConstants.*;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.library.types.OnOffType;
@@ -31,9 +27,7 @@ import org.eclipse.smarthome.core.types.RefreshType;
 import org.openhab.binding.velbus.internal.VelbusClockAlarm;
 import org.openhab.binding.velbus.internal.VelbusClockAlarmConfiguration;
 import org.openhab.binding.velbus.internal.packets.VelbusPacket;
-import org.openhab.binding.velbus.internal.packets.VelbusSetDatePacket;
 import org.openhab.binding.velbus.internal.packets.VelbusSetLocalClockAlarmPacket;
-import org.openhab.binding.velbus.internal.packets.VelbusSetRealtimeClockPacket;
 
 /**
  * The {@link VelbusSensorWithAlarmClockHandler} is responsible for handling commands, which are
@@ -88,7 +82,6 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
 
     private int clockAlarmConfigurationMemoryAddress;
     private VelbusClockAlarmConfiguration alarmClockConfiguration = new VelbusClockAlarmConfiguration();
-    private ScheduledFuture<?> timeUpdateJob;
 
     public VelbusSensorWithAlarmClockHandler(Thing thing) {
         this(thing, 0);
@@ -103,57 +96,6 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
         super.initialize();
 
         this.clockAlarmConfigurationMemoryAddress = alarmConfigurationMemoryAddresses.get(thing.getThingTypeUID());
-
-        initializeTimeUpdate();
-    }
-
-    private void initializeTimeUpdate() {
-        Object timeUpdateIntervalObject = getConfig().get(TIME_UPDATE_INTERVAL);
-        if (timeUpdateIntervalObject != null) {
-            int timeUpdateInterval = ((BigDecimal) timeUpdateIntervalObject).intValue();
-
-            if (timeUpdateInterval > 0) {
-                startTimeUpdates(timeUpdateInterval);
-            }
-        }
-    }
-
-    @Override
-    public void dispose() {
-        timeUpdateJob.cancel(true);
-    }
-
-    private void startTimeUpdates(int timeUpdatesInterval) {
-        VelbusBridgeHandler velbusBridgeHandler = getVelbusBridgeHandler();
-        if (velbusBridgeHandler == null) {
-            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.BRIDGE_OFFLINE);
-            return;
-        }
-
-        timeUpdateJob = scheduler.scheduleWithFixedDelay(() -> {
-            updateDateTime(velbusBridgeHandler);
-        }, 0, timeUpdatesInterval, TimeUnit.SECONDS);
-    }
-
-    protected void updateDateTime(VelbusBridgeHandler velbusBridgeHandler) {
-        Calendar calendar = Calendar.getInstance();
-        updateDate(velbusBridgeHandler, calendar);
-        updateTime(velbusBridgeHandler, calendar);
-    }
-
-    protected void updateTime(VelbusBridgeHandler velbusBridgeHandler, Calendar calendar) {
-        VelbusSetRealtimeClockPacket packet = new VelbusSetRealtimeClockPacket(getModuleAddress().getAddress(),
-                calendar);
-
-        byte[] packetBytes = packet.getBytes();
-        velbusBridgeHandler.sendPacket(packetBytes);
-    }
-
-    protected void updateDate(VelbusBridgeHandler velbusBridgeHandler, Calendar calendar) {
-        VelbusSetDatePacket packet = new VelbusSetDatePacket(getModuleAddress().getAddress(), calendar);
-
-        byte[] packetBytes = packet.getBytes();
-        velbusBridgeHandler.sendPacket(packetBytes);
     }
 
     @Override

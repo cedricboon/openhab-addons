@@ -10,7 +10,8 @@ package org.openhab.binding.velbus.internal.packets;
 
 import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_SET_REALTIME_CLOCK;
 
-import java.util.Calendar;
+import java.time.DayOfWeek;
+import java.time.ZonedDateTime;
 
 /**
  * The {@link VelbusSetRealtimeClockPacket} represents a Velbus packet that can be used to
@@ -19,38 +20,38 @@ import java.util.Calendar;
  * @author Cedric Boon - Initial contribution
  */
 public class VelbusSetRealtimeClockPacket extends VelbusPacket {
-    private Calendar calendar;
+    private ZonedDateTime zonedDateTime;
 
-    public VelbusSetRealtimeClockPacket(byte address, Calendar calendar) {
+    public VelbusSetRealtimeClockPacket(byte address, ZonedDateTime zonedDateTime) {
         super(address, PRIO_LOW);
 
-        this.calendar = calendar;
+        this.zonedDateTime = zonedDateTime;
     }
 
     public byte getHour() {
-        return (byte) calendar.get(Calendar.HOUR_OF_DAY);
+        return (byte) this.zonedDateTime.getHour();
     }
 
     public byte getMinute() {
-        return (byte) calendar.get(Calendar.MINUTE);
+        return (byte) this.zonedDateTime.getMinute();
     }
 
     public byte getWeekDay() {
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        DayOfWeek dayOfWeek = zonedDateTime.getDayOfWeek();
         switch (dayOfWeek) {
-            case Calendar.MONDAY:
+            case MONDAY:
                 return 0x00;
-            case Calendar.TUESDAY:
+            case TUESDAY:
                 return 0x01;
-            case Calendar.WEDNESDAY:
+            case WEDNESDAY:
                 return 0x02;
-            case Calendar.THURSDAY:
+            case THURSDAY:
                 return 0x03;
-            case Calendar.FRIDAY:
+            case FRIDAY:
                 return 0x04;
-            case Calendar.SATURDAY:
+            case SATURDAY:
                 return 0x05;
-            case Calendar.SUNDAY:
+            case SUNDAY:
                 return 0x06;
             default:
                 throw new IllegalArgumentException("Day " + dayOfWeek + " is not a valid weekday.");
@@ -59,6 +60,6 @@ public class VelbusSetRealtimeClockPacket extends VelbusPacket {
 
     @Override
     protected byte[] getDataBytes() {
-        return new byte[] { COMMAND_SET_REALTIME_CLOCK, this.getWeekDay(), this.getHour(), this.getMinute() };
+        return new byte[] { COMMAND_SET_REALTIME_CLOCK, this.getWeekDay(), getHour(), getMinute() };
     }
 }
