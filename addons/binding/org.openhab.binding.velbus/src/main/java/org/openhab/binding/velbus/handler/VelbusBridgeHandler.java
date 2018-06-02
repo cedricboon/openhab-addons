@@ -65,7 +65,7 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
     private void startTimeUpdates(int timeUpdatesInterval) {
         timeUpdateJob = scheduler.scheduleWithFixedDelay(() -> {
             updateDateTime();
-        }, 0, timeUpdatesInterval, TimeUnit.SECONDS);
+        }, 0, timeUpdatesInterval, TimeUnit.MINUTES);
     }
 
     protected void updateDateTime() {

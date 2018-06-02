@@ -43,6 +43,7 @@ public class VelbusNetworkBridgeHandler extends VelbusBridgeHandler {
 
     @Override
     public void initialize() {
+        super.initialize();
         logger.debug("Initializing velbus network bridge handler.");
 
         String address = (String) getConfig().get(ADDRESS);

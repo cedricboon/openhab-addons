@@ -45,6 +45,7 @@ public class VelbusSerialBridgeHandler extends VelbusBridgeHandler implements Se
 
     @Override
     public void initialize() {
+        super.initialize();
         logger.debug("Initializing velbus bridge handler.");
 
         String port = (String) getConfig().get(PORT);
