@@ -57,7 +57,7 @@ public class VelbusSensorHandler extends VelbusThingHandler {
                 if (channelJustPressed != 0) {
                     VelbusChannelIdentifier velbusChannelIdentifier = new VelbusChannelIdentifier(address,
                             channelJustPressed);
-                    triggerChannel(getModuleAddress().getChannelId(velbusChannelIdentifier),
+                    triggerChannel("input#" + getModuleAddress().getChannelId(velbusChannelIdentifier),
                             CommonTriggerEvents.PRESSED);
                 }
 
@@ -65,7 +65,7 @@ public class VelbusSensorHandler extends VelbusThingHandler {
                 if (channelJustReleased != 0) {
                     VelbusChannelIdentifier velbusChannelIdentifier = new VelbusChannelIdentifier(address,
                             channelJustReleased);
-                    triggerChannel(getModuleAddress().getChannelId(velbusChannelIdentifier),
+                    triggerChannel("input#" + getModuleAddress().getChannelId(velbusChannelIdentifier),
                             CommonTriggerEvents.RELEASED);
                 }
 
@@ -73,7 +73,7 @@ public class VelbusSensorHandler extends VelbusThingHandler {
                 if (channelLongPressed != 0) {
                     VelbusChannelIdentifier velbusChannelIdentifier = new VelbusChannelIdentifier(address,
                             channelLongPressed);
-                    triggerChannel(getModuleAddress().getChannelId(velbusChannelIdentifier),
+                    triggerChannel("input#" + getModuleAddress().getChannelId(velbusChannelIdentifier),
                             CommonTriggerEvents.LONG_PRESSED);
                 }
             }

@@ -76,7 +76,7 @@ public class VelbusModuleAddress {
     }
 
     public String getChannelId(VelbusChannelIdentifier velbusChannelIdentifier) {
-        return "input#CH" + getChannelNumber(velbusChannelIdentifier);
+        return "CH" + getChannelNumber(velbusChannelIdentifier);
     }
 
     public int getChannelIndex(VelbusChannelIdentifier velbusChannelIdentifier) {
