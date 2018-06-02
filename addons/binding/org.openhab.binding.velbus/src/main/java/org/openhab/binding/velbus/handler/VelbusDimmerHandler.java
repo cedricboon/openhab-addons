@@ -100,10 +100,8 @@ public class VelbusDimmerHandler extends VelbusThingHandler {
                 byte channel = packet[5];
                 byte dimValue = packet[7];
 
-                int percentage = isFirstGenerationDevice() ? ((dimValue / 64) * 100) : dimValue;
-
                 VelbusChannelIdentifier velbusChannelIdentifier = new VelbusChannelIdentifier(address, channel);
-                PercentType state = new PercentType(percentage);
+                PercentType state = new PercentType(dimValue);
                 updateState(getModuleAddress().getChannelId(velbusChannelIdentifier), state);
             }
         }
