@@ -10,6 +10,7 @@ package org.openhab.binding.velbus.handler;
 
 import static org.openhab.binding.velbus.VelbusBindingConstants.*;
 
+import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.library.types.QuantityType;
 import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.library.unit.SIUnits;
@@ -100,9 +101,12 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
 
             byte[] packetBytes = packet.getBytes();
             velbusBridgeHandler.sendPacket(packetBytes);
-        } else if (isThermostatChannel(channelUID) && command instanceof QuantityType<?>) {
+        } else if (isThermostatChannel(channelUID)
+                && (command instanceof QuantityType<?> || command instanceof DecimalType)) {
             byte temperatureVariable = determineTemperatureVariable(channelUID);
-            QuantityType<?> temperatureInDegreesCelcius = ((QuantityType<?>) command).toUnit(SIUnits.CELSIUS);
+            QuantityType<?> temperatureInDegreesCelcius = (command instanceof QuantityType<?>)
+                    ? ((QuantityType<?>) command).toUnit(SIUnits.CELSIUS)
+                    : new QuantityType<>(((DecimalType) command), SIUnits.CELSIUS);
 
             if (temperatureInDegreesCelcius != null) {
                 byte temperature = convertToTwoComplementByte(temperatureInDegreesCelcius.doubleValue(),
