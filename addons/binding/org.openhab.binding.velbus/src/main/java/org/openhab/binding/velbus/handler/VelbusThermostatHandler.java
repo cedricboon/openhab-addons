@@ -210,8 +210,9 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
                         new QuantityType<>(coolingModeNightTemperatureSet, SIUnits.CELSIUS));
                 updateState(COOLING_MODE_SAFE_TEMPERATURE_SETPOINT_CHANNEL,
                         new QuantityType<>(coolingModeSafeTemperatureSet, SIUnits.CELSIUS));
-            } else if (command == COMMAND_TEMP_SENSOR_STATUS && packet.length >= 5) {
+            } else if (command == COMMAND_TEMP_SENSOR_STATUS && packet.length >= 9) {
                 byte operatingMode = packet[5];
+                byte targetTemperature = packet[9];
 
                 if ((operatingMode & OPERATING_MODE_MASK) == COOLING_MODE_MASK) {
                     updateState(OPERATING_MODE_CHANNEL, OPERATING_MODE_COOLING);
@@ -228,6 +229,11 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
                 } else {
                     updateState(MODE_CHANNEL, MODE_SAFE);
                 }
+
+                double targetTemperatureValue = convertFromTwoComplementByte(targetTemperature,
+                        THERMOSTAT_TEMPERATURE_SETPOINT_RESOLUTION);
+                updateState(CURRENT_TEMPERATURE_SETPOINT_CHANNEL,
+                        new QuantityType<>(targetTemperatureValue, SIUnits.CELSIUS));
             } else if (address != this.getModuleAddress().getAddress() && command == COMMAND_PUSH_BUTTON_STATUS) {
                 byte outputChannelsJustActivated = packet[5];
                 byte outputChannelsJustDeactivated = packet[6];
