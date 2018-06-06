@@ -171,6 +171,17 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
                         setClockAlarmConfigurationByte(memoryAddress + i, data[i]);
                     }
                 }
+            } else if (command == COMMAND_MODULE_STATUS && packet.length >= 11) {
+                byte alarmAndProgramSelection = packet[10];
+                boolean alarmClock1Enabled = (alarmAndProgramSelection & 0x04) > 0;
+                VelbusClockAlarm alarmClock1 = this.alarmClockConfiguration.getAlarmClock1();
+                alarmClock1.setEnabled(alarmClock1Enabled);
+                updateState(CLOCK_ALARM_1_ENABLED, alarmClock1.isEnabled() ? OnOffType.ON : OnOffType.OFF);
+
+                boolean alarmClock2Enabled = (alarmAndProgramSelection & 0x10) > 0;
+                VelbusClockAlarm alarmClock2 = this.alarmClockConfiguration.getAlarmClock2();
+                alarmClock2.setEnabled(alarmClock2Enabled);
+                updateState(CLOCK_ALARM_2_ENABLED, alarmClock2.isEnabled() ? OnOffType.ON : OnOffType.OFF);
             }
         }
     }
