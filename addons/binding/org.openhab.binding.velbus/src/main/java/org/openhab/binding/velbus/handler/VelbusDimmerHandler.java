@@ -10,6 +10,7 @@ package org.openhab.binding.velbus.handler;
 
 import static org.openhab.binding.velbus.VelbusBindingConstants.*;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,8 +39,20 @@ public class VelbusDimmerHandler extends VelbusThingHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMB1DM,
             THING_TYPE_VMB1LED, THING_TYPE_VMB4DC, THING_TYPE_VMBDME, THING_TYPE_VMBDMI, THING_TYPE_VMBDMIR));
 
+    private int dimSpeed = 0;
+
     public VelbusDimmerHandler(Thing thing) {
         super(thing, 0, "Dimmer");
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+
+        Object dimspeedObject = getConfig().get(DIMSPEED);
+        if (dimspeedObject != null) {
+            this.dimSpeed = ((BigDecimal) dimspeedObject).intValue();
+        }
     }
 
     @Override
@@ -60,7 +73,7 @@ public class VelbusDimmerHandler extends VelbusThingHandler {
             byte commandByte = COMMAND_SET_DIMVALUE;
 
             VelbusDimmerPacket packet = new VelbusDimmerPacket(getModuleAddress().getChannelIdentifier(channelUID),
-                    commandByte, ((PercentType) command).byteValue(), isFirstGenerationDevice());
+                    commandByte, ((PercentType) command).byteValue(), this.dimSpeed, isFirstGenerationDevice());
 
             byte[] packetBytes = packet.getBytes();
             velbusBridgeHandler.sendPacket(packetBytes);
@@ -68,7 +81,7 @@ public class VelbusDimmerHandler extends VelbusThingHandler {
             byte commandByte = determineCommandByte((OnOffType) command);
 
             VelbusDimmerPacket packet = new VelbusDimmerPacket(getModuleAddress().getChannelIdentifier(channelUID),
-                    commandByte, (byte) 0x00, isFirstGenerationDevice());
+                    commandByte, (byte) 0x00, this.dimSpeed, isFirstGenerationDevice());
 
             byte[] packetBytes = packet.getBytes();
             velbusBridgeHandler.sendPacket(packetBytes);

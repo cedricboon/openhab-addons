@@ -170,4 +170,5 @@ public class VelbusBindingConstants {
     public static final String MODULE_BUILD = "build";
     public static final String CHANNEL = "CH";
     public static final String SUB_ADDRESS = "subaddress";
+    public static final String DIMSPEED = "dimspeed";
 }

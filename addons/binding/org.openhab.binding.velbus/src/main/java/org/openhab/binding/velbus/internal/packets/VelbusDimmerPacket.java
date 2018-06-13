@@ -17,18 +17,17 @@ import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
  * @author Cedric Boon - Initial contribution
  */
 public class VelbusDimmerPacket extends VelbusPacket {
-    private final byte DIMSPEED_HIGH_BYTE = 0x00;
-    private final byte DIMSPEED_LOW_BYTE = 0x00;
-    private final byte FIRST_GENERATION_DEVICE_DIMSPEED_HIGH_BYTE = (byte) 0xFF;
-    private final byte FIRST_GENERATION_DEVICE_DIMSPEED_LOW_BYTE = (byte) 0xFF;
+    private final byte FIRST_GENERATION_DEVICE_FASTEST_DIMSPEED_HIGH_BYTE = (byte) 0xFF;
+    private final byte FIRST_GENERATION_DEVICE_FASTEST_DIMSPEED_LOW_BYTE = (byte) 0xFF;
 
     private Boolean isFirstGenerationDevice;
     private byte command;
     private byte channel;
     private byte percentage;
+    private int dimspeed;
 
     public VelbusDimmerPacket(VelbusChannelIdentifier velbusChannelIdentifier, byte command, byte percentage,
-            Boolean isFirstGenerationDevice) {
+            int dimspeed, Boolean isFirstGenerationDevice) {
         super(velbusChannelIdentifier.getAddress(), PRIO_HI);
 
         this.channel = velbusChannelIdentifier.getChannelByte();
@@ -39,12 +38,12 @@ public class VelbusDimmerPacket extends VelbusPacket {
 
     @Override
     protected byte[] getDataBytes() {
-        byte dimspeedHighByte = DIMSPEED_HIGH_BYTE;
-        byte dimspeedLowByte = DIMSPEED_LOW_BYTE;
+        byte dimspeedHighByte = (byte) ((dimspeed & 0xFF00) / 0x100);
+        byte dimspeedLowByte = (byte) (dimspeed & 0xFF);
 
-        if (isFirstGenerationDevice) {
-            dimspeedHighByte = FIRST_GENERATION_DEVICE_DIMSPEED_HIGH_BYTE;
-            dimspeedLowByte = FIRST_GENERATION_DEVICE_DIMSPEED_LOW_BYTE;
+        if (dimspeed == 0 && isFirstGenerationDevice) {
+            dimspeedHighByte = FIRST_GENERATION_DEVICE_FASTEST_DIMSPEED_HIGH_BYTE;
+            dimspeedLowByte = FIRST_GENERATION_DEVICE_FASTEST_DIMSPEED_LOW_BYTE;
         }
 
         return new byte[] { command, channel, percentage, dimspeedHighByte, dimspeedLowByte };

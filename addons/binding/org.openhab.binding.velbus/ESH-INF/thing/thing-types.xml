@@ -58,7 +58,7 @@
 			<channel id="CH1" typeId="brightness" />
 		</channels>
 
-		<config-description-ref uri="thing-type:velbus:1channelDevice" />
+		<config-description-ref uri="thing-type:velbus:1channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmb1led">
@@ -73,7 +73,7 @@
 			<channel id="CH1" typeId="brightness" />
 		</channels>
 
-		<config-description-ref uri="thing-type:velbus:1channelDevice" />
+		<config-description-ref uri="thing-type:velbus:1channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmb1ry">
@@ -192,7 +192,7 @@
 			<channel id="CH4" typeId="brightness" />
 		</channels>
 
-		<config-description-ref uri="thing-type:velbus:4channelDevice" />
+		<config-description-ref uri="thing-type:velbus:4channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmb4ry">
@@ -357,7 +357,7 @@
 			<channel id="CH1" typeId="brightness" />
 		</channels>
 
-		<config-description-ref uri="thing-type:velbus:1channelDevice" />
+		<config-description-ref uri="thing-type:velbus:1channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmbdmi">
@@ -372,7 +372,7 @@
 			<channel id="CH1" typeId="brightness" />
 		</channels>
 
-		<config-description-ref uri="thing-type:velbus:1channelDevice" />
+		<config-description-ref uri="thing-type:velbus:1channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmbdmir">
@@ -387,7 +387,7 @@
 			<channel id="CH1" typeId="brightness" />
 		</channels>
 
-		<config-description-ref uri="thing-type:velbus:1channelDevice" />
+		<config-description-ref uri="thing-type:velbus:1channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmbgp1">
@@ -579,6 +579,17 @@
 				<option value="DAY">Day</option>
 				<option value="NIGHT">Night</option>
 				<option value="SAFE">Safe</option>
+			</options>
+		</state>
+	</channel-type>
+	<channel-type id="alarmType">
+		<item-type>String</item-type>
+		<label>Alarm Type</label>
+		<description>Type (local/global) of the alarm clock in Velbus</description>
+		<state>
+			<options>
+				<option value="LOCAL">Local</option>
+				<option value="GLOBAL">Global</option>
 			</options>
 		</state>
 	</channel-type>
@@ -862,6 +873,9 @@
 			<channel id="CLOCKALARM1ENABLED" typeId="switch">
 				<label>Clock Alarm 1 Enabled</label>
 			</channel>
+			<channel id="CLOCKALARM1TYPE" typeId="alarmType">
+				<label>Clock Alarm 1 Type</label>
+			</channel>
 			<channel id="CLOCKALARM1WAKEUPHOUR" typeId="hour">
 				<label>Clock Alarm 1 Wakeup Hour</label>
 			</channel>
@@ -876,6 +890,9 @@
 			</channel>
 			<channel id="CLOCKALARM2ENABLED" typeId="switch">
 				<label>Clock Alarm 2 Enabled</label>
+			</channel>
+			<channel id="CLOCKALARM2TYPE" typeId="alarmType">
+				<label>Clock Alarm 2 Type</label>
 			</channel>
 			<channel id="CLOCKALARM2WAKEUPHOUR" typeId="hour">
 				<label>Clock Alarm 2 Wakeup Hour</label>

@@ -15,6 +15,7 @@ package org.openhab.binding.velbus.internal;
  */
 public class VelbusClockAlarm {
     private boolean enabled;
+    private boolean isLocal;
     private byte wakeupHour;
     private byte wakeupMinute;
     private byte bedtimeHour;
@@ -22,6 +23,7 @@ public class VelbusClockAlarm {
 
     public VelbusClockAlarm() {
         this.enabled = true;
+        this.isLocal = true;
         this.wakeupHour = 7;
         this.wakeupMinute = 0;
         this.bedtimeHour = 23;
@@ -32,8 +34,16 @@ public class VelbusClockAlarm {
         return this.enabled;
     }
 
+    public boolean isLocal() {
+        return this.isLocal;
+    }
+
     public void setEnabled(boolean value) {
         this.enabled = value;
+    }
+
+    public void setLocal(boolean value) {
+        this.isLocal = value;
     }
 
     public byte getWakeupHour() {

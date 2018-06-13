@@ -33,7 +33,7 @@
 		</parameter>
 		<parameter name="timeUpdateInterval" type="integer">
 			<label>Time Update interval</label>
-            <description>The interval (in minutes) at which the realtime clock, date and daylight savings status of the modules will be updated, default 360. If set to 0 or left empty, no refresh will be scheduled.</description>
+			<description>The interval (in minutes) at which the realtime clock, date and daylight savings status of the modules will be updated, default 360. If set to 0 or left empty, no refresh will be scheduled.</description>
 			<default>360</default>
 			<advanced>true</advanced>
 		</parameter>
@@ -48,6 +48,25 @@
 			<label>CH1 name</label>
 			<description>The name of CH1.</description>
 			<default>CH1</default>
+			<advanced>true</advanced>
+		</parameter>
+	</config-description>
+
+	<config-description uri="thing-type:velbus:1channelDeviceWithDimspeed">
+		<parameter name="address" type="text" required="true">
+			<label>Address</label>
+			<description>The velbus address of the device</description>
+		</parameter>
+		<parameter name="CH1" type="text">
+			<label>CH1 name</label>
+			<description>The name of CH1.</description>
+			<default>CH1</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="dimspeed" type="integer">
+			<label>Dimspeed</label>
+			<description>The time (in seconds) needed for dimming from 0 to 100%.</description>
+			<default>0</default>
 			<advanced>true</advanced>
 		</parameter>
 	</config-description>
@@ -98,6 +117,43 @@
 			<label>CH4 name</label>
 			<description>The name of CH4.</description>
 			<default>CH4</default>
+			<advanced>true</advanced>
+		</parameter>
+	</config-description>
+
+	<config-description uri="thing-type:velbus:4channelDeviceWithDimspeed">
+		<parameter name="address" type="text" required="true">
+			<label>Address</label>
+			<description>The velbus address of the device</description>
+		</parameter>
+		<parameter name="CH1" type="text">
+			<label>CH1 name</label>
+			<description>The name of CH1.</description>
+			<default>CH1</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH2" type="text">
+			<label>CH2 name</label>
+			<description>The name of CH2.</description>
+			<default>CH2</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH3" type="text">
+			<label>CH3 name</label>
+			<description>The name of CH3.</description>
+			<default>CH3</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="CH4" type="text">
+			<label>CH4 name</label>
+			<description>The name of CH4.</description>
+			<default>CH4</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="dimspeed" type="integer">
+			<label>Dimspeed</label>
+			<description>The time (in seconds) needed for dimming from 0 to 100%.</description>
+			<default>0</default>
 			<advanced>true</advanced>
 		</parameter>
 	</config-description>
