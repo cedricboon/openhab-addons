@@ -33,6 +33,7 @@ public class VelbusDimmerPacket extends VelbusPacket {
         this.channel = velbusChannelIdentifier.getChannelByte();
         this.command = command;
         this.percentage = percentage;
+        this.dimspeed = dimspeed;
         this.isFirstGenerationDevice = isFirstGenerationDevice;
     }
 

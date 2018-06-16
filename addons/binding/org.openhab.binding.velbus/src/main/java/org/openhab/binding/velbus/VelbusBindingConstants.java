@@ -119,6 +119,7 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_BLIND_UP = 0x05;
     public static final byte COMMAND_BLIND_DOWN = 0x06;
     public static final byte COMMAND_SET_DIMVALUE = 0x07;
+    public static final byte COMMAND_SLIDER_STATUS = 0x0F;
     public static final byte COMMAND_RESTORE_LAST_DIMVALUE = 0x11;
     public static final byte COMMAND_BLIND_POS = 0x1C;
     public static final byte COMMAND_SENSOR_RAW_DATA = (byte) 0xA9;

@@ -105,15 +105,20 @@ public class VelbusDimmerHandler extends VelbusThingHandler {
         logger.trace("onPacketReceived() was called");
 
         if (packet[0] == VelbusPacket.STX && packet.length >= 5) {
+            byte address = packet[2];
             byte command = packet[4];
 
-            if ((command == COMMAND_DIMMERCONTROLLER_STATUS || command == COMMAND_DIMMER_STATUS)
-                    && packet.length >= 7) {
-                byte address = packet[2];
+            if ((command == COMMAND_DIMMERCONTROLLER_STATUS) && packet.length >= 8) {
                 byte channel = packet[5];
                 byte dimValue = packet[7];
 
                 VelbusChannelIdentifier velbusChannelIdentifier = new VelbusChannelIdentifier(address, channel);
+                PercentType state = new PercentType(dimValue);
+                updateState(getModuleAddress().getChannelId(velbusChannelIdentifier), state);
+            } else if ((command == COMMAND_DIMMER_STATUS) && packet.length >= 7) {
+                byte dimValue = packet[6];
+
+                VelbusChannelIdentifier velbusChannelIdentifier = new VelbusChannelIdentifier(address, (byte) 0x01);
                 PercentType state = new PercentType(dimValue);
                 updateState(getModuleAddress().getChannelId(velbusChannelIdentifier), state);
             }
