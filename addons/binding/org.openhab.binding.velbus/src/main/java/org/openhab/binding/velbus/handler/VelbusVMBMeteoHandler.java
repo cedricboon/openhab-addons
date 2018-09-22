@@ -93,6 +93,11 @@ public class VelbusVMBMeteoHandler extends VelbusTemperatureSensorHandler {
     }
 
     @Override
+    protected int getClockAlarmAndProgramSelectionIndexInModuleStatus() {
+        return 8;
+    }
+
+    @Override
     public void onPacketReceived(byte[] packet) {
         super.onPacketReceived(packet);
 

@@ -129,6 +129,8 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_SET_REALTIME_DATE = (byte) 0xB7;
     public static final byte COMMAND_DIMMERCONTROLLER_STATUS = (byte) 0xB8;
     public static final byte COMMAND_TEMP_SENSOR_SETTINGS_PART4 = (byte) 0xB9;
+    public static final byte COMMAND_COUNTER_STATUS_REQUEST = (byte) 0xBD;
+    public static final byte COMMAND_COUNTER_STATUS = (byte) 0xBE;
     public static final byte COMMAND_SET_ALARM_CLOCK = (byte) 0xC3;
     public static final byte COMMAND_TEMP_SENSOR_SETTINGS_PART3 = (byte) 0xC6;
     public static final byte COMMAND_READ_MEMORY_BLOCK = (byte) 0xC9;
@@ -160,6 +162,7 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_READ_DATA_FROM_MEMORY = (byte) 0xFD;
     public static final byte COMMAND_MEMORY_DATA = (byte) 0xFE;
     public static final byte COMMAND_MODULE_TYPE = (byte) 0xFF;
+    public static final byte ALL_CHANNELS = (byte) 0xFF;
 
     // Module properties
     public static final String PORT = "port";

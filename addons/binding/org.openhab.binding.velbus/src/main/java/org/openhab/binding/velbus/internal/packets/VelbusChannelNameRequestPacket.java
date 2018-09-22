@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_MODULE_NAME_REQUEST;
+import static org.openhab.binding.velbus.VelbusBindingConstants.*;
 
 /**
  * The {@link VelbusChannelNameRequestPacket} represents a Velbus packet that can be used to
@@ -17,7 +17,6 @@ import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_MODULE_N
  * @author Cedric Boon - Initial contribution
  */
 public class VelbusChannelNameRequestPacket extends VelbusPacket {
-    private static final byte ALL_CHANNELS = (byte) 0xFF;
 
     public VelbusChannelNameRequestPacket(byte address) {
         super(address, PRIO_LOW);

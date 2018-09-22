@@ -38,7 +38,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusSetLocalClockAlarmPacke
  */
 public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMB2PBN,
-            THING_TYPE_VMB6PBN, THING_TYPE_VMB7IN, THING_TYPE_VMB8PBU, THING_TYPE_VMBPIRC, THING_TYPE_VMBPIRM));
+            THING_TYPE_VMB6PBN, THING_TYPE_VMB8PBU, THING_TYPE_VMBPIRC, THING_TYPE_VMBPIRM));
     private static final HashMap<ThingTypeUID, Integer> alarmConfigurationMemoryAddresses = new HashMap<ThingTypeUID, Integer>();
 
     static {
@@ -184,23 +184,28 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
                         setClockAlarmConfigurationByte(memoryAddress + i, data[i]);
                     }
                 }
-            } else if (command == COMMAND_MODULE_STATUS && packet.length >= 11) {
-                byte alarmAndProgramSelection = packet[10];
-                boolean alarmClock1Enabled = (alarmAndProgramSelection & 0x04) > 0;
-                boolean alarmClock1IsLocal = (alarmAndProgramSelection & 0x08) == 0;
-                VelbusClockAlarm alarmClock1 = this.alarmClockConfiguration.getAlarmClock1();
-                alarmClock1.setEnabled(alarmClock1Enabled);
-                alarmClock1.setLocal(alarmClock1IsLocal);
-                updateState(CLOCK_ALARM_1_ENABLED, alarmClock1.isEnabled() ? OnOffType.ON : OnOffType.OFF);
-                updateState(CLOCK_ALARM_1_TYPE, alarmClock1.isLocal() ? ALARM_TYPE_LOCAL : ALARM_TYPE_GLOBAL);
+            } else if (command == COMMAND_MODULE_STATUS) {
+                int clockAlarmAndProgramSelectionIndexInModuleStatus = this
+                        .getClockAlarmAndProgramSelectionIndexInModuleStatus();
+                if (packet.length >= clockAlarmAndProgramSelectionIndexInModuleStatus + 1) {
+                    byte alarmAndProgramSelection = packet[clockAlarmAndProgramSelectionIndexInModuleStatus];
 
-                boolean alarmClock2Enabled = (alarmAndProgramSelection & 0x10) > 0;
-                boolean alarmClock2IsLocal = (alarmAndProgramSelection & 0x20) == 0;
-                VelbusClockAlarm alarmClock2 = this.alarmClockConfiguration.getAlarmClock2();
-                alarmClock2.setEnabled(alarmClock2Enabled);
-                alarmClock2.setLocal(alarmClock2IsLocal);
-                updateState(CLOCK_ALARM_2_ENABLED, alarmClock2.isEnabled() ? OnOffType.ON : OnOffType.OFF);
-                updateState(CLOCK_ALARM_2_TYPE, alarmClock2.isLocal() ? ALARM_TYPE_LOCAL : ALARM_TYPE_GLOBAL);
+                    boolean alarmClock1Enabled = (alarmAndProgramSelection & 0x04) > 0;
+                    boolean alarmClock1IsLocal = (alarmAndProgramSelection & 0x08) == 0;
+                    VelbusClockAlarm alarmClock1 = this.alarmClockConfiguration.getAlarmClock1();
+                    alarmClock1.setEnabled(alarmClock1Enabled);
+                    alarmClock1.setLocal(alarmClock1IsLocal);
+                    updateState(CLOCK_ALARM_1_ENABLED, alarmClock1.isEnabled() ? OnOffType.ON : OnOffType.OFF);
+                    updateState(CLOCK_ALARM_1_TYPE, alarmClock1.isLocal() ? ALARM_TYPE_LOCAL : ALARM_TYPE_GLOBAL);
+
+                    boolean alarmClock2Enabled = (alarmAndProgramSelection & 0x10) > 0;
+                    boolean alarmClock2IsLocal = (alarmAndProgramSelection & 0x20) == 0;
+                    VelbusClockAlarm alarmClock2 = this.alarmClockConfiguration.getAlarmClock2();
+                    alarmClock2.setEnabled(alarmClock2Enabled);
+                    alarmClock2.setLocal(alarmClock2IsLocal);
+                    updateState(CLOCK_ALARM_2_ENABLED, alarmClock2.isEnabled() ? OnOffType.ON : OnOffType.OFF);
+                    updateState(CLOCK_ALARM_2_TYPE, alarmClock2.isLocal() ? ALARM_TYPE_LOCAL : ALARM_TYPE_GLOBAL);
+                }
             }
         }
     }
@@ -288,5 +293,9 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
         } else {
             throw new IllegalArgumentException("The given channelUID is not an alarm clock channel: " + channelUID);
         }
+    }
+
+    protected int getClockAlarmAndProgramSelectionIndexInModuleStatus() {
+        return 10;
     }
 }

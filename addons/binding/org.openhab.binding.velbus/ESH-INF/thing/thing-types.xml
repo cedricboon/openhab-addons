@@ -291,11 +291,12 @@
 		<label>VMB7IN</label>
 		<description>7-channel input module (potentialfree + pulse)</description>
 		<channel-groups>
-			<channel-group id="input" typeId="8channelInputModule" />
+            <channel-group id="input" typeId="8channelInputModule" />
+			<channel-group id="counter" typeId="4channelCounterModule" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
-		<config-description-ref uri="thing-type:velbus:8channelDeviceWithClock" />
+		<config-description-ref uri="thing-type:velbus:7channelDevice" />
 	</thing-type>
 
 	<thing-type id="vmb8ir">
@@ -552,7 +553,7 @@
 		<label>VMBPIRO</label>
 		<description>Outdoor motion, twilight and temperature sensor, Theben</description>
 		<channel-groups>
-			<channel-group id="input" typeId="9channelInputModule" />
+			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
@@ -635,6 +636,12 @@
 		<state readOnly="false" min="0" max="59">
 		</state>
 	</channel-type>
+	<channel-type id="counter">
+		<item-type>Number</item-type>
+		<label>Counter</label>
+		<state readOnly="false" min="0">
+		</state>
+	</channel-type>
 	<channel-type id="temperatureSetpoint">
 		<item-type>Number:Temperature</item-type>
 		<label>Temperature Setpoint</label>
@@ -710,6 +717,16 @@
 			<channel id="CH5" typeId="trigger-channel" />
 			<channel id="CH6" typeId="trigger-channel" />
 			<channel id="CH7" typeId="trigger-channel" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="4channelCounterModule">
+		<label>Counters</label>
+		<description>This is a generic module with 4 counter channels.</description>
+		<channels>
+			<channel id="COUNTER1" typeId="counter" />
+			<channel id="COUNTER2" typeId="counter" />
+			<channel id="COUNTER3" typeId="counter" />
+			<channel id="COUNTER4" typeId="counter" />
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="8channelInputModule">
