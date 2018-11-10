@@ -1,4 +1,4 @@
-package org.openhab.binding.velbus.handler;
+package org.openhab.binding.velbus.handler.internal;
 
 import static org.mockito.Mockito.*;
 
@@ -11,6 +11,7 @@ import org.eclipse.smarthome.core.thing.binding.ThingHandlerCallback;
 import org.eclipse.smarthome.test.java.JavaTest;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.openhab.binding.velbus.internal.handler.VelbusBridgeHandler;
 
 public class AbstractVelbusThingTest extends JavaTest {
     protected Bridge bridge;

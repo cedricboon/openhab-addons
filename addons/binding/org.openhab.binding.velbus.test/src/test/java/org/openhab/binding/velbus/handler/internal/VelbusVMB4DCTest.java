@@ -1,8 +1,8 @@
-package org.openhab.binding.velbus.handler;
+package org.openhab.binding.velbus.handler.internal;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.openhab.binding.velbus.VelbusBindingConstants.*;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,28 +21,32 @@ import org.eclipse.smarthome.core.thing.binding.builder.ThingBuilder;
 import org.eclipse.smarthome.core.thing.type.ChannelTypeUID;
 import org.junit.Before;
 import org.junit.Test;
+import org.openhab.binding.velbus.internal.handler.VelbusDimmerHandler;
 
-public class VelbusVMB1DMTest extends AbstractVelbusThingTest {
-    private static final String TEST_MODULE_ADDRESS = "01";
+public class VelbusVMB4DCTest extends AbstractVelbusThingTest {
+    private static final String TEST_MODULE_ADDRESS = "02";
 
     private Map<String, Object> thingProperties;
     private Thing dimmerThing;
     private VelbusDimmerHandler velbusDimmerHandler;
 
-    private final ThingUID THING_UID_DIMMER = new ThingUID(THING_TYPE_VMB1DM, "testdimmer");
+    private final ThingUID THING_UID_DIMMER = new ThingUID(THING_TYPE_VMB4DC, "testdimmer");
     private final ChannelUID CHANNEL_CH1 = new ChannelUID(THING_UID_DIMMER, "CH1");
+    private final ChannelUID CHANNEL_CH2 = new ChannelUID(THING_UID_DIMMER, "CH2");
+    private final ChannelUID CHANNEL_CH3 = new ChannelUID(THING_UID_DIMMER, "CH3");
+    private final ChannelUID CHANNEL_CH4 = new ChannelUID(THING_UID_DIMMER, "CH4");
     private final ChannelTypeUID BRIGHTNESS_CHANNEL_TYPEUID = new ChannelTypeUID("velbus", "brightness");
 
-    private final byte[] GET_STATUS_PACKET = new byte[] { (byte) 0x0F, (byte) 0xFB, 0x01, 0x02, (byte) 0xFA,
-            (byte) 0xFF, (byte) 0xFA, 0x04 };
-    private final byte[] RECALL_PACKET = new byte[] { (byte) 0x0F, (byte) 0xF8, 0x01, 0x05, 0x11, 0x01, 0X00,
-            (byte) 0xFF, (byte) 0xFF, (byte) 0xE3, 0x04 };
-    private final byte[] OFF_PACKET = new byte[] { (byte) 0x0F, (byte) 0xF8, 0x01, 0x05, 0x07, 0x01, 0X00, (byte) 0xFF,
-            (byte) 0xFF, (byte) 0xED, 0x04 };
-    private final byte[] PC10_PACKET = new byte[] { (byte) 0x0F, (byte) 0xF8, 0x01, 0x05, 0x07, 0x01, 0x0A, (byte) 0xFF,
-            (byte) 0xFF, (byte) 0xE3, 0x04 };
-    private final byte[] PC60_PACKET = new byte[] { (byte) 0x0F, (byte) 0xF8, 0x01, 0x05, 0x07, 0x01, 0X3C, (byte) 0xFF,
-            (byte) 0xFF, (byte) 0XB1, 0x04 };
+    private final byte[] GET_STATUS_PACKET = new byte[] { (byte) 0x0F, (byte) 0xFB, 0x02, 0x02, (byte) 0xFA,
+            (byte) 0xFF, (byte) 0xF9, 0x04 };
+    private final byte[] RECALL_PACKET = new byte[] { (byte) 0x0F, (byte) 0xF8, 0x02, 0x05, 0x11, 0x01, 0X00, 0x00,
+            0x00, (byte) 0xE0, 0x04 };
+    private final byte[] OFF_PACKET = new byte[] { (byte) 0x0F, (byte) 0xF8, 0x02, 0x05, 0x07, 0x02, 0X00, 0x00, 0x00,
+            (byte) 0xE9, 0x04 };
+    private final byte[] PC10_PACKET = new byte[] { (byte) 0x0F, (byte) 0xF8, 0x02, 0x05, 0x07, 0x04, 0x0A, 0x00, 0x00,
+            (byte) 0xDD, 0x04 };
+    private final byte[] PC60_PACKET = new byte[] { (byte) 0x0F, (byte) 0xF8, 0x02, 0x05, 0x07, 0x08, 0X3C, 0x00, 0x00,
+            (byte) 0XA7, 0x04 };
 
     @Before
     public void setUp() {
@@ -50,9 +54,12 @@ public class VelbusVMB1DMTest extends AbstractVelbusThingTest {
 
         thingProperties = new HashMap<>();
         thingProperties.put(ADDRESS, TEST_MODULE_ADDRESS);
-        dimmerThing = ThingBuilder.create(THING_TYPE_VMB1DM, "testdimmer").withLabel("Dimmer Thing")
+        dimmerThing = ThingBuilder.create(THING_TYPE_VMB4DC, "testdimmer").withLabel("Dimmer Thing")
                 .withBridge(bridge.getUID()).withConfiguration(new Configuration(thingProperties))
                 .withChannel(ChannelBuilder.create(CHANNEL_CH1, "Dimmer").withType(BRIGHTNESS_CHANNEL_TYPEUID).build())
+                .withChannel(ChannelBuilder.create(CHANNEL_CH2, "Dimmer").withType(BRIGHTNESS_CHANNEL_TYPEUID).build())
+                .withChannel(ChannelBuilder.create(CHANNEL_CH3, "Dimmer").withType(BRIGHTNESS_CHANNEL_TYPEUID).build())
+                .withChannel(ChannelBuilder.create(CHANNEL_CH4, "Dimmer").withType(BRIGHTNESS_CHANNEL_TYPEUID).build())
                 .build();
 
         velbusDimmerHandler = new VelbusDimmerHandler(dimmerThing) {
@@ -75,7 +82,7 @@ public class VelbusVMB1DMTest extends AbstractVelbusThingTest {
 
     @Test
     public void testOffCommand() {
-        velbusDimmerHandler.handleCommand(CHANNEL_CH1, OnOffType.OFF);
+        velbusDimmerHandler.handleCommand(CHANNEL_CH2, OnOffType.OFF);
 
         List<byte[]> packets = getBridgePackets(2);
         assertThat(packets.get(0), equalTo(GET_STATUS_PACKET));
@@ -84,7 +91,7 @@ public class VelbusVMB1DMTest extends AbstractVelbusThingTest {
 
     @Test
     public void test10PercentCommand() {
-        velbusDimmerHandler.handleCommand(CHANNEL_CH1, new PercentType(10));
+        velbusDimmerHandler.handleCommand(CHANNEL_CH3, new PercentType(10));
 
         List<byte[]> packets = getBridgePackets(2);
         assertThat(packets.get(0), equalTo(GET_STATUS_PACKET));
@@ -93,7 +100,7 @@ public class VelbusVMB1DMTest extends AbstractVelbusThingTest {
 
     @Test
     public void test60PercentCommand() {
-        velbusDimmerHandler.handleCommand(CHANNEL_CH1, new PercentType(60));
+        velbusDimmerHandler.handleCommand(CHANNEL_CH4, new PercentType(60));
 
         List<byte[]> packets = getBridgePackets(2);
         assertThat(packets.get(0), equalTo(GET_STATUS_PACKET));

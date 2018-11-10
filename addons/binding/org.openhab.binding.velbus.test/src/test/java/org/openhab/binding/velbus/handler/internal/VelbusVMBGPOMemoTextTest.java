@@ -1,8 +1,8 @@
-package org.openhab.binding.velbus.handler;
+package org.openhab.binding.velbus.handler.internal;
 
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.openhab.binding.velbus.VelbusBindingConstants.*;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +20,7 @@ import org.eclipse.smarthome.core.thing.binding.builder.ThingBuilder;
 import org.eclipse.smarthome.core.thing.type.ChannelTypeUID;
 import org.junit.Before;
 import org.junit.Test;
+import org.openhab.binding.velbus.internal.handler.VelbusVMBGPOHandler;
 
 public class VelbusVMBGPOMemoTextTest extends AbstractVelbusThingTest {
     private static final String TEST_MODULE_ADDRESS = "01";
