@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_SET_REALTIME_CLOCK;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_SET_REALTIME_CLOCK;
 
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;

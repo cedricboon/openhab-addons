@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_TEMP_SENSOR_SETTINGS_REQUEST;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_TEMP_SENSOR_SETTINGS_REQUEST;
 
 /**
  * The {@link VelbusSensorSettingsRequestPacket} represents a Velbus packet that can be used to

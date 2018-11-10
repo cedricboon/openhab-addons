@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_DAYLIGHT_SAVING_STATUS;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_DAYLIGHT_SAVING_STATUS;
 
 import java.time.ZonedDateTime;
 

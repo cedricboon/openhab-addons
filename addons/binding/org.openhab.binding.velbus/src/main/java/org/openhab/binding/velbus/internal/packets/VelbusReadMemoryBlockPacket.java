@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_READ_MEMORY_BLOCK;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_READ_MEMORY_BLOCK;
 
 /**
  * The {@link VelbusReadMemoryBlockPacket} represents a Velbus packet that can be used to

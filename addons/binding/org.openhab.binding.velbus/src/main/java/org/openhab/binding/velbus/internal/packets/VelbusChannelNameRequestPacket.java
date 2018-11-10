@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.*;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.*;
 
 /**
  * The {@link VelbusChannelNameRequestPacket} represents a Velbus packet that can be used to

@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_SET_TEMP;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_SET_TEMP;
 
 /**
  * The {@link VelbusSetTemperaturePacket} represents a Velbus packet that can be used to

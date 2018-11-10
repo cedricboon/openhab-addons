@@ -9,8 +9,11 @@
 package org.openhab.binding.kodi.internal;
 
 import java.util.EventListener;
+import java.util.List;
 
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.library.types.RawType;
+import org.openhab.binding.kodi.internal.model.KodiSystemProperties;
 import org.openhab.binding.kodi.internal.protocol.KodiConnection;
 
 /**
@@ -23,12 +26,12 @@ import org.openhab.binding.kodi.internal.protocol.KodiConnection;
  */
 public interface KodiEventListener extends EventListener {
     public enum KodiState {
-        Play,
-        Pause,
-        End,
-        Stop,
-        Rewind,
-        FastForward
+        PLAY,
+        PAUSE,
+        END,
+        STOP,
+        REWIND,
+        FASTFORWARD
     }
 
     public enum KodiPlaylistState {
@@ -58,13 +61,27 @@ public interface KodiEventListener extends EventListener {
 
     void updateAlbum(String album);
 
-    void updateArtist(String artist);
+    void updateArtistList(List<String> artistList);
 
     void updateMediaType(String mediaType);
 
-    void updatePVRChannel(final String channel);
+    void updateGenreList(List<String> genreList);
 
-    void updateThumbnail(RawType thumbnail);
+    void updatePVRChannel(String channel);
 
-    void updateFanart(RawType fanart);
+    void updateThumbnail(@Nullable RawType thumbnail);
+
+    void updateFanart(@Nullable RawType fanart);
+
+    void updateAudioCodec(String codec);
+
+    void updateVideoCodec(String codec);
+
+    void updateCurrentTime(long currentTime);
+
+    void updateCurrentTimePercentage(double currentTimePercentage);
+
+    void updateDuration(long duration);
+
+    void updateSystemProperties(@Nullable KodiSystemProperties systemProperties);
 }

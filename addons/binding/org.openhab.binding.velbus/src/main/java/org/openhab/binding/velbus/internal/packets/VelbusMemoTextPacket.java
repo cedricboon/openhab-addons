@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_TEXT;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_TEXT;
 
 /**
  * The {@link VelbusMemoTextPacket} represents a Velbus packet that can be used to

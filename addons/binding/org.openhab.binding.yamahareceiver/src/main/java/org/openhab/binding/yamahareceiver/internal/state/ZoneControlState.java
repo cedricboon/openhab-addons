@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.yamahareceiver.internal.state;
 
-import static org.openhab.binding.yamahareceiver.YamahaReceiverBindingConstants.VALUE_EMPTY;
+import static org.openhab.binding.yamahareceiver.internal.YamahaReceiverBindingConstants.VALUE_EMPTY;
 
 /**
  * The state of a specific zone of a Yamaha receiver.
@@ -24,7 +24,7 @@ public class ZoneControlState {
     // This may differ from what the AVR returns in Input/Input_Sel ("NET RADIO", "HDMI1")
     public String inputID = VALUE_EMPTY;
     public String surroundProgram = VALUE_EMPTY;
-    public float volume = 0.0f; // volume in percent
+    public float volumeDB = 0.0f; // volume in dB
     public boolean mute = false;
     public int dialogueLevel = 0;
 }

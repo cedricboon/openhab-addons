@@ -198,11 +198,11 @@ public class NetworkUtils {
      * Return true if the external arp ping utility (arping) is available and executable on the given path.
      */
     public ArpPingUtilEnum determineNativeARPpingMethod(String arpToolPath) {
-        String result = ExecUtil.executeCommandLineAndWaitResponse(arpToolPath, 100);
+        String result = ExecUtil.executeCommandLineAndWaitResponse(arpToolPath + " --help", 100);
         if (StringUtils.isBlank(result)) {
             return null;
         } else if (result.contains("Thomas Habets")) {
-            if (result.contains("-w sec Specify a timeout")) {
+            if (result.matches("(.*)w sec(\\s*)Specify a timeout(.*)")) {
                 return ArpPingUtilEnum.THOMAS_HABERT_ARPING;
             } else {
                 return ArpPingUtilEnum.THOMAS_HABERT_ARPING_WITHOUT_TIMEOUT;
@@ -310,7 +310,10 @@ public class NetworkUtils {
         }
         Process proc;
         if (arpingTool == ArpPingUtilEnum.THOMAS_HABERT_ARPING_WITHOUT_TIMEOUT) {
-            proc = new ProcessBuilder(arpUtilPath, "-c", "1", "-I", interfaceName, ipV4address).start();
+            proc = new ProcessBuilder(arpUtilPath, "-c", "1", "-i", interfaceName, ipV4address).start();
+        } else if (arpingTool == ArpPingUtilEnum.THOMAS_HABERT_ARPING) {
+            proc = new ProcessBuilder(arpUtilPath, "-w", String.valueOf(timeoutInMS / 1000), "-c", "1", "-i",
+                    interfaceName, ipV4address).start();
         } else {
             proc = new ProcessBuilder(arpUtilPath, "-w", String.valueOf(timeoutInMS / 1000), "-c", "1", "-I",
                     interfaceName, ipV4address).start();

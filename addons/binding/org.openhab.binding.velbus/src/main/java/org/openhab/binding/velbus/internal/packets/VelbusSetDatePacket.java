@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_SET_REALTIME_DATE;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_SET_REALTIME_DATE;
 
 import java.time.ZonedDateTime;
 

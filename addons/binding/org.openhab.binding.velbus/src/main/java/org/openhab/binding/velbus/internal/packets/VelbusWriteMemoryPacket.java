@@ -8,7 +8,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.VelbusBindingConstants.COMMAND_WRITE_DATA_TO_MEMORY;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_WRITE_DATA_TO_MEMORY;
 
 /**
  * The {@link VelbusWriteMemoryPacket} represents a Velbus packet that can be used to
