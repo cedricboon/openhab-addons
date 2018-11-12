@@ -463,7 +463,7 @@
 		<label>VMBGP4PIR</label>
 		<description>Glass control module with 4 touch keys and built-in motion and twilight sensor</description>
 		<channel-groups>
-			<channel-group id="glasspannel" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
 			<channel-group id="thermostat" typeId="thermostat" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
