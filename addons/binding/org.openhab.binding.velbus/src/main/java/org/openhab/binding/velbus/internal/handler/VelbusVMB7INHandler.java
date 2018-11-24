@@ -126,22 +126,22 @@ public class VelbusVMB7INHandler extends VelbusSensorWithAlarmClockHandler {
 
             if (command == COMMAND_COUNTER_STATUS && packet.length >= 6) {
                 int counterChannel = packet[5] & 0x03;
-                int pulsesPerUnit = ((packet[5] & 0x7C) / 0x100) * 0x64;
+                int pulsesPerUnit = ((packet[5] & 0x7C) / 0x04) * 0x64;
 
                 float counterValue = ((packet[6] << 24) + (packet[7] << 16) + (packet[8] << 8) + packet[9])
                         / pulsesPerUnit;
 
                 switch (counterChannel) {
-                    case 0x01:
+                    case 0x00:
                         updateState(COUNTER_1_CHANNEL, new DecimalType(counterValue));
                         break;
-                    case 0x02:
+                    case 0x01:
                         updateState(COUNTER_2_CHANNEL, new DecimalType(counterValue));
                         break;
-                    case 0x03:
+                    case 0x02:
                         updateState(COUNTER_3_CHANNEL, new DecimalType(counterValue));
                         break;
-                    case 0x04:
+                    case 0x03:
                         updateState(COUNTER_4_CHANNEL, new DecimalType(counterValue));
                         break;
                     default:
