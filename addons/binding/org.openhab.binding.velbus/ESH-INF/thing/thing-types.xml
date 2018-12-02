@@ -58,8 +58,7 @@
 			<channel id="CH1" typeId="brightness" />
 		</channels>
 
-		<config-description-ref 
-				uri="thing-type:velbus:1channelDeviceWithDimspeed" />
+		<config-description-ref uri="thing-type:velbus:1channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmb1led">
@@ -74,8 +73,7 @@
 			<channel id="CH1" typeId="brightness" />
 		</channels>
 
-		<config-description-ref 
-				uri="thing-type:velbus:1channelDeviceWithDimspeed" />
+		<config-description-ref uri="thing-type:velbus:1channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmb1ry">
@@ -176,8 +174,7 @@
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
-		<config-description-ref 
-				uri="thing-type:velbus:8channelDeviceWithClock" />
+		<config-description-ref uri="thing-type:velbus:8channelDeviceWithClock" />
 	</thing-type>
 
 	<thing-type id="vmb4dc">
@@ -195,8 +192,7 @@
 			<channel id="CH4" typeId="brightness" />
 		</channels>
 
-		<config-description-ref 
-				uri="thing-type:velbus:4channelDeviceWithDimspeed" />
+		<config-description-ref uri="thing-type:velbus:4channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmb4ry">
@@ -283,8 +279,7 @@
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
-		<config-description-ref 
-				uri="thing-type:velbus:8channelDeviceWithClock" />
+		<config-description-ref uri="thing-type:velbus:8channelDeviceWithClock" />
 	</thing-type>
 
 	<thing-type id="vmb7in">
@@ -348,8 +343,7 @@
 		</channel-groups>
 
 
-		<config-description-ref 
-				uri="thing-type:velbus:8channelDeviceWithClock" />
+		<config-description-ref uri="thing-type:velbus:8channelDeviceWithClock" />
 	</thing-type>
 
 	<thing-type id="vmbdme">
@@ -364,8 +358,7 @@
 			<channel id="CH1" typeId="brightness" />
 		</channels>
 
-		<config-description-ref 
-				uri="thing-type:velbus:1channelDeviceWithDimspeed" />
+		<config-description-ref uri="thing-type:velbus:1channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmbdmi">
@@ -380,8 +373,7 @@
 			<channel id="CH1" typeId="brightness" />
 		</channels>
 
-		<config-description-ref 
-				uri="thing-type:velbus:1channelDeviceWithDimspeed" />
+		<config-description-ref uri="thing-type:velbus:1channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmbdmir">
@@ -396,8 +388,7 @@
 			<channel id="CH1" typeId="brightness" />
 		</channels>
 
-		<config-description-ref 
-				uri="thing-type:velbus:1channelDeviceWithDimspeed" />
+		<config-description-ref uri="thing-type:velbus:1channelDeviceWithDimspeed" />
 	</thing-type>
 
 	<thing-type id="vmbgp1">
@@ -414,8 +405,7 @@
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
-		<config-description-ref 
-				uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbgp2">
@@ -432,8 +422,7 @@
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
-		<config-description-ref 
-				uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbgp4">
@@ -450,8 +439,7 @@
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
-		<config-description-ref 
-				uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbgp4pir">
@@ -468,8 +456,7 @@
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
-		<config-description-ref 
-				uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbgpo">
@@ -487,8 +474,7 @@
 			<channel-group id="oledDisplay" typeId="oledDisplay" />
 		</channel-groups>
 
-		<config-description-ref 
-				uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbgpod">
@@ -506,8 +492,7 @@
 			<channel-group id="oledDisplay" typeId="oledDisplay" />
 		</channel-groups>
 
-		<config-description-ref 
-				uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
 	<thing-type id="vmbmeteo">
@@ -572,8 +557,7 @@
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
-		<config-description-ref 
-				uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 	<channel-type id="heatingOperatingMode">
 		<item-type>String</item-type>
@@ -740,9 +724,13 @@
 		<description>This is a generic module with 4 counter channels.</description>
 		<channels>
 			<channel id="COUNTER1" typeId="counter" />
+			<channel id="COUNTER1_CURRENT" typeId="counter" />
 			<channel id="COUNTER2" typeId="counter" />
+			<channel id="COUNTER2_CURRENT" typeId="counter" />
 			<channel id="COUNTER3" typeId="counter" />
+			<channel id="COUNTER3_CURRENT" typeId="counter" />
 			<channel id="COUNTER4" typeId="counter" />
+			<channel id="COUNTER4_CURRENT" typeId="counter" />
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="8channelInputModule">

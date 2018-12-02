@@ -39,9 +39,13 @@ public class VelbusVMB7INHandler extends VelbusSensorWithAlarmClockHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMB7IN));
 
     private final ChannelUID COUNTER_1_CHANNEL = new ChannelUID(thing.getUID(), "counter#COUNTER1");
+    private final ChannelUID COUNTER_1_CHANNEL_CURRENT = new ChannelUID(thing.getUID(), "counter#COUNTER1_CURRENT");
     private final ChannelUID COUNTER_2_CHANNEL = new ChannelUID(thing.getUID(), "counter#COUNTER2");
+    private final ChannelUID COUNTER_2_CHANNEL_CURRENT = new ChannelUID(thing.getUID(), "counter#COUNTER2_CURRENT");
     private final ChannelUID COUNTER_3_CHANNEL = new ChannelUID(thing.getUID(), "counter#COUNTER3");
+    private final ChannelUID COUNTER_3_CHANNEL_CURRENT = new ChannelUID(thing.getUID(), "counter#COUNTER3_CURRENT");
     private final ChannelUID COUNTER_4_CHANNEL = new ChannelUID(thing.getUID(), "counter#COUNTER4");
+    private final ChannelUID COUNTER_4_CHANNEL_CURRENT = new ChannelUID(thing.getUID(), "counter#COUNTER4_CURRENT");
 
     private ScheduledFuture<?> refreshJob;
 
@@ -128,21 +132,27 @@ public class VelbusVMB7INHandler extends VelbusSensorWithAlarmClockHandler {
                 int counterChannel = packet[5] & 0x03;
                 int pulsesPerUnit = ((packet[5] & 0x7C) / 0x04) * 0x64;
 
-                float counterValue = ((packet[6] << 24) + (packet[7] << 16) + (packet[8] << 8) + packet[9])
-                        / pulsesPerUnit;
+                double counterValue = ((double) (((packet[6] & 0xff) << 24) | ((packet[7] & 0xff) << 16)
+                        | ((packet[8] & 0xff) << 8) | (packet[9] & 0xff))) / pulsesPerUnit;
+                double currentValue = (1000 * 3600)
+                        / (((double) (((packet[10] & 0xff) << 8) | (packet[11] & 0xff))) * pulsesPerUnit);
 
                 switch (counterChannel) {
                     case 0x00:
                         updateState(COUNTER_1_CHANNEL, new DecimalType(counterValue));
+                        updateState(COUNTER_1_CHANNEL_CURRENT, new DecimalType(currentValue));
                         break;
                     case 0x01:
                         updateState(COUNTER_2_CHANNEL, new DecimalType(counterValue));
+                        updateState(COUNTER_2_CHANNEL_CURRENT, new DecimalType(currentValue));
                         break;
                     case 0x02:
                         updateState(COUNTER_3_CHANNEL, new DecimalType(counterValue));
+                        updateState(COUNTER_3_CHANNEL_CURRENT, new DecimalType(currentValue));
                         break;
                     case 0x03:
                         updateState(COUNTER_4_CHANNEL, new DecimalType(counterValue));
+                        updateState(COUNTER_4_CHANNEL_CURRENT, new DecimalType(currentValue));
                         break;
                     default:
                         throw new IllegalArgumentException(
