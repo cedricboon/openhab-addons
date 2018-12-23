@@ -116,9 +116,9 @@ public abstract class VelbusTemperatureSensorHandler extends VelbusSensorWithAla
                 byte highByteCurrentSensorTemperature = packet[5];
                 byte lowByteCurrentSensorTemperature = packet[6];
 
-                double temperature = (((highByteCurrentSensorTemperature & 0xff) << 3)
-                        + ((lowByteCurrentSensorTemperature & 0xff) >> 5)) * 0.0625
-                        * ((lowByteCurrentSensorTemperature & 0x1F) == 0x1F ? -1 : 1);
+                boolean negative = (highByteCurrentSensorTemperature & 0x80) == 0x80;
+                double temperature = ((((highByteCurrentSensorTemperature & 0x7f) << 3)
+                        + ((lowByteCurrentSensorTemperature & 0xff) >> 5)) - (negative ? 0x400 : 0)) * 0.0625;
                 QuantityType<Temperature> state = new QuantityType<>(temperature, SIUnits.CELSIUS);
                 updateState(temperatureChannel, state);
             }
