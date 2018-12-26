@@ -171,9 +171,9 @@
 		<description>Push-button interface for Niko 1- or 2-fold push-buttons</description>
 		<channel-groups>
 			<channel-group id="input" typeId="8channelInputModule" />
+			<channel-group id="feedback" typeId="2channelFeedbackModule" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
-
 		<config-description-ref uri="thing-type:velbus:8channelDeviceWithClock" />
 	</thing-type>
 
@@ -276,6 +276,7 @@
 		<description>Push-button interface module for Niko 4- or 6-fold push-button</description>
 		<channel-groups>
 			<channel-group id="input" typeId="8channelInputModule" />
+			<channel-group id="feedback" typeId="6channelFeedbackModule" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
@@ -324,6 +325,7 @@
 		<description>8-Channel Push Button module</description>
 		<channel-groups>
 			<channel-group id="input" typeId="8channelInputModule" />
+			<channel-group id="feedback" typeId="8channelFeedbackModule" />
 		</channel-groups>
 
 		<config-description-ref uri="thing-type:velbus:8channelDevice" />
@@ -339,9 +341,9 @@
 		<description>Push-button interface with 8 channels for universal mounting</description>
 		<channel-groups>
 			<channel-group id="input" typeId="8channelInputModule" />
+			<channel-group id="feedback" typeId="8channelFeedbackModule" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
-
 
 		<config-description-ref uri="thing-type:velbus:8channelDeviceWithClock" />
 	</thing-type>
@@ -401,6 +403,7 @@
 		<description>Glass control module with 1 touch key</description>
 		<channel-groups>
 			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="feedback" typeId="1channelFeedbackModule" />
 			<channel-group id="thermostat" typeId="thermostat" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
@@ -418,6 +421,7 @@
 		<description>Glass control module with 2 touch keys</description>
 		<channel-groups>
 			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="feedback" typeId="2channelFeedbackModule" />
 			<channel-group id="thermostat" typeId="thermostat" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
@@ -435,6 +439,7 @@
 		<description>Glass control module with 4 touch keys</description>
 		<channel-groups>
 			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="feedback" typeId="4channelFeedbackModule" />
 			<channel-group id="thermostat" typeId="thermostat" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
@@ -452,6 +457,7 @@
 		<description>Glass control module with 4 touch keys and built-in motion and twilight sensor</description>
 		<channel-groups>
 			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="feedback" typeId="4channelFeedbackModule" />
 			<channel-group id="thermostat" typeId="thermostat" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
@@ -469,6 +475,7 @@
 		<description>Glass control module with oled display</description>
 		<channel-groups>
 			<channel-group id="input" typeId="33channelInputModuleWithTemperatureSensor" />
+			<channel-group id="feedback" typeId="32channelFeedbackModule" />
 			<channel-group id="thermostat" typeId="thermostat" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 			<channel-group id="oledDisplay" typeId="oledDisplay" />
@@ -487,6 +494,7 @@
 		<description>Glass control module with oled display and temperature controller</description>
 		<channel-groups>
 			<channel-group id="input" typeId="33channelInputModuleWithTemperatureSensor" />
+			<channel-group id="feedback" typeId="32channelFeedbackModule" />
 			<channel-group id="thermostat" typeId="thermostat" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 			<channel-group id="oledDisplay" typeId="oledDisplay" />
@@ -580,6 +588,20 @@
 				<option value="DAY">Day</option>
 				<option value="NIGHT">Night</option>
 				<option value="SAFE">Safe</option>
+			</options>
+		</state>
+	</channel-type>
+	<channel-type id="ledFeedback">
+		<item-type>String</item-type>
+		<label>Feedback LED</label>
+		<description>Feedback LED for the push button in Velbus</description>
+		<state>
+			<options>
+				<option value="CLEAR_LED">Off</option>
+				<option value="SET_LED">On</option>
+				<option value="SLOW_BLINK_LED">Slow blink</option>
+				<option value="FAST_BLINK_LED">Fast blink</option>
+				<option value="VERY_FAST_BLINK_LED">Very fast blink</option>
 			</options>
 		</state>
 	</channel-type>
@@ -801,6 +823,107 @@
 			<channel id="CH31" typeId="trigger-channel" />
 			<channel id="CH32" typeId="trigger-channel" />
 			<channel id="CH33" typeId="temperature" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="1channelFeedbackModule">
+		<label>Feedback</label>
+		<description>
+            This is a generic module with 1 feedback channel.
+        </description>
+		<channels>
+			<channel id="CH1" typeId="ledFeedback" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="2channelFeedbackModule">
+		<label>Feedback</label>
+		<description>
+            This is a generic module with 2 feedback channels.
+        </description>
+		<channels>
+			<channel id="CH1" typeId="ledFeedback" />
+			<channel id="CH2" typeId="ledFeedback" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="4channelFeedbackModule">
+		<label>Feedback</label>
+		<description>
+            This is a generic module with 4 feedback channels.
+        </description>
+		<channels>
+			<channel id="CH1" typeId="ledFeedback" />
+			<channel id="CH2" typeId="ledFeedback" />
+			<channel id="CH3" typeId="ledFeedback" />
+			<channel id="CH4" typeId="ledFeedback" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="6channelFeedbackModule">
+		<label>Feedback</label>
+		<description>
+            This is a generic module with 6 feedback channels.
+        </description>
+		<channels>
+			<channel id="CH1" typeId="ledFeedback" />
+			<channel id="CH2" typeId="ledFeedback" />
+			<channel id="CH3" typeId="ledFeedback" />
+			<channel id="CH4" typeId="ledFeedback" />
+			<channel id="CH5" typeId="ledFeedback" />
+			<channel id="CH6" typeId="ledFeedback" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="8channelFeedbackModule">
+		<label>Feedback</label>
+		<description>
+            This is a generic module with 8 feedback channels.
+        </description>
+		<channels>
+			<channel id="CH1" typeId="ledFeedback" />
+			<channel id="CH2" typeId="ledFeedback" />
+			<channel id="CH3" typeId="ledFeedback" />
+			<channel id="CH4" typeId="ledFeedback" />
+			<channel id="CH5" typeId="ledFeedback" />
+			<channel id="CH6" typeId="ledFeedback" />
+			<channel id="CH7" typeId="ledFeedback" />
+			<channel id="CH8" typeId="ledFeedback" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="32channelFeedbackModule">
+		<label>Feedback</label>
+		<description>
+            This is a generic module with 2 feedback channels.
+        </description>
+		<channels>
+			<channel id="CH1" typeId="ledFeedback" />
+			<channel id="CH2" typeId="ledFeedback" />
+			<channel id="CH3" typeId="ledFeedback" />
+			<channel id="CH4" typeId="ledFeedback" />
+			<channel id="CH5" typeId="ledFeedback" />
+			<channel id="CH6" typeId="ledFeedback" />
+			<channel id="CH7" typeId="ledFeedback" />
+			<channel id="CH8" typeId="ledFeedback" />
+			<channel id="CH9" typeId="ledFeedback" />
+			<channel id="CH10" typeId="ledFeedback" />
+			<channel id="CH11" typeId="ledFeedback" />
+			<channel id="CH12" typeId="ledFeedback" />
+			<channel id="CH13" typeId="ledFeedback" />
+			<channel id="CH14" typeId="ledFeedback" />
+			<channel id="CH15" typeId="ledFeedback" />
+			<channel id="CH16" typeId="ledFeedback" />
+			<channel id="CH17" typeId="ledFeedback" />
+			<channel id="CH18" typeId="ledFeedback" />
+			<channel id="CH19" typeId="ledFeedback" />
+			<channel id="CH20" typeId="ledFeedback" />
+			<channel id="CH21" typeId="ledFeedback" />
+			<channel id="CH22" typeId="ledFeedback" />
+			<channel id="CH23" typeId="ledFeedback" />
+			<channel id="CH24" typeId="ledFeedback" />
+			<channel id="CH25" typeId="ledFeedback" />
+			<channel id="CH26" typeId="ledFeedback" />
+			<channel id="CH27" typeId="ledFeedback" />
+			<channel id="CH28" typeId="ledFeedback" />
+			<channel id="CH29" typeId="ledFeedback" />
+			<channel id="CH30" typeId="ledFeedback" />
+			<channel id="CH31" typeId="ledFeedback" />
+			<channel id="CH32" typeId="ledFeedback" />
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="oledDisplay">

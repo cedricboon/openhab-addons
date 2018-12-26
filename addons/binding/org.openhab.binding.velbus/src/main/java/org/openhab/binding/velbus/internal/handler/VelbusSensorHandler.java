@@ -14,12 +14,16 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.CommonTriggerEvents;
 import org.eclipse.smarthome.core.thing.Thing;
+import org.eclipse.smarthome.core.thing.ThingStatus;
+import org.eclipse.smarthome.core.thing.ThingStatusDetail;
 import org.eclipse.smarthome.core.thing.ThingTypeUID;
 import org.eclipse.smarthome.core.types.Command;
 import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
+import org.openhab.binding.velbus.internal.packets.VelbusFeedbackLEDPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusPacket;
 
 /**
@@ -32,6 +36,12 @@ public class VelbusSensorHandler extends VelbusThingHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(
             Arrays.asList(THING_TYPE_VMB6IN, THING_TYPE_VMB8IR, THING_TYPE_VMB8PB));
 
+    private final StringType SET_LED = new StringType("SET_LED");
+    private final StringType SLOW_BLINK_LED = new StringType("SLOW_BLINK_LED");
+    private final StringType FAST_BLINK_LED = new StringType("FAST_BLINK_LED");
+    private final StringType VERY_FAST_BLINK_LED = new StringType("VERY_FAST_BLINK_LED");
+    private final StringType CLEAR_LED = new StringType("CLEAR_LED");
+
     public VelbusSensorHandler(Thing thing) {
         this(thing, 0);
     }
@@ -42,6 +52,41 @@ public class VelbusSensorHandler extends VelbusThingHandler {
 
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
+        VelbusBridgeHandler velbusBridgeHandler = getVelbusBridgeHandler();
+        if (velbusBridgeHandler == null) {
+            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.BRIDGE_OFFLINE);
+            return;
+        }
+
+        if (isFeedbackChannel(channelUID) && command instanceof StringType) {
+            byte commandByte;
+
+            StringType stringTypeCommand = (StringType) command;
+            if (stringTypeCommand.equals(SET_LED)) {
+                commandByte = COMMAND_SET_LED;
+            } else if (stringTypeCommand.equals(SLOW_BLINK_LED)) {
+                commandByte = COMMAND_SLOW_BLINK_LED;
+            } else if (stringTypeCommand.equals(FAST_BLINK_LED)) {
+                commandByte = COMMAND_FAST_BLINK_LED;
+            } else if (stringTypeCommand.equals(VERY_FAST_BLINK_LED)) {
+                commandByte = COMMAND_VERY_FAST_BLINK_LED;
+            } else if (stringTypeCommand.equals(CLEAR_LED)) {
+                commandByte = COMMAND_CLEAR_LED;
+            } else {
+                throw new UnsupportedOperationException(
+                        "The command '" + command + "' is not supported on channel '" + channelUID + "'.");
+            }
+
+            VelbusFeedbackLEDPacket packet = new VelbusFeedbackLEDPacket(
+                    getModuleAddress().getChannelIdentifier(channelUID), commandByte);
+
+            byte[] packetBytes = packet.getBytes();
+            velbusBridgeHandler.sendPacket(packetBytes);
+        }
+    }
+
+    private boolean isFeedbackChannel(ChannelUID channelUID) {
+        return channelUID.getId().startsWith("feedback#");
     }
 
     @Override

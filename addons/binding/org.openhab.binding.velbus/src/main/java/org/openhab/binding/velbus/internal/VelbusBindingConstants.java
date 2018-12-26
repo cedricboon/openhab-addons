@@ -156,6 +156,11 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_MODULE_NAME_PART1 = (byte) 0xF0;
     public static final byte COMMAND_MODULE_NAME_PART2 = (byte) 0xF1;
     public static final byte COMMAND_MODULE_NAME_PART3 = (byte) 0xF2;
+    public static final byte COMMAND_CLEAR_LED = (byte) 0xF5;
+    public static final byte COMMAND_SET_LED = (byte) 0xF6;
+    public static final byte COMMAND_SLOW_BLINK_LED = (byte) 0xF7;
+    public static final byte COMMAND_FAST_BLINK_LED = (byte) 0xF8;
+    public static final byte COMMAND_VERY_FAST_BLINK_LED = (byte) 0xF9;
     public static final byte COMMAND_STATUS_REQUEST = (byte) 0xFA;
     public static final byte COMMAND_RELAY_STATUS = (byte) 0xFB;
     public static final byte COMMAND_WRITE_DATA_TO_MEMORY = (byte) 0xFC;
