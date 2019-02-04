@@ -1,10 +1,14 @@
 /**
- * Copyright (c) 2010-2018 by the respective copyright holders.
+ * Copyright (c) 2010-2019 Contributors to the openHAB project
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * See the NOTICE file(s) distributed with this work for additional
+ * information.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0
+ *
+ * SPDX-License-Identifier: EPL-2.0
  */
 package org.openhab.binding.nibeheatpump.internal.handler;
 
@@ -18,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.library.types.OnOffType;
@@ -96,10 +101,10 @@ public class NibeHeatPumpHandler extends BaseThingHandler implements NibeHeatPum
          * Initialize cache object.
          *
          * @param lastUpdateTime
-         *            Time in milliseconds.
+         *                           Time in milliseconds.
          *
          * @param value
-         *            Cache value.
+         *                           Cache value.
          */
         CacheObject(long lastUpdateTime, Double value) {
             this.lastUpdateTime = lastUpdateTime;
@@ -194,7 +199,10 @@ public class NibeHeatPumpHandler extends BaseThingHandler implements NibeHeatPum
         // Add channel to polling loop
         int coilAddress = parseCoilAddressFromChannelUID(channelUID);
         synchronized (itemsToPoll) {
-            itemsToPoll.add(coilAddress);
+            if (!itemsToPoll.contains(coilAddress)) {
+                logger.debug("New channel '{}' found, register '{}'", channelUID.getAsString(), coilAddress);
+                itemsToPoll.add(coilAddress);
+            }
         }
         clearCache(coilAddress);
     }
@@ -233,6 +241,15 @@ public class NibeHeatPumpHandler extends BaseThingHandler implements NibeHeatPum
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR, description);
             return;
         }
+
+        itemsToPoll.clear();
+        itemsToPoll.addAll(this.getThing().getChannels().stream().filter(c -> isLinked(c.getUID())).map(c -> {
+            int coilAddress = parseCoilAddressFromChannelUID(c.getUID());
+            logger.debug("Linked channel '{}' found, register '{}'", c.getUID().getAsString(), coilAddress);
+            return coilAddress;
+        }).filter(c -> c != 0).collect(Collectors.toSet()));
+
+        logger.debug("Linked registers {}: {}", itemsToPoll.size(), itemsToPoll);
 
         clearCache();
 

@@ -1,10 +1,14 @@
 /**
- * Copyright (c) 2010-2018 by the respective copyright holders.
+ * Copyright (c) 2010-2019 Contributors to the openHAB project
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * See the NOTICE file(s) distributed with this work for additional
+ * information.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0
+ *
+ * SPDX-License-Identifier: EPL-2.0
  */
 package org.openhab.binding.tplinksmarthome.internal;
 
@@ -49,8 +53,8 @@ import org.slf4j.LoggerFactory;
 public class TPLinkSmartHomeDiscoveryService extends AbstractDiscoveryService implements TPLinkIpAddressService {
 
     private static final String BROADCAST_IP = "255.255.255.255";
-    private static final int DISCOVERY_TIMEOUT_SECONDS = 30;
-    private static final int UDP_PACKET_TIMEOUT_MS = 3000;
+    private static final int DISCOVERY_TIMEOUT_SECONDS = 8;
+    private static final int UDP_PACKET_TIMEOUT_MS = (int) TimeUnit.SECONDS.toMillis(DISCOVERY_TIMEOUT_SECONDS - 1);
     private static final long REFRESH_INTERVAL_MINUTES = 1;
 
     private final Logger logger = LoggerFactory.getLogger(TPLinkSmartHomeDiscoveryService.class);
@@ -94,6 +98,7 @@ public class TPLinkSmartHomeDiscoveryService extends AbstractDiscoveryService im
         logger.debug("Start scan for TP-Link Smart devices.");
         synchronized (this) {
             try {
+                idInetAddressCache.clear();
                 discoverSocket = sendDiscoveryPacket();
                 // Runs until the socket call gets a time out and throws an exception. When a time out is triggered it
                 // means no data was present and nothing new to discover.
