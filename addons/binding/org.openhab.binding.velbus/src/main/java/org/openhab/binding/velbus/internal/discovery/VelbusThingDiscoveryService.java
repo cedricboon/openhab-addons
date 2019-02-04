@@ -201,6 +201,22 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 0), moduleType, highByteOfSerialNumber,
                         lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBDMIR, 1);
                 break;
+            case MODULE_TYPE_VMBEL1:
+                velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
+                        lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBEL1, 9);
+                break;
+            case MODULE_TYPE_VMBEL2:
+                velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
+                        lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBEL2, 9);
+                break;
+            case MODULE_TYPE_VMBEL4:
+                velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
+                        lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBEL4, 9);
+                break;
+            case MODULE_TYPE_VMBELO:
+                velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
+                        lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBELO, 33);
+                break;
             case MODULE_TYPE_VMBGP1:
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
                         lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBGP1, 9);
@@ -292,8 +308,7 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
 
         DiscoveryResult discoveryResult = DiscoveryResultBuilder.create(velbusModule.getThingUID(bridgeUID))
                 .withThingType(velbusModule.getThingTypeUID()).withProperties(velbusModule.getProperties())
-                .withRepresentationProperty(ADDRESS).withBridge(bridgeUID).withLabel(velbusModule.getLabel())
-                .build();
+                .withRepresentationProperty(ADDRESS).withBridge(bridgeUID).withLabel(velbusModule.getLabel()).build();
 
         thingDiscovered(discoveryResult);
     }

@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.smarthome.core.library.types.OnOffType;
-import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
@@ -27,7 +26,6 @@ import org.eclipse.smarthome.core.thing.ThingStatusDetail;
 import org.eclipse.smarthome.core.thing.ThingTypeUID;
 import org.eclipse.smarthome.core.types.Command;
 import org.eclipse.smarthome.core.types.RefreshType;
-import org.openhab.binding.velbus.internal.packets.VelbusMemoTextPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusPacket;
 
 /**
@@ -36,22 +34,19 @@ import org.openhab.binding.velbus.internal.packets.VelbusPacket;
  *
  * @author Cedric Boon - Initial contribution
  */
-public class VelbusVMBGPOHandler extends VelbusThermostatHandler {
+public class VelbusVMBGPOHandler extends VelbusMemoHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(
             Arrays.asList(THING_TYPE_VMBGPO, THING_TYPE_VMBGPOD));
 
     public static final int MODULESETTINGS_MEMORY_ADDRESS = 0x02F0;
     public static final int LAST_MEMORY_LOCATION_ADDRESS = 0x1A03;
 
-    private final int MEMO_TEXT_MAX_LENGTH = 63;
-
-    private final ChannelUID MEMO_CHANNEL = new ChannelUID(thing.getUID(), "oledDisplay#MEMO");
     private final ChannelUID SCREENSAVER_CHANNEL = new ChannelUID(thing.getUID(), "oledDisplay#SCREENSAVER");
 
     private byte moduleSettings;
 
     public VelbusVMBGPOHandler(Thing thing) {
-        super(thing, 4, new ChannelUID(thing.getUID(), "input#CH33"));
+        super(thing);
     }
 
     @Override
@@ -73,29 +68,6 @@ public class VelbusVMBGPOHandler extends VelbusThermostatHandler {
             moduleSettings = (byte) (screenSaverOnOffByte | (moduleSettings & 0x7F));
             sendWriteMemoryPacket(velbusBridgeHandler, MODULESETTINGS_MEMORY_ADDRESS, moduleSettings);
             sendWriteMemoryPacket(velbusBridgeHandler, LAST_MEMORY_LOCATION_ADDRESS, (byte) 0xFF);
-        }
-
-        if (channelUID.equals(MEMO_CHANNEL) && command instanceof StringType) {
-            String memoText = ((StringType) command).toFullString();
-            String trucatedMemoText = memoText.substring(0, Math.min(memoText.length(), MEMO_TEXT_MAX_LENGTH));
-            String[] splittedMemoText = trucatedMemoText.split("(?<=\\G.....)");
-
-            for (int i = 0; i < splittedMemoText.length; i++) {
-                VelbusMemoTextPacket packet = new VelbusMemoTextPacket(getModuleAddress().getAddress(), (byte) (i * 5),
-                        splittedMemoText[i].toCharArray());
-
-                byte[] packetBytes = packet.getBytes();
-                velbusBridgeHandler.sendPacket(packetBytes);
-
-                // The last character must be zero
-                if ((((i * 5) + 5) >= trucatedMemoText.length()) && (splittedMemoText[i].length() == 5)) {
-                    packet = new VelbusMemoTextPacket(getModuleAddress().getAddress(), (byte) ((i + 1) * 5),
-                            new char[0]);
-
-                    packetBytes = packet.getBytes();
-                    velbusBridgeHandler.sendPacket(packetBytes);
-                }
-            }
         }
     }
 

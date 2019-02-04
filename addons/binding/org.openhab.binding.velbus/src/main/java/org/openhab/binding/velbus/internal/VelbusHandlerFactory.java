@@ -36,6 +36,8 @@ import org.openhab.binding.velbus.internal.handler.VelbusSensorHandler;
 import org.openhab.binding.velbus.internal.handler.VelbusSensorWithAlarmClockHandler;
 import org.openhab.binding.velbus.internal.handler.VelbusSerialBridgeHandler;
 import org.openhab.binding.velbus.internal.handler.VelbusVMB7INHandler;
+import org.openhab.binding.velbus.internal.handler.VelbusVMBELHandler;
+import org.openhab.binding.velbus.internal.handler.VelbusVMBELOHandler;
 import org.openhab.binding.velbus.internal.handler.VelbusVMBGPHandler;
 import org.openhab.binding.velbus.internal.handler.VelbusVMBGPOHandler;
 import org.openhab.binding.velbus.internal.handler.VelbusVMBMeteoHandler;
@@ -89,6 +91,10 @@ public class VelbusHandlerFactory extends BaseThingHandlerFactory {
             thingHandler = new VelbusVMBPIROHandler(thing);
         } else if (VelbusVMB7INHandler.SUPPORTED_THING_TYPES.contains(thingTypeUID)) {
             thingHandler = new VelbusVMB7INHandler(thing);
+        } else if (VelbusVMBELHandler.SUPPORTED_THING_TYPES.contains(thingTypeUID)) {
+            thingHandler = new VelbusVMBELHandler(thing);
+        } else if (VelbusVMBELOHandler.SUPPORTED_THING_TYPES.contains(thingTypeUID)) {
+            thingHandler = new VelbusVMBELOHandler(thing);
         }
 
         return thingHandler;
