@@ -889,7 +889,7 @@
 	<channel-group-type id="32channelFeedbackModule">
 		<label>Feedback</label>
 		<description>
-            This is a generic module with 2 feedback channels.
+            This is a generic module with 32 feedback channels.
         </description>
 		<channels>
 			<channel id="CH1" typeId="ledFeedback" />
