@@ -177,6 +177,23 @@
 		<config-description-ref uri="thing-type:velbus:8channelDeviceWithClock" />
 	</thing-type>
 
+	<thing-type id="vmb4an">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge" />
+			<bridge-type-ref id="networkbridge" />
+		</supported-bridge-type-refs>
+
+		<label>VMB4AN</label>
+		<description>Analog I/O module</description>
+		<channel-groups>
+			<channel-group id="alarm" typeId="8channelInputModule" />
+			<channel-group id="analogInput" typeId="4channelAnalogInputModule" />
+			<channel-group id="analogOutput" typeId="4channelAnalogOutputModule" />
+		</channel-groups>
+
+		<config-description-ref uri="thing-type:velbus:13channelDevice" />
+	</thing-type>
+
 	<thing-type id="vmb4dc">
 		<supported-bridge-type-refs>
 			<bridge-type-ref id="bridge" />
@@ -744,6 +761,36 @@
 		<state readOnly="false" min="-55" max="63.5" step="0.5" pattern="%.1f %unit%">
 		</state>
 	</channel-type>
+	<channel-type id="voltage">
+		<item-type>Number:ElectricPotential</item-type>
+		<label>Voltage</label>
+		<description>Currently measured voltage</description>
+		<category>Voltage</category>
+		<state readOnly="true" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="current">
+		<item-type>Number:ElectricCurrent</item-type>
+		<label>Current</label>
+		<description>Currently measured current</description>
+		<category>Current</category>
+		<state readOnly="true" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
+	<channel-type id="percentage">
+        <item-type>Dimmer</item-type>
+		<label>Percentage</label>
+		<description>Current percentage</description>
+		<category>Percentage</category>
+	</channel-type>
+	<channel-type id="resistance">
+		<item-type>Number:ElectricResistance</item-type>
+		<label>Resistance</label>
+		<description>Currently measured resistance</description>
+		<category>Resistance</category>
+		<state readOnly="true" pattern="%.1f %unit%">
+		</state>
+	</channel-type>
 	<channel-type id="rainfall">
 		<item-type>Number:Length</item-type>
 		<label>Rainfall</label>
@@ -788,6 +835,44 @@
 			</options>
 		</event>
 	</channel-type>
+	<channel-group-type id="4channelAnalogInputModule">
+		<label>Analog Input</label>
+		<description>
+            This is a generic analog module with 4 input channels.
+        </description>
+		<channels>
+			<channel id="CH9" typeId="voltage" />
+			<channel id="CH10" typeId="voltage" />
+			<channel id="CH11" typeId="voltage" />
+			<channel id="CH12" typeId="voltage" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="4channelAnalogOutputModule">
+		<label>Analog Input</label>
+		<description>
+            This is a generic analog module with 4 output channels.
+        </description>
+		<channels>
+			<channel id="CH13" typeId="percentage" />
+			<channel id="CH14" typeId="percentage" />
+			<channel id="CH15" typeId="percentage" />
+			<channel id="CH16" typeId="percentage" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="4channelCounterModule">
+		<label>Counters</label>
+		<description>This is a generic module with 4 counter channels.</description>
+		<channels>
+			<channel id="COUNTER1" typeId="counter" />
+			<channel id="COUNTER1_CURRENT" typeId="counter" />
+			<channel id="COUNTER2" typeId="counter" />
+			<channel id="COUNTER2_CURRENT" typeId="counter" />
+			<channel id="COUNTER3" typeId="counter" />
+			<channel id="COUNTER3_CURRENT" typeId="counter" />
+			<channel id="COUNTER4" typeId="counter" />
+			<channel id="COUNTER4_CURRENT" typeId="counter" />
+		</channels>
+	</channel-group-type>
 	<channel-group-type id="6channelInputModule">
 		<label>Input</label>
 		<description>This is a generic module with 7 input channels.</description>
@@ -812,20 +897,6 @@
 			<channel id="CH5" typeId="trigger-channel" />
 			<channel id="CH6" typeId="trigger-channel" />
 			<channel id="CH7" typeId="trigger-channel" />
-		</channels>
-	</channel-group-type>
-	<channel-group-type id="4channelCounterModule">
-		<label>Counters</label>
-		<description>This is a generic module with 4 counter channels.</description>
-		<channels>
-			<channel id="COUNTER1" typeId="counter" />
-			<channel id="COUNTER1_CURRENT" typeId="counter" />
-			<channel id="COUNTER2" typeId="counter" />
-			<channel id="COUNTER2_CURRENT" typeId="counter" />
-			<channel id="COUNTER3" typeId="counter" />
-			<channel id="COUNTER3_CURRENT" typeId="counter" />
-			<channel id="COUNTER4" typeId="counter" />
-			<channel id="COUNTER4_CURRENT" typeId="counter" />
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="8channelInputModule">

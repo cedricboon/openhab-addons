@@ -74,7 +74,7 @@ public class VelbusDimmerHandler extends VelbusThingHandler {
             byte[] packetBytes = packet.getBytes();
             velbusBridgeHandler.sendPacket(packetBytes);
         } else if (command instanceof PercentType) {
-            byte commandByte = COMMAND_SET_DIMVALUE;
+            byte commandByte = COMMAND_SET_VALUE;
 
             VelbusDimmerPacket packet = new VelbusDimmerPacket(getModuleAddress().getChannelIdentifier(channelUID),
                     commandByte, ((PercentType) command).byteValue(), this.dimSpeed, isFirstGenerationDevice());
@@ -95,7 +95,7 @@ public class VelbusDimmerHandler extends VelbusThingHandler {
     }
 
     private byte determineCommandByte(OnOffType command) {
-        return (command == OnOffType.ON) ? COMMAND_RESTORE_LAST_DIMVALUE : COMMAND_SET_DIMVALUE;
+        return (command == OnOffType.ON) ? COMMAND_RESTORE_LAST_DIMVALUE : COMMAND_SET_VALUE;
     }
 
     private Boolean isFirstGenerationDevice() {

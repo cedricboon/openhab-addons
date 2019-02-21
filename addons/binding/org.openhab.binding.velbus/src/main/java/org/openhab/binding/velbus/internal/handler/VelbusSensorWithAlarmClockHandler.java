@@ -43,9 +43,14 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
 
     static {
         alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB2PBN, 0x0093);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB4AN, 0x0046);
         alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB6PBN, 0x0093);
         alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB7IN, 0x0093);
         alarmConfigurationMemoryAddresses.put(THING_TYPE_VMB8PBU, 0x0093);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBEL1, 0x0358);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBEL2, 0x0358);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBEL4, 0x0358);
+        alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBELO, 0x0594);
         alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBPIRC, 0x0031);
         alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBPIRM, 0x0031);
         alarmConfigurationMemoryAddresses.put(THING_TYPE_VMBPIRO, 0x0031);

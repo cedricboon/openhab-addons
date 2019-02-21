@@ -44,6 +44,7 @@ public class VelbusBindingConstants {
     public static final ThingTypeUID THING_TYPE_VMB2BL = new ThingTypeUID(BINDING_ID, "vmb2bl");
     public static final ThingTypeUID THING_TYPE_VMB2BLE = new ThingTypeUID(BINDING_ID, "vmb2ble");
     public static final ThingTypeUID THING_TYPE_VMB2PBN = new ThingTypeUID(BINDING_ID, "vmb2pbn");
+    public static final ThingTypeUID THING_TYPE_VMB4AN = new ThingTypeUID(BINDING_ID, "vmb4an");
     public static final ThingTypeUID THING_TYPE_VMB4DC = new ThingTypeUID(BINDING_ID, "vmb4dc");
     public static final ThingTypeUID THING_TYPE_VMB4RY = new ThingTypeUID(BINDING_ID, "vmb4ry");
     public static final ThingTypeUID THING_TYPE_VMB4RYLD = new ThingTypeUID(BINDING_ID, "vmb4ryld");
@@ -75,10 +76,10 @@ public class VelbusBindingConstants {
     // thing type sets
     public static final Set<ThingTypeUID> BRIDGE_THING_TYPES_UIDS = Collections
             .unmodifiableSet(new HashSet<>(Arrays.asList(BRIDGE_THING_TYPE, NETWORK_BRIDGE_THING_TYPE)));
-    public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections
-            .unmodifiableSet(new HashSet<>(Arrays.asList(THING_TYPE_VMB1BL, THING_TYPE_VMB1BLS, THING_TYPE_VMB1DM,
-                    THING_TYPE_VMB1LED, THING_TYPE_VMB1RY, THING_TYPE_VMB1RYNO, THING_TYPE_VMB1RYNOS, THING_TYPE_VMB2BL,
-                    THING_TYPE_VMB2BLE, THING_TYPE_VMB2PBN, THING_TYPE_VMB4DC, THING_TYPE_VMB4RY, THING_TYPE_VMB4RYLD,
+    public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections.unmodifiableSet(
+            new HashSet<>(Arrays.asList(THING_TYPE_VMB1BL, THING_TYPE_VMB1BLS, THING_TYPE_VMB1DM, THING_TYPE_VMB1LED,
+                    THING_TYPE_VMB1RY, THING_TYPE_VMB1RYNO, THING_TYPE_VMB1RYNOS, THING_TYPE_VMB2BL, THING_TYPE_VMB2BLE,
+                    THING_TYPE_VMB2PBN, THING_TYPE_VMB4AN, THING_TYPE_VMB4DC, THING_TYPE_VMB4RY, THING_TYPE_VMB4RYLD,
                     THING_TYPE_VMB4RYNO, THING_TYPE_VMB6IN, THING_TYPE_VMB6PBN, THING_TYPE_VMB7IN, THING_TYPE_VMB8IR,
                     THING_TYPE_VMB8PB, THING_TYPE_VMB8PBU, THING_TYPE_VMBDME, THING_TYPE_VMBDMI, THING_TYPE_VMBDMIR,
                     THING_TYPE_VMBEL1, THING_TYPE_VMBEL2, THING_TYPE_VMBEL4, THING_TYPE_VMBELO, THING_TYPE_VMBGP1,
@@ -119,6 +120,7 @@ public class VelbusBindingConstants {
     public static final byte MODULE_TYPE_VMB1BLS = 0x2E;
     public static final byte MODULE_TYPE_VMBDMIR = 0x2F;
     public static final byte MODULE_TYPE_VMBMETEO = 0x31;
+    public static final byte MODULE_TYPE_VMB4AN = 0x32;
     public static final byte MODULE_TYPE_VMBEL1 = 0x34;
     public static final byte MODULE_TYPE_VMBEL2 = 0x35;
     public static final byte MODULE_TYPE_VMBEL4 = 0x36;
@@ -131,7 +133,7 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_SWITCH_BLIND_OFF = 0x04;
     public static final byte COMMAND_BLIND_UP = 0x05;
     public static final byte COMMAND_BLIND_DOWN = 0x06;
-    public static final byte COMMAND_SET_DIMVALUE = 0x07;
+    public static final byte COMMAND_SET_VALUE = 0x07;
     public static final byte COMMAND_SLIDER_STATUS = 0x0F;
     public static final byte COMMAND_RESTORE_LAST_DIMVALUE = 0x11;
     public static final byte COMMAND_BLIND_POS = 0x1C;
@@ -155,7 +157,6 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_SWITCH_TO_SAFE_MODE = (byte) 0xDE;
     public static final byte COMMAND_SET_COOLING_MODE = (byte) 0xDF;
     public static final byte COMMAND_SET_HEATING_MODE = (byte) 0xE0;
-    public static final byte COMMAND_BLIND_STATUS = (byte) 0xEC;
     public static final byte COMMAND_SET_TEMP = (byte) 0xE4;
     public static final byte COMMAND_SENSOR_READOUT_REQUEST = (byte) 0xE5;
     public static final byte COMMAND_SENSOR_TEMPERATURE = (byte) 0xE6;
@@ -163,6 +164,7 @@ public class VelbusBindingConstants {
     public static final byte COMMAND_TEMP_SENSOR_SETTINGS_PART1 = (byte) 0xE8;
     public static final byte COMMAND_TEMP_SENSOR_SETTINGS_PART2 = (byte) 0xE9;
     public static final byte COMMAND_TEMP_SENSOR_STATUS = (byte) 0xEA;
+    public static final byte COMMAND_BLIND_STATUS = (byte) 0xEC;
     public static final byte COMMAND_MODULE_STATUS = (byte) 0xED;
     public static final byte COMMAND_DIMMER_STATUS = (byte) 0xEE;
     public static final byte COMMAND_MODULE_NAME_REQUEST = (byte) 0xEF;
