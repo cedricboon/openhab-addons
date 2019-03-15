@@ -14,11 +14,7 @@ package org.openhab.binding.mqtt.generic.internal.convention.homeassistant;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-import org.eclipse.smarthome.core.thing.ThingUID;
-import org.openhab.binding.mqtt.generic.internal.generic.ChannelStateUpdateListener;
 import org.openhab.binding.mqtt.generic.internal.values.TextValue;
-
-import com.google.gson.Gson;
 
 /**
  * A MQTT alarm control panel, following the https://www.home-assistant.io/components/alarm_control_panel.mqtt/
@@ -30,7 +26,7 @@ import com.google.gson.Gson;
  * @author David Graeff - Initial contribution
  */
 @NonNullByDefault
-public class ComponentAlarmControlPanel extends AbstractComponent {
+public class ComponentAlarmControlPanel extends AbstractComponent<ComponentAlarmControlPanel.ChannelConfiguration> {
     public static final String stateChannelID = "alarm"; // Randomly chosen channel "ID"
     public static final String switchDisarmChannelID = "disarm"; // Randomly chosen channel "ID"
     public static final String switchArmHomeChannelID = "armhome"; // Randomly chosen channel "ID"
@@ -39,13 +35,10 @@ public class ComponentAlarmControlPanel extends AbstractComponent {
     /**
      * Configuration class for MQTT component
      */
-    static class Config {
-        protected String name = "MQTT Alarm Control Panel";
-        protected String icon = "";
-        protected int qos = 1;
-        protected boolean retain = true;
-        protected @Nullable String value_template;
-        protected @Nullable String unique_id;
+    static class ChannelConfiguration extends BaseChannelConfiguration {
+        ChannelConfiguration() {
+            super("MQTT Alarm");
+        }
 
         protected @Nullable String code;
 
@@ -60,39 +53,26 @@ public class ComponentAlarmControlPanel extends AbstractComponent {
         protected String payload_disarm = "DISARM";
         protected String payload_arm_home = "ARM_HOME";
         protected String payload_arm_away = "ARM_AWAY";
-
-        protected @Nullable String availability_topic;
-        protected String payload_available = "online";
-        protected String payload_not_available = "offline";
     };
 
-    protected Config config = new Config();
+    public ComponentAlarmControlPanel(CFactory.ComponentConfiguration componentConfiguration) {
+        super(componentConfiguration, ChannelConfiguration.class);
 
-    public ComponentAlarmControlPanel(ThingUID thing, HaID haID, String configJSON,
-            @Nullable ChannelStateUpdateListener channelStateUpdateListener, Gson gson) {
-        super(thing, haID, configJSON, gson);
-        config = gson.fromJson(configJSON, Config.class);
-
-        final String[] state_enum = { config.state_disarmed, config.state_armed_home, config.state_armed_away,
-                config.state_pending, config.state_triggered };
-        channels.put(stateChannelID, new CChannel(this, stateChannelID, new TextValue(state_enum), config.state_topic,
-                null, config.name, "", channelStateUpdateListener));
+        final String[] state_enum = { channelConfiguration.state_disarmed, channelConfiguration.state_armed_home, channelConfiguration.state_armed_away,
+                channelConfiguration.state_pending, channelConfiguration.state_triggered };
+        channels.put(stateChannelID, new CChannel(this, stateChannelID, new TextValue(state_enum), channelConfiguration.state_topic,
+                null, channelConfiguration.name, "", componentConfiguration.getUpdateListener()));
 
         channels.put(switchDisarmChannelID,
-                new CChannel(this, switchDisarmChannelID, new TextValue(new String[] { config.payload_disarm }),
-                        config.state_topic, null, config.name, "", channelStateUpdateListener));
+                new CChannel(this, switchDisarmChannelID, new TextValue(new String[] { channelConfiguration.payload_disarm }),
+                        channelConfiguration.state_topic, null, channelConfiguration.name, "", componentConfiguration.getUpdateListener()));
 
         channels.put(switchArmHomeChannelID,
-                new CChannel(this, switchArmHomeChannelID, new TextValue(new String[] { config.payload_arm_home }),
-                        config.state_topic, null, config.name, "", channelStateUpdateListener));
+                new CChannel(this, switchArmHomeChannelID, new TextValue(new String[] { channelConfiguration.payload_arm_home }),
+                        channelConfiguration.state_topic, null, channelConfiguration.name, "", componentConfiguration.getUpdateListener()));
 
         channels.put(switchArmAwayChannelID,
-                new CChannel(this, switchArmAwayChannelID, new TextValue(new String[] { config.payload_arm_away }),
-                        config.state_topic, null, config.name, "", channelStateUpdateListener));
-    }
-
-    @Override
-    public String name() {
-        return config.name;
+                new CChannel(this, switchArmAwayChannelID, new TextValue(new String[] { channelConfiguration.payload_arm_away }),
+                        channelConfiguration.state_topic, null, channelConfiguration.name, "", componentConfiguration.getUpdateListener()));
     }
 }

@@ -20,14 +20,11 @@ import java.util.stream.Stream;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.thing.ChannelUID;
-import org.eclipse.smarthome.core.thing.ThingUID;
 import org.eclipse.smarthome.core.types.Command;
 import org.eclipse.smarthome.core.types.State;
 import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
 import org.openhab.binding.mqtt.generic.internal.generic.ChannelStateUpdateListener;
 import org.openhab.binding.mqtt.generic.internal.values.ColorValue;
-
-import com.google.gson.Gson;
 
 /**
  * A MQTT light, following the https://www.home-assistant.io/components/light.mqtt/ specification.
@@ -38,7 +35,7 @@ import com.google.gson.Gson;
  * @author David Graeff - Initial contribution
  */
 @NonNullByDefault
-public class ComponentLight extends AbstractComponent implements ChannelStateUpdateListener {
+public class ComponentLight extends AbstractComponent<ComponentLight.ChannelConfiguration> implements ChannelStateUpdateListener {
     public static final String switchChannelID = "light"; // Randomly chosen channel "ID"
     public static final String brightnessChannelID = "brightness"; // Randomly chosen channel "ID"
     public static final String colorChannelID = "color"; // Randomly chosen channel "ID"
@@ -46,12 +43,10 @@ public class ComponentLight extends AbstractComponent implements ChannelStateUpd
     /**
      * Configuration class for MQTT component
      */
-    static class Config {
-        protected String name = "MQTT Light";
-        protected String icon = "";
-        protected int qos = 1;
-        protected boolean retain = true;
-        protected @Nullable String unique_id;
+    static class ChannelConfiguration extends BaseChannelConfiguration {
+        ChannelConfiguration() {
+            super("MQTT Light");
+        }
 
         protected int brightness_scale = 255;
         protected boolean optimistic = false;
@@ -94,33 +89,25 @@ public class ComponentLight extends AbstractComponent implements ChannelStateUpd
 
         protected String payload_on = "ON";
         protected String payload_off = "OFF";
-
-        protected @Nullable String availability_topic;
-        protected String payload_available = "online";
-        protected String payload_not_available = "offline";
     };
 
-    protected Config config = new Config();
     protected CChannel colorChannel;
     protected CChannel switchChannel;
     protected CChannel brightnessChannel;
     private final @Nullable ChannelStateUpdateListener channelStateUpdateListener;
 
-    public ComponentLight(ThingUID thing, HaID haID, String configJSON,
-            @Nullable ChannelStateUpdateListener channelStateUpdateListener, Gson gson) {
-        super(thing, haID, configJSON, gson);
-        this.channelStateUpdateListener = channelStateUpdateListener;
-        config = gson.fromJson(configJSON, Config.class);
-
-        ColorValue value = new ColorValue(true, config.payload_on, config.payload_off, 100);
+    public ComponentLight(CFactory.ComponentConfiguration builder) {
+        super(builder, ChannelConfiguration.class);
+        this.channelStateUpdateListener = builder.getUpdateListener();
+        ColorValue value = new ColorValue(true, channelConfiguration.payload_on, channelConfiguration.payload_off, 100);
 
         // Create three MQTT subscriptions and use this class object as update listener
         switchChannel = new CChannel(this, switchChannelID, value, //
-                config.state_topic, config.command_topic, config.name, "", this);
+                channelConfiguration.state_topic, channelConfiguration.command_topic, channelConfiguration.name, "", this);
         colorChannel = new CChannel(this, colorChannelID, value, //
-                config.rgb_state_topic, config.rgb_command_topic, config.name, "", this);
+                channelConfiguration.rgb_state_topic, channelConfiguration.rgb_command_topic, channelConfiguration.name, "", this);
         brightnessChannel = new CChannel(this, brightnessChannelID, value, //
-                config.brightness_state_topic, config.brightness_command_topic, config.name, "", this);
+                channelConfiguration.brightness_state_topic, channelConfiguration.brightness_command_topic, channelConfiguration.name, "", this);
 
         channels.put(switchChannelID, colorChannel);
     }
@@ -142,7 +129,7 @@ public class ComponentLight extends AbstractComponent implements ChannelStateUpd
 
     @Override
     public String name() {
-        return config.name;
+        return channelConfiguration.name;
     }
 
     /**

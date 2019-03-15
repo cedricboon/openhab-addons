@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.thing.ChannelGroupUID;
-import org.eclipse.smarthome.core.thing.ThingUID;
 import org.eclipse.smarthome.core.thing.type.ChannelDefinition;
 import org.eclipse.smarthome.core.thing.type.ChannelDefinitionBuilder;
 import org.eclipse.smarthome.core.thing.type.ChannelGroupType;
@@ -32,16 +31,15 @@ import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
 import org.openhab.binding.mqtt.generic.internal.MqttBindingConstants;
 import org.openhab.binding.mqtt.generic.internal.generic.MqttChannelTypeProvider;
 
-import com.google.gson.Gson;
-
 /**
  * A HomeAssistant component is comparable to an ESH channel group.
  * It has a name and consists of multiple channels.
  *
  * @author David Graeff - Initial contribution
+ * @param <C> Config class derived from {@link BaseChannelConfiguration}
  */
 @NonNullByDefault
-public abstract class AbstractComponent {
+public abstract class AbstractComponent<C extends BaseChannelConfiguration> {
     // Component location fields
     protected final ChannelGroupTypeUID channelGroupTypeUID;
     protected final ChannelGroupUID channelGroupUID;
@@ -52,8 +50,8 @@ public abstract class AbstractComponent {
     // The hash code ({@link String#hashCode()}) of the configuration string
     // Used to determine if a component has changed.
     protected final int configHash;
-    protected final String configJson;
-    private final Gson gson;
+    protected final String channelConfigurationJson;
+    protected final C channelConfiguration;
 
     /**
      * Provide a thingUID and HomeAssistant topic ID to determine the ESH channel group UID and type.
@@ -63,16 +61,15 @@ public abstract class AbstractComponent {
      * @param configJson The configuration string
      * @param gson A Gson instance
      */
-    public AbstractComponent(ThingUID thing, HaID haID, String configJson, Gson gson) {
+    public AbstractComponent(CFactory.ComponentConfiguration componentConfiguration, Class<C> clazz) {
+        this.haID = componentConfiguration.getHaID();
         this.channelGroupTypeUID = new ChannelGroupTypeUID(MqttBindingConstants.BINDING_ID,
                 haID.getChannelGroupTypeID());
-        this.channelGroupUID = new ChannelGroupUID(thing, haID.getChannelGroupID());
-        this.haID = haID;
+        this.channelGroupUID = new ChannelGroupUID(componentConfiguration.getThingUID(), haID.getChannelGroupID());
 
-        this.configJson = configJson;
-        this.configHash = configJson.hashCode();
-
-        this.gson = gson;
+        this.channelConfigurationJson = componentConfiguration.getConfigJSON();
+        this.channelConfiguration = componentConfiguration.getConfig(clazz);
+        this.configHash = channelConfigurationJson.hashCode();
     }
 
     /**
@@ -136,7 +133,9 @@ public abstract class AbstractComponent {
     /**
      * Component (Channel Group) name.
      */
-    public abstract String name();
+    public String name() {
+        return channelConfiguration.name;
+    }
 
     /**
      * Each component consists of multiple ESH Channels.

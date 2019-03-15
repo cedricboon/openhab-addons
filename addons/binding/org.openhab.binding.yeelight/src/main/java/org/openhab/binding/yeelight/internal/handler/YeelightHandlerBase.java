@@ -21,6 +21,7 @@ import org.eclipse.smarthome.core.library.types.HSBType;
 import org.eclipse.smarthome.core.library.types.IncreaseDecreaseType;
 import org.eclipse.smarthome.core.library.types.OnOffType;
 import org.eclipse.smarthome.core.library.types.PercentType;
+import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
@@ -193,6 +194,18 @@ public abstract class YeelightHandlerBase extends BaseThingHandler
                     handleIncreaseDecreaseBrightnessCommand((IncreaseDecreaseType) command);
                 }
                 break;
+            case CHANNEL_COMMAND:
+                if (!command.toString().isEmpty()) {
+                    String[] tokens = command.toString().split(";");
+                    String methodAction = tokens[0];
+                    String methodParams = "";
+                    if (tokens.length > 1) {
+                        methodParams = tokens[1];
+                    }
+                    logger.debug(logInfo, methodAction + " " + methodParams);
+                    handleCustomCommand(methodAction, methodParams);
+                    updateState(channelUID, new StringType(""));
+                }
             default:
                 break;
         }
@@ -252,6 +265,10 @@ public abstract class YeelightHandlerBase extends BaseThingHandler
         DeviceManager.getInstance().doAction(deviceId, ctAction);
     }
 
+    void handleCustomCommand(String action, String params) {
+        DeviceManager.getInstance().doCustomAction(deviceId, action, params);
+    }
+
     @Override
     public void onStatusChanged(String prop, DeviceStatus status) {
         logger.debug("UpdateState->{}", status);
@@ -259,23 +276,19 @@ public abstract class YeelightHandlerBase extends BaseThingHandler
     }
 
     void updateBrightnessAndColorUI(DeviceStatus status) {
-        if (status.isPowerOff()) {
-            updateState(CHANNEL_BRIGHTNESS, new PercentType(0));
-        } else {
-            updateState(CHANNEL_BRIGHTNESS, new PercentType(status.getBrightness()));
-            HSBType hsbType = null;
-            if (status.getMode() == DeviceMode.MODE_COLOR) {
-                hsbType = HSBType.fromRGB(status.getR(), status.getG(), status.getB());
-            } else if (status.getMode() == DeviceMode.MODE_HSV) {
-                hsbType = new HSBType(new DecimalType(status.getHue()), new PercentType(status.getSat()),
-                        new PercentType(1));
-            }
-            if (hsbType != null) {
-                updateState(CHANNEL_COLOR, hsbType);
-            }
-            updateState(CHANNEL_COLOR_TEMPERATURE,
-                    new PercentType((status.getCt() - COLOR_TEMPERATURE_MINIMUM) / COLOR_TEMPERATURE_STEP));
-        }
+        PercentType brightness = status.isPowerOff() ? PercentType.ZERO : new PercentType(status.getBrightness());
+
+        HSBType tempHsbType = HSBType.fromRGB(status.getR(), status.getG(), status.getB());
+        HSBType hsbType = status.getMode() == DeviceMode.MODE_HSV
+                ? new HSBType(new DecimalType(status.getHue()), new PercentType(status.getSat()), brightness)
+                : new HSBType(tempHsbType.getHue(), tempHsbType.getSaturation(), brightness);
+
+        logger.debug("Update Color->{}", hsbType);
+        updateState(CHANNEL_COLOR, hsbType);
+
+        logger.debug("Update CT->{}", status.getCt());
+        updateState(CHANNEL_COLOR_TEMPERATURE,
+                new PercentType((status.getCt() - COLOR_TEMPERATURE_MINIMUM) / COLOR_TEMPERATURE_STEP));
     }
 
     int getDuration() {

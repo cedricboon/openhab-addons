@@ -43,30 +43,32 @@ public class CFactory {
      * @param updateListener A channel state update listener
      * @return A HA MQTT Component
      */
-    public static @Nullable AbstractComponent createComponent(ThingUID thingUID, HaID haID, String configJSON,
+    public static @Nullable AbstractComponent<?> createComponent(ThingUID thingUID, HaID haID, String configJSON,
             @Nullable ChannelStateUpdateListener updateListener, Gson gson) {
+        ComponentConfiguration componentConfiguration = new ComponentConfiguration(thingUID, haID, configJSON, gson)
+                .withListerner(updateListener);
         try {
             switch (haID.component) {
                 case "alarm_control_panel":
-                    return new ComponentAlarmControlPanel(thingUID, haID, configJSON, updateListener, gson);
+                    return new ComponentAlarmControlPanel(componentConfiguration);
                 case "binary_sensor":
-                    return new ComponentBinarySensor(thingUID, haID, configJSON, updateListener, gson);
+                    return new ComponentBinarySensor(componentConfiguration);
                 case "camera":
-                    return new ComponentCamera(thingUID, haID, configJSON, updateListener, gson);
+                    return new ComponentCamera(componentConfiguration);
                 case "cover":
-                    return new ComponentCover(thingUID, haID, configJSON, updateListener, gson);
+                    return new ComponentCover(componentConfiguration);
                 case "fan":
-                    return new ComponentFan(thingUID, haID, configJSON, updateListener, gson);
+                    return new ComponentFan(componentConfiguration);
                 case "climate":
-                    return new ComponentClimate(thingUID, haID, configJSON, updateListener, gson);
+                    return new ComponentClimate(componentConfiguration);
                 case "light":
-                    return new ComponentLight(thingUID, haID, configJSON, updateListener, gson);
+                    return new ComponentLight(componentConfiguration);
                 case "lock":
-                    return new ComponentLock(thingUID, haID, configJSON, updateListener, gson);
+                    return new ComponentLock(componentConfiguration);
                 case "sensor":
-                    return new ComponentSensor(thingUID, haID, configJSON, updateListener, gson);
+                    return new ComponentSensor(componentConfiguration);
                 case "switch":
-                    return new ComponentSwitch(thingUID, haID, configJSON, updateListener, gson);
+                    return new ComponentSwitch(componentConfiguration);
             }
         } catch (UnsupportedOperationException e) {
             logger.warn("Not supported", e);
@@ -82,7 +84,7 @@ public class CFactory {
      * @param updateListener A channel state update listener
      * @return A HA MQTT Component
      */
-    public static @Nullable AbstractComponent createComponent(String basetopic, Channel channel,
+    public static @Nullable AbstractComponent<?> createComponent(String basetopic, Channel channel,
             @Nullable ChannelStateUpdateListener updateListener, Gson gson) {
         HaID haID = new HaID(basetopic, channel.getUID());
         ThingUID thingUID = channel.getUID().getThingUID();
@@ -91,32 +93,51 @@ public class CFactory {
             logger.warn("Provided channel does not have a 'config' configuration key!");
             return null;
         }
-        try {
-            switch (haID.component) {
-                case "alarm_control_panel":
-                    return new ComponentAlarmControlPanel(thingUID, haID, configJSON, updateListener, gson);
-                case "binary_sensor":
-                    return new ComponentBinarySensor(thingUID, haID, configJSON, updateListener, gson);
-                case "camera":
-                    return new ComponentCamera(thingUID, haID, configJSON, updateListener, gson);
-                case "cover":
-                    return new ComponentCover(thingUID, haID, configJSON, updateListener, gson);
-                case "fan":
-                    return new ComponentFan(thingUID, haID, configJSON, updateListener, gson);
-                case "climate":
-                    return new ComponentClimate(thingUID, haID, configJSON, updateListener, gson);
-                case "light":
-                    return new ComponentLight(thingUID, haID, configJSON, updateListener, gson);
-                case "lock":
-                    return new ComponentLock(thingUID, haID, configJSON, updateListener, gson);
-                case "sensor":
-                    return new ComponentSensor(thingUID, haID, configJSON, updateListener, gson);
-                case "switch":
-                    return new ComponentSwitch(thingUID, haID, configJSON, updateListener, gson);
-            }
-        } catch (UnsupportedOperationException e) {
-            logger.warn("Not supported", e);
+        return createComponent(thingUID, haID, configJSON, updateListener, gson);
+    }
+
+    protected static class ComponentConfiguration {
+        private ThingUID thingUID;
+        private HaID haID;
+        private String configJSON;
+        private @Nullable ChannelStateUpdateListener updateListener;
+        private Gson gson;
+
+        protected ComponentConfiguration(ThingUID thingUID, HaID haID, String configJSON, Gson gson) {
+            this.thingUID = thingUID;
+            this.haID = haID;
+            this.configJSON = configJSON;
+            this.gson = gson;
         }
-        return null;
+
+        public ComponentConfiguration withListerner(@Nullable ChannelStateUpdateListener updateListener) {
+            this.updateListener = updateListener;
+            return this;
+        }
+
+        public ThingUID getThingUID() {
+            return thingUID;
+        }
+
+        public HaID getHaID() {
+            return haID;
+        }
+
+        public String getConfigJSON() {
+            return configJSON;
+        }
+
+        @Nullable
+        public ChannelStateUpdateListener getUpdateListener() {
+            return updateListener;
+        }
+
+        public Gson getGson() {
+            return gson;
+        }
+
+        public <C extends BaseChannelConfiguration> C getConfig(Class<C> clazz) {
+            return BaseChannelConfiguration.fromString(configJSON, gson, clazz);
+        }
     }
 }

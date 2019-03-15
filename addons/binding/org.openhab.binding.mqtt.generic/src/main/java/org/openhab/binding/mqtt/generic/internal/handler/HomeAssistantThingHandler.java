@@ -34,9 +34,10 @@ import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.Abstra
 import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.CChannel;
 import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.CFactory;
 import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.DiscoverComponents;
+import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.ChannelConfigurationTypeAdapterFactory;
+import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.DiscoverComponents.ComponentDiscovered;
 import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.HaID;
 import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.HandlerConfiguration;
-import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.DiscoverComponents.ComponentDiscovered;
 import org.openhab.binding.mqtt.generic.internal.generic.ChannelState;
 import org.openhab.binding.mqtt.generic.internal.generic.MqttChannelTypeProvider;
 import org.openhab.binding.mqtt.generic.internal.tools.DelayedBatchProcessing;
@@ -44,6 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Handles HomeAssistant MQTT object things. Such an HA Object can have multiple HA Components with different instances
@@ -63,16 +65,16 @@ import com.google.gson.Gson;
  */
 @NonNullByDefault
 public class HomeAssistantThingHandler extends AbstractMQTTThingHandler
-        implements ComponentDiscovered, Consumer<List<AbstractComponent>> {
+        implements ComponentDiscovered, Consumer<List<AbstractComponent<?>>> {
     private final Logger logger = LoggerFactory.getLogger(HomeAssistantThingHandler.class);
 
     protected final MqttChannelTypeProvider channelTypeProvider;
     public final int attributeReceiveTimeout;
-    protected final DelayedBatchProcessing<AbstractComponent> delayedProcessing;
+    protected final DelayedBatchProcessing<AbstractComponent<?>> delayedProcessing;
     protected final DiscoverComponents discoverComponents;
 
-    private final Gson gson = new Gson();
-    protected final Map<String, AbstractComponent> haComponents = new HashMap<String, AbstractComponent>();
+    private final Gson gson;
+    protected final Map<String, AbstractComponent<?>> haComponents = new HashMap<>();
 
     protected HandlerConfiguration config = new HandlerConfiguration();
     private HaID discoveryHomeAssistantID = new HaID("", "", "", "");
@@ -89,6 +91,7 @@ public class HomeAssistantThingHandler extends AbstractMQTTThingHandler
     public HomeAssistantThingHandler(Thing thing, MqttChannelTypeProvider channelTypeProvider, int subscribeTimeout,
             int attributeReceiveTimeout) {
         super(thing, subscribeTimeout);
+        this.gson = new GsonBuilder().registerTypeAdapterFactory(new ChannelConfigurationTypeAdapterFactory()).create();
         this.channelTypeProvider = channelTypeProvider;
         this.attributeReceiveTimeout = attributeReceiveTimeout;
         this.delayedProcessing = new DelayedBatchProcessing<>(attributeReceiveTimeout, this, scheduler);
@@ -113,7 +116,7 @@ public class HomeAssistantThingHandler extends AbstractMQTTThingHandler
             }
             // Already restored component?
             @Nullable
-            AbstractComponent component = haComponents.get(groupID);
+            AbstractComponent<?> component = haComponents.get(groupID);
             if (component != null) {
                 continue;
             } else {
@@ -188,7 +191,7 @@ public class HomeAssistantThingHandler extends AbstractMQTTThingHandler
         if (groupID == null) {
             return null;
         }
-        AbstractComponent component;
+        AbstractComponent<?> component;
         synchronized (haComponents) { // sync whenever discoverComponents is started
             component = haComponents.get(groupID);
         }
@@ -206,7 +209,7 @@ public class HomeAssistantThingHandler extends AbstractMQTTThingHandler
      * Callback of {@link DiscoverComponents}. Add to a delayed batch processor.
      */
     @Override
-    public void componentDiscovered(HaID homeAssistantTopicID, AbstractComponent component) {
+    public void componentDiscovered(HaID homeAssistantTopicID, AbstractComponent<?> component) {
         delayedProcessing.accept(component);
     }
 
@@ -216,7 +219,7 @@ public class HomeAssistantThingHandler extends AbstractMQTTThingHandler
      */
     @SuppressWarnings("null")
     @Override
-    public void accept(List<AbstractComponent> discoveredComponentsList) {
+    public void accept(List<AbstractComponent<?>> discoveredComponentsList) {
         MqttBrokerConnection connection = this.connection;
         if (connection == null) {
             return;
@@ -224,8 +227,8 @@ public class HomeAssistantThingHandler extends AbstractMQTTThingHandler
 
         List<Channel> channels = new ArrayList<>();
         synchronized (haComponents) { // sync whenever discoverComponents is started
-            for (AbstractComponent discovered : discoveredComponentsList) {
-                AbstractComponent known = haComponents.get(discovered.uid().getId());
+            for (AbstractComponent<?> discovered : discoveredComponentsList) {
+                AbstractComponent<?> known = haComponents.get(discovered.uid().getId());
                 // Is component already known?
                 if (known != null) {
                     if (discovered.getConfigHash() != known.getConfigHash()) {
@@ -250,7 +253,7 @@ public class HomeAssistantThingHandler extends AbstractMQTTThingHandler
             }
 
             // Add channels to Thing
-            for (AbstractComponent e : haComponents.values()) {
+            for (AbstractComponent<?> e : haComponents.values()) {
                 for (CChannel entry : e.channelTypes().values()) {
                     channels.add(entry.channel);
                 }

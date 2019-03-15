@@ -31,6 +31,8 @@ import org.eclipse.smarthome.core.thing.ThingUID;
 import org.eclipse.smarthome.io.transport.mqtt.MqttBrokerConnection;
 import org.openhab.binding.mqtt.discovery.MQTTTopicDiscoveryService;
 import org.openhab.binding.mqtt.generic.internal.MqttBindingConstants;
+import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.ChannelConfigurationTypeAdapterFactory;
+import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.BaseChannelConfiguration;
 import org.openhab.binding.mqtt.generic.internal.convention.homeassistant.HaID;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -38,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * The {@link HomeAssistantDiscovery} is responsible for discovering device nodes that follow the
@@ -51,8 +54,9 @@ public class HomeAssistantDiscovery extends AbstractMQTTDiscovery {
     private final Logger logger = LoggerFactory.getLogger(HomeAssistantDiscovery.class);
     protected final Map<String, Set<String>> componentsPerThingID = new TreeMap<>();
     private @Nullable ScheduledFuture<?> future;
+    private final Gson gson;
 
-    public static final Map<String, String> HA_COMP_TO_NAME = new TreeMap<String, String>();
+    public static final Map<String, String> HA_COMP_TO_NAME = new TreeMap<>();
     {
         HA_COMP_TO_NAME.put("alarm_control_panel", "Alarm Control Panel");
         HA_COMP_TO_NAME.put("binary_sensor", "Sensor");
@@ -66,15 +70,12 @@ public class HomeAssistantDiscovery extends AbstractMQTTDiscovery {
         HA_COMP_TO_NAME.put("switch", "Switch");
     }
 
-    private static class Config {
-        String name = "";
-    }
-
     static final String BASE_TOPIC = "homeassistant";
 
     public HomeAssistantDiscovery() {
         super(Stream.of(MqttBindingConstants.HOMEASSISTANT_MQTT_THING).collect(Collectors.toSet()), 3, true,
                 BASE_TOPIC + "/#");
+        this.gson = new GsonBuilder().registerTypeAdapterFactory(new ChannelConfigurationTypeAdapterFactory()).create();
     }
 
     @NonNullByDefault({})
@@ -154,12 +155,13 @@ public class HomeAssistantDiscovery extends AbstractMQTTDiscovery {
         final String componentNames = components.stream().map(c -> HA_COMP_TO_NAME.getOrDefault(c, c))
                 .collect(Collectors.joining(","));
 
-        Config config = new Gson().fromJson(new String(payload, StandardCharsets.UTF_8), Config.class);
+        BaseChannelConfiguration config = BaseChannelConfiguration.fromString(new String(payload, StandardCharsets.UTF_8), gson);
 
         Map<String, Object> properties = new HashMap<>();
         properties.put("objectid", topicParts.objectID);
         properties.put("nodeid", topicParts.nodeID);
         properties.put("basetopic", BASE_TOPIC);
+        config.addDeviceProperties(properties);
         // First remove an already discovered thing with the same ID
         thingRemoved(thingUID);
         // Because we need the new properties map with the updated "components" list

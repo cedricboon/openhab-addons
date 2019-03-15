@@ -14,11 +14,7 @@ package org.openhab.binding.mqtt.generic.internal.convention.homeassistant;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-import org.eclipse.smarthome.core.thing.ThingUID;
-import org.openhab.binding.mqtt.generic.internal.generic.ChannelStateUpdateListener;
 import org.openhab.binding.mqtt.generic.internal.values.OnOffValue;
-
-import com.google.gson.Gson;
 
 /**
  * A MQTT BinarySensor, following the https://www.home-assistant.io/components/binary_sensor.mqtt/ specification.
@@ -26,19 +22,16 @@ import com.google.gson.Gson;
  * @author David Graeff - Initial contribution
  */
 @NonNullByDefault
-public class ComponentBinarySensor extends AbstractComponent {
+public class ComponentBinarySensor extends AbstractComponent<ComponentBinarySensor.ChannelConfiguration> {
     public static final String sensorChannelID = "sensor"; // Randomly chosen channel "ID"
 
     /**
      * Configuration class for MQTT component
      */
-    static class Config {
-        protected String name = "MQTT Sensor";
-        protected String icon = "";
-        protected int qos = 1;
-        protected boolean retain = true;
-        protected @Nullable String value_template;
-        protected @Nullable String unique_id;
+    static class ChannelConfiguration extends BaseChannelConfiguration {
+        ChannelConfiguration() {
+            super("MQTT Binary Sensor");
+        }
 
         protected String unit_of_measurement = "";
         protected @Nullable String device_class;
@@ -48,30 +41,19 @@ public class ComponentBinarySensor extends AbstractComponent {
         protected String state_topic = "";
         protected String payload_on = "ON";
         protected String payload_off = "OFF";
-
-        protected @Nullable String availability_topic;
-        protected String payload_available = "online";
-        protected String payload_not_available = "offline";
     };
 
-    protected Config config = new Config();
+    public ComponentBinarySensor(CFactory.ComponentConfiguration builder) {
+        super(builder, ChannelConfiguration.class);
 
-    public ComponentBinarySensor(ThingUID thing, HaID haID, String configJSON,
-            @Nullable ChannelStateUpdateListener channelStateUpdateListener, Gson gson) {
-        super(thing, haID, configJSON, gson);
-        config = gson.fromJson(configJSON, Config.class);
-
-        if (config.force_update) {
+        if (channelConfiguration.force_update) {
             throw new UnsupportedOperationException("Component:Sensor does not support forced updates");
         }
 
         channels.put(sensorChannelID,
-                new CChannel(this, sensorChannelID, new OnOffValue(config.payload_on, config.payload_off),
-                        config.state_topic, null, config.name, config.unit_of_measurement, channelStateUpdateListener));
+                new CChannel(this, sensorChannelID, new OnOffValue(channelConfiguration.payload_on, channelConfiguration.payload_off),
+                        channelConfiguration.state_topic, null, channelConfiguration.name, channelConfiguration.unit_of_measurement,
+                        builder.getUpdateListener()));
     }
 
-    @Override
-    public String name() {
-        return config.name;
-    }
 }
