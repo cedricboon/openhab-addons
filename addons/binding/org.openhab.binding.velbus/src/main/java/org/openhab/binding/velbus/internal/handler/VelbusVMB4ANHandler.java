@@ -146,10 +146,10 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
                 byte operatingMode = packet[6];
                 byte upperByteSensorValue = packet[7];
                 byte highByteSensorValue = packet[8];
-                byte lowByteCurrentWindValue = packet[9];
+                byte lowByteSensorValue = packet[9];
 
-                double sensorValue = (upperByteSensorValue * 0x10000 + highByteSensorValue * 0x100
-                        + lowByteCurrentWindValue);
+                double sensorValue = (((upperByteSensorValue & 0xff) << 16) + ((highByteSensorValue & 0xff) << 8)
+                        + (lowByteSensorValue & 0xff));
                 String channelUID = convertAnalogInputChannelByteToChannelUID(channel);
 
                 switch (operatingMode) {

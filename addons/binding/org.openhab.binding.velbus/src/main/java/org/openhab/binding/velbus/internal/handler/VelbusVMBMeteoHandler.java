@@ -118,9 +118,9 @@ public class VelbusVMBMeteoHandler extends VelbusTemperatureSensorHandler {
                 byte highByteCurrentWindValue = packet[9];
                 byte lowByteCurrentWindValue = packet[10];
 
-                double rainValue = (highByteCurrentRainValue * 0x100 + lowByteCurrentRainValue) / 10;
-                double lightValue = (highByteCurrentLightValue * 0x100 + lowByteCurrentLightValue);
-                double windValue = (highByteCurrentWindValue * 0x100 + lowByteCurrentWindValue) / 10;
+                double rainValue = (((highByteCurrentRainValue & 0xff) << 8) + (lowByteCurrentRainValue & 0xff)) / 10;
+                double lightValue = (((highByteCurrentLightValue & 0xff) << 8) + (lowByteCurrentLightValue & 0xff));
+                double windValue = (((highByteCurrentWindValue & 0xff) << 8) + (lowByteCurrentWindValue & 0xff)) / 10;
 
                 QuantityType<Length> rainValueState = new QuantityType<>(rainValue, MetricPrefix.MILLI(SIUnits.METRE));
                 QuantityType<Illuminance> lightValueState = new QuantityType<>(lightValue, SmartHomeUnits.LUX);
