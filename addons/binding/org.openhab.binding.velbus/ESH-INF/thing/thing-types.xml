@@ -778,7 +778,7 @@
 		</state>
 	</channel-type>
 	<channel-type id="percentage">
-        <item-type>Dimmer</item-type>
+		<item-type>Dimmer</item-type>
 		<label>Percentage</label>
 		<description>Current percentage</description>
 		<category>Percentage</category>
@@ -838,8 +838,8 @@
 	<channel-group-type id="4channelAnalogInputModule">
 		<label>Analog Input</label>
 		<description>
-            This is a generic analog module with 4 input channels.
-        </description>
+			This is a generic analog module with 4 input channels.
+		</description>
 		<channels>
 			<channel id="CH9" typeId="voltage" />
 			<channel id="CH10" typeId="voltage" />
@@ -850,8 +850,8 @@
 	<channel-group-type id="4channelAnalogOutputModule">
 		<label>Analog Input</label>
 		<description>
-            This is a generic analog module with 4 output channels.
-        </description>
+			This is a generic analog module with 4 output channels.
+		</description>
 		<channels>
 			<channel id="CH13" typeId="percentage" />
 			<channel id="CH14" typeId="percentage" />
@@ -972,8 +972,8 @@
 	<channel-group-type id="1channelFeedbackModule">
 		<label>Feedback</label>
 		<description>
-            This is a generic module with 1 feedback channel.
-        </description>
+			This is a generic module with 1 feedback channel.
+		</description>
 		<channels>
 			<channel id="CH1" typeId="ledFeedback" />
 		</channels>
@@ -981,8 +981,8 @@
 	<channel-group-type id="2channelFeedbackModule">
 		<label>Feedback</label>
 		<description>
-            This is a generic module with 2 feedback channels.
-        </description>
+			This is a generic module with 2 feedback channels.
+		</description>
 		<channels>
 			<channel id="CH1" typeId="ledFeedback" />
 			<channel id="CH2" typeId="ledFeedback" />
@@ -991,8 +991,8 @@
 	<channel-group-type id="4channelFeedbackModule">
 		<label>Feedback</label>
 		<description>
-            This is a generic module with 4 feedback channels.
-        </description>
+			This is a generic module with 4 feedback channels.
+		</description>
 		<channels>
 			<channel id="CH1" typeId="ledFeedback" />
 			<channel id="CH2" typeId="ledFeedback" />
@@ -1003,8 +1003,8 @@
 	<channel-group-type id="6channelFeedbackModule">
 		<label>Feedback</label>
 		<description>
-            This is a generic module with 6 feedback channels.
-        </description>
+			This is a generic module with 6 feedback channels.
+		</description>
 		<channels>
 			<channel id="CH1" typeId="ledFeedback" />
 			<channel id="CH2" typeId="ledFeedback" />
@@ -1017,8 +1017,8 @@
 	<channel-group-type id="8channelFeedbackModule">
 		<label>Feedback</label>
 		<description>
-            This is a generic module with 8 feedback channels.
-        </description>
+			This is a generic module with 8 feedback channels.
+		</description>
 		<channels>
 			<channel id="CH1" typeId="ledFeedback" />
 			<channel id="CH2" typeId="ledFeedback" />
@@ -1033,8 +1033,8 @@
 	<channel-group-type id="32channelFeedbackModule">
 		<label>Feedback</label>
 		<description>
-            This is a generic module with 32 feedback channels.
-        </description>
+			This is a generic module with 32 feedback channels.
+		</description>
 		<channels>
 			<channel id="CH1" typeId="ledFeedback" />
 			<channel id="CH2" typeId="ledFeedback" />
