@@ -194,7 +194,7 @@ The next `ON` command uses these values instead of the default (or configuration
 |-----------------|---------------------|----------------------|----------------------------------------------------|
 |brightness       |dimmer, tunablewhite |Switch, Dimmer        | controls the brightness                            |
 |color            |color                |Switch, Dimmer, Color | allows to set the color and brightness             |
-|colortemperature |tunablewhite         |Number                | allows to set the color temperature                |
+|color_temperature|tunablewhite         |Number                | allows to set the color temperature                |
 |brightness_r     |color                |Switch, Dimmer        | controls the brightness of the red channel         |
 |brightness_g     |color                |Switch, Dimmer        | controls the brightness of the green channel       |
 |brightness_b     |color                |Switch, Dimmer        | controls the brightness of the blue channel        |
@@ -223,6 +223,7 @@ dmxActions.sendFade("1:41/3","10000:255,255,255:-1", false)
 ```
 
 The parameters are the same as in a chaser thing configuration.
+Defining more than one step in `fadeString` is supported, too.
 
 ## Full Example
 
