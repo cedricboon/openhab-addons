@@ -856,10 +856,14 @@
 			This is a generic analog module with 4 input channels.
 		</description>
 		<channels>
-			<channel id="CH9" typeId="voltage" />
-			<channel id="CH10" typeId="voltage" />
-			<channel id="CH11" typeId="voltage" />
-			<channel id="CH12" typeId="voltage" />
+            <channel id="CH9RAW" typeId="voltage" />
+            <channel id="CH9" typeId="text" />
+            <channel id="CH10RAW" typeId="voltage" />
+            <channel id="CH10" typeId="text" />
+            <channel id="CH11RAW" typeId="voltage" />
+            <channel id="CH11" typeId="text" />
+            <channel id="CH12RAW" typeId="voltage" />
+            <channel id="CH12" typeId="text" />
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="4channelAnalogOutputModule">

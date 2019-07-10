@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.smarthome.core.library.types.PercentType;
 import org.eclipse.smarthome.core.library.types.QuantityType;
+import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.library.unit.MetricPrefix;
 import org.eclipse.smarthome.core.library.unit.SmartHomeUnits;
 import org.eclipse.smarthome.core.thing.ChannelUID;
@@ -50,11 +51,14 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
     private static final String alarmChannelPrefix = "alarm#CH";
     private static final String analogInputChannelPrefix = "analogInput#CH";
     private static final String analogOutputChannelPrefix = "analogOutput#CH";
+    private static final String rawChannelSuffix = "RAW";
 
     private static final byte VOLTAGE_SENSOR_TYPE = 0x00;
     private static final byte CURRENT_SENSOR_TYPE = 0x01;
     private static final byte RESISTANCE_SENSOR_TYPE = 0x02;
     private static final byte PERIOD_MEASUREMENT_SENSOR_TYPE = 0x03;
+
+    private String[] channelText = new String[] { "", "", "", "" };
 
     private ScheduledFuture<?> refreshJob;
 
@@ -150,7 +154,7 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
 
                 double sensorValue = (((upperByteSensorValue & 0xff) << 16) + ((highByteSensorValue & 0xff) << 8)
                         + (lowByteSensorValue & 0xff));
-                String channelUID = convertAnalogInputChannelByteToChannelUID(channel);
+                String channelUID = convertAnalogInputChannelByteToRawChannelUID(channel);
 
                 switch (operatingMode) {
                     case VOLTAGE_SENSOR_TYPE:
@@ -168,8 +172,7 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
                     case RESISTANCE_SENSOR_TYPE:
                         double resistanceResolution = 0.25;
                         double resistanceSensorValueState = sensorValue * resistanceResolution;
-                        updateState(channelUID,
-                                new QuantityType<>(resistanceSensorValueState, MetricPrefix.MILLI(SmartHomeUnits.OHM)));
+                        updateState(channelUID, new QuantityType<>(resistanceSensorValueState, SmartHomeUnits.OHM));
                         break;
                     case PERIOD_MEASUREMENT_SENSOR_TYPE:
                         double periodResolution = 0.5;
@@ -178,6 +181,25 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
                                 new QuantityType<>(periodSensorValueState, MetricPrefix.MICRO(SmartHomeUnits.SECOND)));
                         break;
                 }
+            } else if (command == COMMAND_TEXT && packet.length >= 12) {
+                byte channel = packet[5];
+                byte textStartPosition = packet[6];
+
+                String channelUID = convertAnalogInputChannelByteToChannelUID(channel);
+
+                for (int i = 0; i < 5; i++) {
+                    int position = textStartPosition + i;
+                    byte currentCharacter = packet[i + 7];
+
+                    if (currentCharacter == 0x00) {
+                        channelText[channel - 9] = channelText[channel - 9].substring(0,
+                                Math.min(position, channelText[channel - 9].length()));
+                    } else {
+                        channelText[channel - 9] = channelText[channel - 9].substring(0, position) + currentCharacter
+                                + channelText[channel - 9].substring(position, channelText[channel - 9].length());
+                    }
+                }
+                updateState(channelUID, new StringType(channelText[channel - 9]));
             }
         }
     }
@@ -213,6 +235,10 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
 
     protected byte convertAnalogInputChannelUIDToChannelByte(ChannelUID channelUID) {
         return Byte.parseByte(channelUID.getId().replaceAll(analogInputChannelPrefix, ""));
+    }
+
+    protected String convertAnalogInputChannelByteToRawChannelUID(byte channelByte) {
+        return convertAnalogInputChannelByteToChannelUID(channelByte) + rawChannelSuffix;
     }
 
     protected String convertAnalogInputChannelByteToChannelUID(byte channelByte) {
