@@ -41,6 +41,7 @@ public class VelbusBindingConstants {
     public static final ThingTypeUID THING_TYPE_VMB1RY = new ThingTypeUID(BINDING_ID, "vmb1ry");
     public static final ThingTypeUID THING_TYPE_VMB1RYNO = new ThingTypeUID(BINDING_ID, "vmb1ryno");
     public static final ThingTypeUID THING_TYPE_VMB1RYNOS = new ThingTypeUID(BINDING_ID, "vmb1rynos");
+    public static final ThingTypeUID THING_TYPE_VMB1TS = new ThingTypeUID(BINDING_ID, "vmb1ts");
     public static final ThingTypeUID THING_TYPE_VMB2BL = new ThingTypeUID(BINDING_ID, "vmb2bl");
     public static final ThingTypeUID THING_TYPE_VMB2BLE = new ThingTypeUID(BINDING_ID, "vmb2ble");
     public static final ThingTypeUID THING_TYPE_VMB2PBN = new ThingTypeUID(BINDING_ID, "vmb2pbn");
@@ -76,15 +77,16 @@ public class VelbusBindingConstants {
     // thing type sets
     public static final Set<ThingTypeUID> BRIDGE_THING_TYPES_UIDS = Collections
             .unmodifiableSet(new HashSet<>(Arrays.asList(BRIDGE_THING_TYPE, NETWORK_BRIDGE_THING_TYPE)));
-    public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections.unmodifiableSet(
-            new HashSet<>(Arrays.asList(THING_TYPE_VMB1BL, THING_TYPE_VMB1BLS, THING_TYPE_VMB1DM, THING_TYPE_VMB1LED,
-                    THING_TYPE_VMB1RY, THING_TYPE_VMB1RYNO, THING_TYPE_VMB1RYNOS, THING_TYPE_VMB2BL, THING_TYPE_VMB2BLE,
-                    THING_TYPE_VMB2PBN, THING_TYPE_VMB4AN, THING_TYPE_VMB4DC, THING_TYPE_VMB4RY, THING_TYPE_VMB4RYLD,
-                    THING_TYPE_VMB4RYNO, THING_TYPE_VMB6IN, THING_TYPE_VMB6PBN, THING_TYPE_VMB7IN, THING_TYPE_VMB8IR,
-                    THING_TYPE_VMB8PB, THING_TYPE_VMB8PBU, THING_TYPE_VMBDME, THING_TYPE_VMBDMI, THING_TYPE_VMBDMIR,
-                    THING_TYPE_VMBEL1, THING_TYPE_VMBEL2, THING_TYPE_VMBEL4, THING_TYPE_VMBELO, THING_TYPE_VMBGP1,
-                    THING_TYPE_VMBGP2, THING_TYPE_VMBGP4, THING_TYPE_VMBGP4PIR, THING_TYPE_VMBGPO, THING_TYPE_VMBGPOD,
-                    THING_TYPE_VMBMETEO, THING_TYPE_VMBPIRC, THING_TYPE_VMBPIRM, THING_TYPE_VMBPIRO)));
+    public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections
+            .unmodifiableSet(new HashSet<>(Arrays.asList(THING_TYPE_VMB1BL, THING_TYPE_VMB1BLS, THING_TYPE_VMB1DM,
+                    THING_TYPE_VMB1LED, THING_TYPE_VMB1RY, THING_TYPE_VMB1RYNO, THING_TYPE_VMB1RYNOS, THING_TYPE_VMB1TS,
+                    THING_TYPE_VMB2BL, THING_TYPE_VMB2BLE, THING_TYPE_VMB2PBN, THING_TYPE_VMB4AN, THING_TYPE_VMB4DC,
+                    THING_TYPE_VMB4RY, THING_TYPE_VMB4RYLD, THING_TYPE_VMB4RYNO, THING_TYPE_VMB6IN, THING_TYPE_VMB6PBN,
+                    THING_TYPE_VMB7IN, THING_TYPE_VMB8IR, THING_TYPE_VMB8PB, THING_TYPE_VMB8PBU, THING_TYPE_VMBDME,
+                    THING_TYPE_VMBDMI, THING_TYPE_VMBDMIR, THING_TYPE_VMBEL1, THING_TYPE_VMBEL2, THING_TYPE_VMBEL4,
+                    THING_TYPE_VMBELO, THING_TYPE_VMBGP1, THING_TYPE_VMBGP2, THING_TYPE_VMBGP4, THING_TYPE_VMBGP4PIR,
+                    THING_TYPE_VMBGPO, THING_TYPE_VMBGPOD, THING_TYPE_VMBMETEO, THING_TYPE_VMBPIRC, THING_TYPE_VMBPIRM,
+                    THING_TYPE_VMBPIRO)));
 
     // Velbus module types
     public static final byte MODULE_TYPE_VMB8PB = 0x01;
@@ -95,6 +97,7 @@ public class VelbusBindingConstants {
     public static final byte MODULE_TYPE_VMB4RY = 0x08;
     public static final byte MODULE_TYPE_VMB2BL = 0x09;
     public static final byte MODULE_TYPE_VMB8IR = 0x0A;
+    public static final byte MODULE_TYPE_VMB1TS = 0x0C;
     public static final byte MODULE_TYPE_VMB1LED = 0x0F;
     public static final byte MODULE_TYPE_VMB4RYLD = 0x10;
     public static final byte MODULE_TYPE_VMB4RYNO = 0x11;

@@ -129,6 +129,21 @@
 		<config-description-ref uri="thing-type:velbus:5channelDevice" />
 	</thing-type>
 
+	<thing-type id="vmb1ts">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge" />
+			<bridge-type-ref id="networkbridge" />
+		</supported-bridge-type-refs>
+
+		<label>VMB1TS</label>
+		<description>Temperature Sensor Module</description>
+		<channel-groups>
+			<channel-group id="thermostat" typeId="thermostat" />
+		</channel-groups>
+
+		<config-description-ref uri="thing-type:velbus:temperatureSensorDevice" />
+	</thing-type>
+
 	<thing-type id="vmb2bl">
 		<supported-bridge-type-refs>
 			<bridge-type-ref id="bridge" />
