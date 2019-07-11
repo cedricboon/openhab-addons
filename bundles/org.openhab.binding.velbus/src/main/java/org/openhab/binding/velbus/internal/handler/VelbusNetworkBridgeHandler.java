@@ -15,14 +15,12 @@ package org.openhab.binding.velbus.internal.handler;
 import static org.openhab.binding.velbus.internal.VelbusBindingConstants.*;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.Socket;
 
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.ThingStatusDetail;
-import org.openhab.binding.velbus.internal.VelbusPacketInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,20 +34,23 @@ public class VelbusNetworkBridgeHandler extends VelbusBridgeHandler {
     private Logger logger = LoggerFactory.getLogger(VelbusNetworkBridgeHandler.class);
 
     private Socket socket;
-    private OutputStream outputStream;
-    private VelbusPacketInputStream inputStream;
-
-    private boolean listenerStopped;
 
     public VelbusNetworkBridgeHandler(Bridge velbusBridge) {
         super(velbusBridge);
     }
 
-    @Override
-    public void initialize() {
-        super.initialize();
-        logger.debug("Initializing velbus network bridge handler.");
+    /**
+     * Runnable that handles inbound communication from Velbus network interface.
+     * <p>
+     * The thread listens to the TCP socket opened at initialization of the {@link VelbusNetworkBridgeHandler} class
+     * and interprets all inbound velbus packets.
+     */
+    private Runnable networkEvents = () -> {
+        readPackets();
+    };
 
+    @Override
+    protected void connect() {
         String address = (String) getConfig().get(ADDRESS);
         BigDecimal port = (BigDecimal) getConfig().get(PORT);
 
@@ -57,15 +58,12 @@ public class VelbusNetworkBridgeHandler extends VelbusBridgeHandler {
             int portInt = port.intValue();
             try {
                 this.socket = new Socket(address, portInt);
+                initializeStreams(this.socket.getOutputStream(), this.socket.getInputStream());
 
                 updateStatus(ThingStatus.ONLINE);
                 logger.debug("Bridge online on network address {}:{}", address, portInt);
-
-                this.outputStream = this.socket.getOutputStream();
-                inputStream = new VelbusPacketInputStream(this.socket.getInputStream());
             } catch (IOException ex) {
-                updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
-                        "Failed to connect to network address " + address + ":" + port);
+                onConnectionLost();
                 logger.debug("Failed to connect to network address {}:{}", address, port);
             }
 
@@ -80,17 +78,7 @@ public class VelbusNetworkBridgeHandler extends VelbusBridgeHandler {
     }
 
     @Override
-    protected void writePacket(byte[] packet) {
-        try {
-            outputStream.write(packet);
-            outputStream.flush();
-        } catch (IOException e) {
-            logger.error("Serial port write error", e);
-        }
-    }
-
-    @Override
-    public void dispose() {
+    protected void disconnect() {
         if (socket != null) {
             try {
                 socket.close();
@@ -99,27 +87,7 @@ public class VelbusNetworkBridgeHandler extends VelbusBridgeHandler {
             }
             socket = null;
         }
+
+        super.disconnect();
     }
-
-    /**
-     * Runnable that handles inbound communication from Velbus network interface.
-     * <p>
-     * The thread listens to the TCP socket opened at initialization of the {@link VelbusNetworkBridgeHandler} class
-     * and interprets all inbound velbus packets.
-     */
-    private Runnable networkEvents = () -> {
-        byte[] packet;
-
-        listenerStopped = false;
-
-        try {
-            while (!listenerStopped & ((packet = inputStream.readPacket()) != null)) {
-                readPacket(packet);
-            }
-        } catch (IOException e) {
-            if (!listenerStopped) {
-                logger.error("Network read error", e);
-            }
-        }
-    };
 }

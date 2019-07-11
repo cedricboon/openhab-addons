@@ -191,6 +191,7 @@ public class VelbusBindingConstants {
     public static final String PORT = "port";
     public static final String ADDRESS = "address";
     public static final String REFRESH_INTERVAL = "refresh";
+    public static final String RECONNECTION_INTERVAL = "reconnectionInterval";
     public static final String TIME_UPDATE_INTERVAL = "timeUpdateInterval";
     public static final String MODULE_SERIAL_NUMBER = "serial number";
     public static final String MODULE_MEMORY_MAP_VERSION = "memory map version";

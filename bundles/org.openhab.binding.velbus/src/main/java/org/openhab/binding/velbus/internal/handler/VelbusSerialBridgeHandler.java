@@ -14,14 +14,11 @@ package org.openhab.binding.velbus.internal.handler;
 
 import static org.openhab.binding.velbus.internal.VelbusBindingConstants.PORT;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.TooManyListenersException;
 
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.ThingStatusDetail;
-import org.openhab.binding.velbus.internal.VelbusPacketInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,39 +37,40 @@ public class VelbusSerialBridgeHandler extends VelbusBridgeHandler implements Se
 
     private static final int BAUD = 9600;
     private NRSerialPort serialPort;
-    private OutputStream outputStream;
-    private VelbusPacketInputStream inputStream;
 
     public VelbusSerialBridgeHandler(Bridge velbusBridge) {
         super(velbusBridge);
     }
 
     @Override
-    public void initialize() {
-        super.initialize();
-        logger.debug("Initializing velbus bridge handler.");
+    public void serialEvent(SerialPortEvent event) {
+        logger.debug("Serial port event triggered");
 
+        if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+            readPackets();
+        }
+    }
+
+    @Override
+    protected void connect() {
         String port = (String) getConfig().get(PORT);
         if (port != null) {
             serialPort = new NRSerialPort(port, BAUD);
             if (serialPort.connect()) {
+                initializeStreams(serialPort.getOutputStream(), serialPort.getInputStream());
+
                 updateStatus(ThingStatus.ONLINE);
                 logger.debug("Bridge online on serial port {}", port);
-
-                outputStream = serialPort.getOutputStream();
-                inputStream = new VelbusPacketInputStream(serialPort.getInputStream());
 
                 try {
                     serialPort.addEventListener(this);
                     serialPort.notifyOnDataAvailable(true);
                 } catch (TooManyListenersException e) {
-                    updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
-                            "Failed to register event listener on serial port " + port);
+                    onConnectionLost();
                     logger.debug("Failed to register event listener on serial port {}", port);
                 }
             } else {
-                updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
-                        "Failed to connect to serial port " + port);
+                onConnectionLost();
                 logger.debug("Failed to connect to serial port {}", port);
             }
         } else {
@@ -82,36 +80,12 @@ public class VelbusSerialBridgeHandler extends VelbusBridgeHandler implements Se
     }
 
     @Override
-    protected void writePacket(byte[] packet) {
-        try {
-            outputStream.write(packet);
-            outputStream.flush();
-        } catch (IOException e) {
-            logger.error("Serial port write error", e);
-        }
-    }
-
-    @Override
-    public void dispose() {
+    protected void disconnect() {
         if (serialPort != null) {
             serialPort.disconnect();
             serialPort = null;
         }
-    }
 
-    @Override
-    public void serialEvent(SerialPortEvent event) {
-        logger.debug("Serial port event triggered");
-
-        if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-            try {
-                byte[] packet;
-                while ((packet = inputStream.readPacket()) != null) {
-                    readPacket(packet);
-                }
-            } catch (IOException e) {
-                logger.error("Serial port read error", e);
-            }
-        }
+        super.disconnect();
     }
 }

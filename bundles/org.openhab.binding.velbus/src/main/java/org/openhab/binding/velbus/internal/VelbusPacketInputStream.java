@@ -95,6 +95,12 @@ public class VelbusPacketInputStream {
         return null;
     }
 
+    public void close() throws IOException {
+        if (inputStream != null) {
+            inputStream.close();
+        }
+    }
+
     protected byte[] getCurrentPacket() {
         byte[] packet = new byte[6 + currentDataLength];
         packet[0] = currentSTX;
