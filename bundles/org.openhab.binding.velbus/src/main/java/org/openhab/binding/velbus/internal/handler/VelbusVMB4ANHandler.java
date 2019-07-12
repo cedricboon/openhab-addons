@@ -181,24 +181,26 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
                                 new QuantityType<>(periodSensorValueState, MetricPrefix.MICRO(SmartHomeUnits.SECOND)));
                         break;
                 }
-            } else if (command == COMMAND_TEXT && packet.length >= 12) {
+            } else if (command == COMMAND_TEXT) {
                 byte channel = packet[5];
                 byte textStartPosition = packet[6];
 
-                String channelUID = convertAnalogInputChannelByteToChannelUID(channel);
-
-                for (int i = 0; i < 5; i++) {
-                    int position = textStartPosition + i;
-                    byte currentCharacter = packet[i + 7];
-
-                    if (currentCharacter == 0x00) {
-                        channelText[channel - 9] = channelText[channel - 9].substring(0,
-                                Math.min(position, channelText[channel - 9].length()));
-                    } else {
-                        channelText[channel - 9] = channelText[channel - 9].substring(0, position) + currentCharacter
-                                + channelText[channel - 9].substring(position, channelText[channel - 9].length());
+                StringBuilder contents = new StringBuilder();
+                for (int i = 7; i < packet.length - 2; i++) {
+                    byte currentChar = packet[i];
+                    if (currentChar == (byte) -0x50) {
+                        contents.append("°");
+                    } else if (currentChar != (byte) 0x00) {
+                        contents.append((char) currentChar);
                     }
                 }
+
+                channelText[channel - 9] = channelText[channel - 9].substring(0, textStartPosition)
+                        + contents.toString()
+                        + (channelText[channel - 9].length() > textStartPosition + 5 ? channelText[channel - 9]
+                                .substring(textStartPosition + 5, channelText[channel - 9].length()) : "");
+
+                String channelUID = convertAnalogInputChannelByteToChannelUID(channel);
                 updateState(channelUID, new StringType(channelText[channel - 9]));
             }
         }
@@ -207,8 +209,10 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
     protected byte convertChannelUIDToChannelByte(ChannelUID channelUID) {
         if (isAlarmChannel(channelUID)) {
             return convertAlarmChannelUIDToChannelByte(channelUID);
-        } else if (isAnalogInputChannel(channelUID)) {
-            return convertAnalogInputChannelUIDToChannelByte(channelUID);
+        } else if (isTextAnalogInputChannel(channelUID)) {
+            return convertTextAnalogInputChannelUIDToChannelByte(channelUID);
+        } else if (isRawAnalogInputChannel(channelUID)) {
+            return convertRawAnalogInputChannelUIDToChannelByte(channelUID);
         } else if (isAnalogOutputChannel(channelUID)) {
             return convertAnalogOutputChannelUIDToChannelByte(channelUID);
         } else {
@@ -229,11 +233,24 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
         return alarmChannelPrefix + channelByte;
     }
 
-    protected boolean isAnalogInputChannel(ChannelUID channelUID) {
-        return channelUID.getId().startsWith(analogInputChannelPrefix);
+    protected boolean isTextAnalogInputChannel(ChannelUID channelUID) {
+        String id = channelUID.getId();
+
+        return id.startsWith(analogInputChannelPrefix) && !id.endsWith(rawChannelSuffix);
     }
 
-    protected byte convertAnalogInputChannelUIDToChannelByte(ChannelUID channelUID) {
+    protected boolean isRawAnalogInputChannel(ChannelUID channelUID) {
+        String id = channelUID.getId();
+
+        return id.startsWith(analogInputChannelPrefix) && id.endsWith(rawChannelSuffix);
+    }
+
+    protected byte convertRawAnalogInputChannelUIDToChannelByte(ChannelUID channelUID) {
+        return Byte.parseByte(
+                channelUID.getId().replaceAll(analogInputChannelPrefix, "").replaceAll(rawChannelSuffix, ""));
+    }
+
+    protected byte convertTextAnalogInputChannelUIDToChannelByte(ChannelUID channelUID) {
         return Byte.parseByte(channelUID.getId().replaceAll(analogInputChannelPrefix, ""));
     }
 
