@@ -48,7 +48,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Allan Tong - Initial contribution
  * @author Bob Adair - Added support for phase-selectable dimmers, Pico, tabletop keypads, switch modules, VCRX,
- *         repeater virtual buttons, Timeclock, and Green Mode
+ *         repeater virtual buttons, QS IO Intergace, Timeclock, and Green Mode
  */
 public class LutronDeviceDiscoveryService extends AbstractDiscoveryService {
 
@@ -156,10 +156,10 @@ public class LutronDeviceDiscoveryService extends AbstractDiscoveryService {
                     notifyDiscovery(THING_TYPE_KEYPAD, device.getIntegrationId(), label);
                     break;
 
-                case VISOR_CONTROL_RECEIVER:
-                    notifyDiscovery(THING_TYPE_VCRX, device.getIntegrationId(), label);
+                case INTERNATIONAL_SEETOUCH_KEYPAD:
+                    notifyDiscovery(THING_TYPE_INTLKEYPAD, device.getIntegrationId(), label);
                     break;
-
+                
                 case SEETOUCH_TABLETOP_KEYPAD:
                     notifyDiscovery(THING_TYPE_TTKEYPAD, device.getIntegrationId(), label);
                     break;
@@ -167,9 +167,17 @@ public class LutronDeviceDiscoveryService extends AbstractDiscoveryService {
                 case PICO_KEYPAD:
                     notifyDiscovery(THING_TYPE_PICO, device.getIntegrationId(), label);
                     break;
+                    
+                case VISOR_CONTROL_RECEIVER:
+                    notifyDiscovery(THING_TYPE_VCRX, device.getIntegrationId(), label);
+                    break;
 
                 case MAIN_REPEATER:
                     notifyDiscovery(THING_TYPE_VIRTUALKEYPAD, device.getIntegrationId(), label);
+                    break;
+                    
+                case QS_IO_INTERFACE:
+                    notifyDiscovery(THING_TYPE_QSIO, device.getIntegrationId(), label);
                     break;
             }
         } else {
