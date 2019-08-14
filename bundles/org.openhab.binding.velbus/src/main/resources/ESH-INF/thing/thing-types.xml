@@ -666,7 +666,7 @@
 		<label>VMBPIRO</label>
 		<description>Outdoor motion, twilight and temperature sensor, Theben</description>
 		<channel-groups>
-			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="input" typeId="9channelInputModuleWithTemperatureAndLightSensor" />
 			<channel-group id="clockAlarm" typeId="clockAlarm" />
 		</channel-groups>
 
@@ -856,14 +856,14 @@
 			This is a generic analog module with 4 input channels.
 		</description>
 		<channels>
-            <channel id="CH9RAW" typeId="voltage" />
-            <channel id="CH9" typeId="text" />
-            <channel id="CH10RAW" typeId="voltage" />
-            <channel id="CH10" typeId="text" />
-            <channel id="CH11RAW" typeId="voltage" />
-            <channel id="CH11" typeId="text" />
-            <channel id="CH12RAW" typeId="voltage" />
-            <channel id="CH12" typeId="text" />
+			<channel id="CH9RAW" typeId="voltage" />
+			<channel id="CH9" typeId="text" />
+			<channel id="CH10RAW" typeId="voltage" />
+			<channel id="CH10" typeId="text" />
+			<channel id="CH11RAW" typeId="voltage" />
+			<channel id="CH11" typeId="text" />
+			<channel id="CH12RAW" typeId="voltage" />
+			<channel id="CH12" typeId="text" />
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="4channelAnalogOutputModule">
@@ -947,6 +947,22 @@
 			<channel id="CH7" typeId="trigger-channel" />
 			<channel id="CH8" typeId="trigger-channel" />
 			<channel id="CH9" typeId="temperature" />
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="9channelInputModuleWithTemperatureAndLightSensor">
+		<label>Input Module with Temperature sensor</label>
+		<description>This is a generic module with 8 input channels, a temperature sensor and a light sensor.</description>
+		<channels>
+			<channel id="CH1" typeId="trigger-channel" />
+			<channel id="CH2" typeId="trigger-channel" />
+			<channel id="CH3" typeId="trigger-channel" />
+			<channel id="CH4" typeId="trigger-channel" />
+			<channel id="CH5" typeId="trigger-channel" />
+			<channel id="CH6" typeId="trigger-channel" />
+			<channel id="CH7" typeId="trigger-channel" />
+			<channel id="CH8" typeId="trigger-channel" />
+			<channel id="CH9" typeId="temperature" />
+			<channel id="LIGHT" typeId="illuminance" />
 		</channels>
 	</channel-group-type>
 	<channel-group-type id="33channelInputModuleWithTemperatureSensor">
