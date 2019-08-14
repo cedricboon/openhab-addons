@@ -24,7 +24,12 @@ import org.eclipse.smarthome.core.library.types.QuantityType;
 import org.eclipse.smarthome.core.library.unit.SmartHomeUnits;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
+import org.eclipse.smarthome.core.thing.ThingStatus;
+import org.eclipse.smarthome.core.thing.ThingStatusDetail;
 import org.eclipse.smarthome.core.thing.ThingTypeUID;
+import org.eclipse.smarthome.core.types.Command;
+import org.eclipse.smarthome.core.types.RefreshType;
+import org.openhab.binding.velbus.internal.packets.VelbusLightValueRequestPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusPacket;
 
 /**
@@ -42,6 +47,27 @@ public class VelbusVMBPIROHandler extends VelbusTemperatureSensorHandler {
         super(thing, 0, new ChannelUID(thing.getUID(), "input#CH9"));
 
         this.illuminanceChannel = new ChannelUID(thing.getUID(), "input#LIGHT");
+    }
+
+    @Override
+    public void handleCommand(ChannelUID channelUID, Command command) {
+        super.handleCommand(channelUID, command);
+
+        VelbusBridgeHandler velbusBridgeHandler = getVelbusBridgeHandler();
+        if (velbusBridgeHandler == null) {
+            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.BRIDGE_OFFLINE);
+            return;
+        }
+
+        if (command instanceof RefreshType) {
+            if (channelUID.equals(illuminanceChannel)) {
+                VelbusLightValueRequestPacket packet = new VelbusLightValueRequestPacket(
+                        getModuleAddress().getAddress());
+
+                byte[] packetBytes = packet.getBytes();
+                velbusBridgeHandler.sendPacket(packetBytes);
+            }
+        }
     }
 
     @Override
