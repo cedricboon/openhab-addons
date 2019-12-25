@@ -77,15 +77,16 @@ public class EvoCommunicator extends GenericCommunicator implements IParadoxComm
         int ramBlockNumber = request.getRamBlockNumber();
 
         byte[] parsedResult = parsePacket(response);
-        if (parsedResult != null) {
+        if (parsedResult != null && parsedResult.length == RAM_BLOCK_SIZE) {
             memoryMap.updateElement(ramBlockNumber, parsedResult);
             logger.trace("Result for ramBlock={} is [{}]", ramBlockNumber, parsedResult);
         } else {
             logger.debug("Wrong parsed result. Probably wrong data received in response");
+            return;
         }
 
         // Trigger listeners update when last memory page update is received
-        if (ramBlockNumber == panelType.getRamPagesNumber() && listeners != null && !listeners.isEmpty()) {
+        if (ramBlockNumber == panelType.getRamPagesNumber()) {
             updateListeners();
         }
     }
@@ -110,7 +111,7 @@ public class EvoCommunicator extends GenericCommunicator implements IParadoxComm
             IRequest epromRequest = new EpromRequest(partitionNo, EntityType.PARTITION, readEpromIPPacket);
             submitRequest(epromRequest);
         } catch (ParadoxException e) {
-            logger.debug("Error creating request for with number={}, Exception={} ", partitionNo, e);
+            logger.debug("Error creating request for with number={}, Exception={} ", partitionNo, e.getMessage());
         }
     }
 
@@ -132,7 +133,7 @@ public class EvoCommunicator extends GenericCommunicator implements IParadoxComm
             IRequest epromRequest = new EpromRequest(zoneNumber, EntityType.ZONE, readEpromIPPacket);
             submitRequest(epromRequest);
         } catch (ParadoxException e) {
-            logger.debug("Error creating request with number={}, Exception={} ", zoneNumber, e);
+            logger.debug("Error creating request with number={}, Exception={} ", zoneNumber, e.getMessage());
         }
     }
 
@@ -221,7 +222,7 @@ public class EvoCommunicator extends GenericCommunicator implements IParadoxComm
 
     private void readRAM(int blockNo) {
         try {
-            logger.debug("Creating RAM page {} read request", blockNo);
+            logger.trace("Creating RAM page {} read request", blockNo);
             IPPacketPayload payload = new RamRequestPayload(blockNo, RAM_BLOCK_SIZE);
             ParadoxIPPacket ipPacket = createParadoxIpPacket(payload);
             IRequest ramRequest = new RamRequest(blockNo, ipPacket);
@@ -229,7 +230,7 @@ public class EvoCommunicator extends GenericCommunicator implements IParadoxComm
         } catch (ParadoxException e) {
             logger.debug(
                 "Unable to create request payload from provided bytes to read. blockNo={}, bytes to read={}. Exception={}",
-                blockNo, RAM_BLOCK_SIZE, e);
+                blockNo, RAM_BLOCK_SIZE, e.getMessage());
         }
     }
 

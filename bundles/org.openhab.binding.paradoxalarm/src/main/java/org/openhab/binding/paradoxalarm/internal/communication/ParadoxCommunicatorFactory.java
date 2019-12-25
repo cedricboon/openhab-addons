@@ -51,7 +51,7 @@ public class ParadoxCommunicatorFactory {
         try {
             return createCommunicator(panelType);
         } catch (IOException | ParadoxException e) {
-            logger.warn("Unable to create communicator for Panel {}. Exception={}", panelTypeStr, e);
+            logger.warn("Unable to create communicator for Panel {}. Exception={}", panelTypeStr, e.getMessage());
             return null;
         }
     }
@@ -60,8 +60,8 @@ public class ParadoxCommunicatorFactory {
             throws UnknownHostException, IOException, ParadoxException {
         switch (panelType) {
             case EVO48:
+            case EVO96:
             case EVO192:
-            case EVOHD:
                 logger.debug("Creating new communicator for Paradox {} system", panelType);
                 return new EvoCommunicator(ipAddress, tcpPort, ip150Password, pcPassword, scheduler, panelType);
             default:

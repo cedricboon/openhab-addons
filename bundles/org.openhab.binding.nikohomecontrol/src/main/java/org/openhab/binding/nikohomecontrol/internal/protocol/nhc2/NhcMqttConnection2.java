@@ -41,7 +41,6 @@ import org.eclipse.smarthome.io.transport.mqtt.MqttConnectionObserver;
 import org.eclipse.smarthome.io.transport.mqtt.MqttConnectionState;
 import org.eclipse.smarthome.io.transport.mqtt.MqttException;
 import org.eclipse.smarthome.io.transport.mqtt.MqttMessageSubscriber;
-import org.eclipse.smarthome.io.transport.mqtt.sslcontext.SSLContextProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +71,7 @@ public class NhcMqttConnection2 implements MqttActionCallback {
     private MqttConnectionObserver connectionObserver;
 
     private Path persistenceBasePath;
-    private SSLContextProvider sslContextProvider;
+    private TrustManager trustManagers[];
     private @Nullable String clientId;
 
     private volatile String cocoAddress = "";
@@ -81,13 +80,13 @@ public class NhcMqttConnection2 implements MqttActionCallback {
     NhcMqttConnection2(String clientId, String persistencePath, MqttMessageSubscriber messageSubscriber,
             MqttConnectionObserver connectionObserver) throws CertificateException {
         persistenceBasePath = Paths.get(persistencePath).resolve("nikohomecontrol");
-        sslContextProvider = getSSLContext();
+        trustManagers = getTrustManagers();
         this.clientId = clientId;
         this.messageSubscriber = messageSubscriber;
         this.connectionObserver = connectionObserver;
     }
 
-    private SSLContextProvider getSSLContext() throws CertificateException {
+    private TrustManager[] getTrustManagers() throws CertificateException {
         ResourceBundle certificatesBundle = ResourceBundle.getBundle("nikohomecontrol/certificates");
 
         try {
@@ -108,13 +107,9 @@ public class NhcMqttConnection2 implements MqttActionCallback {
             // Create trust managers used to validate server
             TrustManagerFactory tmFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             tmFactory.init(keyStore);
-            TrustManager[] trustManagers = tmFactory.getTrustManagers();
-
-            // Return the SSL context provider
-            return new NhcSSLContextProvider2(trustManagers);
-
+            return tmFactory.getTrustManagers();
         } catch (CertificateException | KeyStoreException | NoSuchAlgorithmException | IOException e) {
-            logger.warn("Niko Home Control: error with SSL context creation", e.getMessage());
+            logger.warn("Niko Home Control: error with SSL context creation: {} ", e.getMessage());
             throw new CertificateException("SSL context creation exception", e);
         } finally {
             ResourceBundle.clearCache();
@@ -125,9 +120,9 @@ public class NhcMqttConnection2 implements MqttActionCallback {
      * Start a secure MQTT connection and subscribe to all topics. This is the general connection, not touch profile
      * specific.
      *
-     * @param subscriber  MqttMessageSubscriber that will handle received messages
+     * @param subscriber MqttMessageSubscriber that will handle received messages
      * @param cocoAddress IP Address of the Niko Connected Controller
-     * @param port        Port for MQTT communication with the Niko Connected Controller
+     * @param port Port for MQTT communication with the Niko Connected Controller
      * @throws MqttException
      */
     synchronized void startPublicConnection(String cocoAddress, int port) throws MqttException {
@@ -162,7 +157,7 @@ public class NhcMqttConnection2 implements MqttActionCallback {
             logger.debug("Niko Home Control: public connection interrupted exception");
             throw new MqttException(0);
         } catch (ExecutionException e) {
-            logger.debug("Niko Home Control: public connection execution exception for {}", e.getCause());
+            logger.debug("Niko Home Control: public connection execution exception", e.getCause());
             throw new MqttException(32103);
         } catch (TimeoutException e) {
             logger.debug("Niko Home Control: public connection timeout exception");
@@ -176,9 +171,9 @@ public class NhcMqttConnection2 implements MqttActionCallback {
      * port as parameters. The class fields will already have been set by {@link startConnection}.
      *
      * @param subscriber MqttMessageSubscriber that will handle received messages
-     * @param username   MQTT username that identifies the specific touch profile. It should be the uuid retrieved from
-     *                       the profile list in the general communication that matches the touch profile name.
-     * @param password   Password for the touch profile
+     * @param username MQTT username that identifies the specific touch profile. It should be the uuid retrieved from
+     *            the profile list in the general communication that matches the touch profile name.
+     * @param password Password for the touch profile
      * @throws MqttException
      */
     synchronized void startProfileConnection(String username, String password) throws MqttException {
@@ -216,7 +211,7 @@ public class NhcMqttConnection2 implements MqttActionCallback {
             logger.debug("Niko Home Control: profile connection interrupted exception ");
             throw new MqttException(0);
         } catch (ExecutionException e) {
-            logger.debug("Niko Home Control: profile connection execution exception for {}", e.getCause());
+            logger.debug("Niko Home Control: profile connection execution exception", e.getCause());
             throw new MqttException(32103);
         } catch (TimeoutException e) {
             logger.debug("Niko Home Control: public connection timeout exception");
@@ -229,7 +224,7 @@ public class NhcMqttConnection2 implements MqttActionCallback {
         Path persistencePath = persistenceBasePath.resolve(clientId);
         MqttBrokerConnection connection = new MqttBrokerConnection(cocoAddress, port, true, clientId);
         connection.setPersistencePath(persistencePath);
-        connection.setSSLContextProvider(sslContextProvider);
+        connection.setTrustManagers(trustManagers);
         connection.setCredentials(username, password);
         connection.setQos(1);
         return connection;
@@ -368,6 +363,6 @@ public class NhcMqttConnection2 implements MqttActionCallback {
 
     @Override
     public void onFailure(String topic, Throwable error) {
-        logger.debug("Niko Home Control: publish failed {}, {}", topic, error);
+        logger.debug("Niko Home Control: publish failed {}, {}", topic, error.getMessage(), error);
     }
 }

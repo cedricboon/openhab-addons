@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -10,7 +9,7 @@
 
   <groupId>org.openhab.addons</groupId>
   <artifactId>org.openhab.addons.reactor</artifactId>
-  <version>2.5.0-SNAPSHOT</version>
+  <version>3.0.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
@@ -33,6 +32,7 @@
     <module>bom</module>
     <module>bundles</module>
     <module>features</module>
+    <module>itests</module>
   </modules>
 
   <scm>
@@ -43,7 +43,7 @@
   </scm>
 
   <issueManagement>
-    <system>Github</system>
+    <system>GitHub</system>
     <url>https://github.com/openhab/openhab2-addons/issues</url>
   </issueManagement>
 
@@ -66,16 +66,19 @@
     <maven.compiler.target>${oh.java.version}</maven.compiler.target>
     <maven.compiler.compilerVersion>${oh.java.version}</maven.compiler.compilerVersion>
 
-    <bnd.version>4.2.0</bnd.version>
-    <karaf.version>4.2.6</karaf.version>
-    <sat.version>0.6.1</sat.version>
+    <ohc.version>${project.version}</ohc.version>
+    <bnd.version>4.3.0</bnd.version>
+    <karaf.version>4.2.7</karaf.version>
+    <sat.version>0.8.0</sat.version>
     <slf4j.version>1.7.21</slf4j.version>
 
-    <bnd.importpackage></bnd.importpackage>
-    <bnd.exportpackage></bnd.exportpackage>
+    <bnd.importpackage/>
+    <bnd.exportpackage/>
     <bnd.includeresource>-${.}/NOTICE, -${.}/*.xsd</bnd.includeresource>
 
     <feature.directory>src/main/feature/feature.xml</feature.directory>
+    <spotless.version>1.24.3</spotless.version>
+    <spotless.check.skip>true</spotless.check.skip> <!-- Spotless disabled for now -->
   </properties>
 
   <dependencyManagement>
@@ -83,47 +86,40 @@
       <dependency>
         <groupId>org.openhab.core.bom</groupId>
         <artifactId>org.openhab.core.bom.compile</artifactId>
-        <version>${project.version}</version>
+        <version>${ohc.version}</version>
         <type>pom</type>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.openhab.core.bom</groupId>
         <artifactId>org.openhab.core.bom.compile-model</artifactId>
-        <version>${project.version}</version>
+        <version>${ohc.version}</version>
         <type>pom</type>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.openhab.core.bom</groupId>
         <artifactId>org.openhab.core.bom.openhab-core</artifactId>
-        <version>${project.version}</version>
+        <version>${ohc.version}</version>
         <type>pom</type>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>org.openhab.core.bom</groupId>
         <artifactId>org.openhab.core.bom.runtime</artifactId>
-        <version>${project.version}</version>
+        <version>${ohc.version}</version>
         <type>pom</type>
         <scope>runtime</scope>
       </dependency>
       <dependency>
         <groupId>org.openhab.core.bom</groupId>
         <artifactId>org.openhab.core.bom.test</artifactId>
-        <version>${project.version}</version>
+        <version>${ohc.version}</version>
         <type>pom</type>
         <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <repositories>
-    <repository>
-      <id>osgiify</id>
-      <url>https://dl.bintray.com/openhab/mvn/openhab-osgiify</url>
-    </repository>
-  </repositories>
 
   <build>
     <pluginManagement>
@@ -168,7 +164,7 @@ Import-Package: \\
             </execution>
           </executions>
         </plugin>
-        <!-- Required to make the maven-jar-plugin pick up the bnd generated 
+        <!-- Required to make the maven-jar-plugin pick up the bnd generated
           manifest. Also avoid packaging empty Jars -->
         <!-- Moved... -->
 
@@ -214,7 +210,7 @@ Import-Package: \\
           <version>${bnd.version}</version>
           <configuration>
             <failOnChanges>false</failOnChanges>
-            <bndruns></bndruns>
+            <bndruns/>
           </configuration>
           <executions>
             <execution>
@@ -257,7 +253,7 @@ Import-Package: \\
           </executions>
         </plugin>
 
-        <!-- Define the version of the baseline plugin we use and avoid failing 
+        <!-- Define the version of the baseline plugin we use and avoid failing
           when no baseline jar exists. -->
         <!-- (for example before the first release) -->
         <plugin>
@@ -424,8 +420,7 @@ Import-Package: \\
           </executions>
         </plugin>
 
-        <!-- This plugin's configuration is used to store Eclipse m2e settings 
-          only. -->
+        <!-- This plugin's configuration is used to store Eclipse m2e settings only. -->
         <!-- It has no influence on the Maven build itself. -->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
@@ -445,7 +440,7 @@ Import-Package: \\
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore></ignore>
+                    <ignore/>
                   </action>
                 </pluginExecution>
                 <pluginExecution>
@@ -458,7 +453,7 @@ Import-Package: \\
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore></ignore>
+                    <ignore/>
                   </action>
                 </pluginExecution>
                 <pluginExecution>
@@ -472,7 +467,7 @@ Import-Package: \\
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore></ignore>
+                    <ignore/>
                   </action>
                 </pluginExecution>
                 <pluginExecution>
@@ -485,7 +480,7 @@ Import-Package: \\
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore></ignore>
+                    <ignore/>
                   </action>
                 </pluginExecution>
                 <pluginExecution>
@@ -495,16 +490,18 @@ Import-Package: \\
                     <versionRange>[3.0.0,)</versionRange>
                     <goals>
                       <goal>unpack</goal>
+                      <goal>unpack-dependencies</goal>
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <execute></execute>
+                    <execute/>
                   </action>
                 </pluginExecution>
               </pluginExecutions>
             </lifecycleMappingMetadata>
           </configuration>
         </plugin>
+
         <plugin>
           <groupId>org.openhab.tools.sat</groupId>
           <artifactId>sat-plugin</artifactId>
@@ -523,6 +520,75 @@ Import-Package: \\
                 <goal>report</goal>
               </goals>
               <phase>verify</phase>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>${spotless.version}</version>
+          <configuration>
+            <java>
+              <eclipse>
+                <file>openhab_codestyle.xml</file>
+                <version>4.11.0</version>
+              </eclipse>
+              <removeUnusedImports/>
+              <importOrder>
+                <file>openhab.importorder</file>
+              </importOrder>
+              <endWithNewline/>
+            </java>
+            <formats>
+              <format>
+                <!-- *.xml -->
+                <includes>
+                  <include>src/**/*.xml</include>
+                </includes>
+                <excludes>
+                  <exclude>**/pom.xml</exclude>
+                </excludes>
+                <eclipseWtp>
+                  <type>XML</type>
+                  <files>
+                    <file>openhab_wst_xml_files.prefs</file>
+                  </files>
+                  <version>4.12.0</version>
+                </eclipseWtp>
+                <trimTrailingWhitespace/>
+                <endWithNewline/>
+              </format>
+              <format>
+                <!-- pom.xml -->
+                <includes>
+                  <include>pom.xml</include>
+                </includes>
+                <eclipseWtp>
+                  <type>XML</type>
+                  <files>
+                    <file>openhab_wst_pom_file.prefs</file>
+                  </files>
+                  <version>4.12.0</version>
+                </eclipseWtp>
+                <trimTrailingWhitespace/>
+                <endWithNewline/>
+              </format>
+            </formats>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.openhab.tools</groupId>
+              <artifactId>openhab-codestyle</artifactId>
+              <version>${sat.version}</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <id>codestyle_check</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <phase>initialize</phase>
             </execution>
           </executions>
         </plugin>
@@ -551,6 +617,7 @@ Import-Package: \\
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -626,7 +693,7 @@ Import-Package: \\
         </file>
       </activation>
       <properties>
-        <bnd.includeresource>-${.}/../../NOTICE, -${.}/../../*.xsd, ${.}/../../lib/; filter:=*.jar; lib:=true</bnd.includeresource>
+        <bnd.includeresource>-${.}/../../NOTICE, -${.}/../../*.xsd, ${.}/../../lib/;filter:=*.jar;lib:=true</bnd.includeresource>
         <feature.directory>../../src/main/feature/feature.xml</feature.directory>
       </properties>
       <build>
@@ -657,7 +724,6 @@ Import-Package: \\
         </plugins>
       </build>
     </profile>
-
     <profile>
       <id>add-libraries-eclipse</id>
       <activation>
@@ -669,20 +735,8 @@ Import-Package: \\
         </file>
       </activation>
       <properties>
-        <bnd.includeresource>-${.}/NOTICE, -${.}/*.xsd, ${.}/lib/; filter:=*.jar; lib:=true</bnd.includeresource>
+        <bnd.includeresource>-${.}/NOTICE, -${.}/*.xsd, ${.}/lib/;filter:=*.jar;lib:=true</bnd.includeresource>
       </properties>
-    </profile>
-
-    <profile>
-      <id>skip-itest</id>
-      <activation>
-        <property>
-          <name>!skipTests</name>
-        </property>
-      </activation>
-      <modules>
-        <module>itests</module>
-      </modules>
     </profile>
     <profile>
       <id>with-bnd-resolver-resolve</id>
@@ -711,45 +765,6 @@ Import-Package: \\
         </pluginManagement>
       </build>
     </profile>
-
-    <profile>
-      <id>embedExternalDependency</id>
-      <activation>
-        <file>
-          <exists>embedExternalDependency.profile</exists>
-        </file>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <version>3.0.0</version>
-            <executions>
-              <!-- unpack dependency -->
-              <execution>
-                <id>unpack-dependency</id>
-                <goals>  
-                  <goal>unpack</goal>
-                </goals>
-                <configuration>
-                  <artifactItems>
-                    <artifactItem>
-                      <groupId>${embedDependency.groupId}</groupId>
-                      <artifactId>${embedDependency.artifactId}</artifactId>
-                      <version>${embedDependency.version}</version>
-                      <type>jar</type>
-                      <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                      <overWrite>true</overWrite>
-                    </artifactItem>
-                  </artifactItems>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
   </profiles>
 
 </project>

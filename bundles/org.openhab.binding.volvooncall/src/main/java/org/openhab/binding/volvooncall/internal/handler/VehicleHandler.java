@@ -217,6 +217,8 @@ public class VehicleHandler extends BaseThingHandler {
                 actionStart(5);
             } else if (REMOTE_HEATER.equals(channelID)) {
                 actionHeater(onOffCommand == OnOffType.ON);
+            } else if (PRECLIMATIZATION.equals(channelID)) {
+                actionPreclimatization(onOffCommand == OnOffType.ON);
             } else if (CAR_LOCKED.equals(channelID)) {
                 if (onOffCommand == OnOffType.ON) {
                     actionClose();
@@ -238,7 +240,7 @@ public class VehicleHandler extends BaseThingHandler {
                     return UnDefType.UNDEF;
                 }
             case TRIP_DISTANCE:
-                return new QuantityType<Length>(tripDetails.distance / 1000, KILO(SIUnits.METRE));
+                return new QuantityType<Length>((double) tripDetails.distance / 1000, KILO(SIUnits.METRE));
             case TRIP_START_TIME:
                 return tripDetails.getStartTime();
             case TRIP_END_TIME:
@@ -246,9 +248,9 @@ public class VehicleHandler extends BaseThingHandler {
             case TRIP_DURATION:
                 return new QuantityType<Time>(tripDetails.getDurationInMinutes(), SmartHomeUnits.MINUTE);
             case TRIP_START_ODOMETER:
-                return new QuantityType<Length>(tripDetails.startOdometer / 1000, KILO(SIUnits.METRE));
+                return new QuantityType<Length>((double) tripDetails.startOdometer / 1000, KILO(SIUnits.METRE));
             case TRIP_STOP_ODOMETER:
-                return new QuantityType<Length>(tripDetails.endOdometer / 1000, KILO(SIUnits.METRE));
+                return new QuantityType<Length>((double) tripDetails.endOdometer / 1000, KILO(SIUnits.METRE));
             case TRIP_START_POSITION:
                 return tripDetails.getStartPosition();
             case TRIP_END_POSITION:
@@ -281,19 +283,33 @@ public class VehicleHandler extends BaseThingHandler {
             case FRONT_LEFT_WND:
                 return status.windows != null ? status.windows.frontLeftWindowOpen : UnDefType.NULL;
             case ODOMETER:
-                return new QuantityType<Length>(status.odometer.floatValue() / 1000, KILO(SIUnits.METRE));
+                return status.odometer != Status.UNDEFINED
+                        ? new QuantityType<Length>((double) status.odometer / 1000, KILO(SIUnits.METRE))
+                        : UnDefType.UNDEF;
             case TRIPMETER1:
-                return new QuantityType<Length>(status.tripMeter1.floatValue() / 1000, KILO(SIUnits.METRE));
+                return status.tripMeter1 != Status.UNDEFINED
+                        ? new QuantityType<Length>((double) status.tripMeter1 / 1000, KILO(SIUnits.METRE))
+                        : UnDefType.UNDEF;
             case TRIPMETER2:
-                return new QuantityType<Length>(status.tripMeter2.floatValue() / 1000, KILO(SIUnits.METRE));
+                return status.tripMeter2 != Status.UNDEFINED
+                        ? new QuantityType<Length>((double) status.tripMeter2 / 1000, KILO(SIUnits.METRE))
+                        : UnDefType.UNDEF;
             case DISTANCE_TO_EMPTY:
-                return new QuantityType<Length>(status.distanceToEmpty, KILO(SIUnits.METRE));
+                return status.distanceToEmpty != Status.UNDEFINED
+                        ? new QuantityType<Length>(status.distanceToEmpty, KILO(SIUnits.METRE))
+                        : UnDefType.UNDEF;
             case FUEL_AMOUNT:
-                return new QuantityType<Volume>(status.fuelAmount, SmartHomeUnits.LITRE);
+                return status.fuelAmount != Status.UNDEFINED
+                        ? new QuantityType<Volume>(status.fuelAmount, SmartHomeUnits.LITRE)
+                        : UnDefType.UNDEF;
             case FUEL_LEVEL:
-                return new QuantityType<>(status.fuelAmountLevel, SmartHomeUnits.PERCENT);
+                return status.fuelAmountLevel != Status.UNDEFINED
+                        ? new QuantityType<>(status.fuelAmountLevel, SmartHomeUnits.PERCENT)
+                        : UnDefType.UNDEF;
             case FUEL_CONSUMPTION:
-                return new DecimalType(status.averageFuelConsumption.floatValue() / 10);
+                return status.averageFuelConsumption != Status.UNDEFINED
+                        ? new DecimalType(status.averageFuelConsumption / 10)
+                        : UnDefType.UNDEF;
             case ACTUAL_LOCATION:
                 return position.getPosition();
             case CALCULATED_LOCATION:
@@ -348,7 +364,8 @@ public class VehicleHandler extends BaseThingHandler {
             if (activeOptions.containsKey(action)) {
                 if (vehicleStatus.carLocked != controlState) {
                     try {
-                        bridgeHandler.postURL(SERVICE_URL + "vehicles/" + configuration.vin + "/" + action, null);
+                        String address = SERVICE_URL + "vehicles/" + configuration.vin + "/" + action;
+                        bridgeHandler.postURL(address, "{}");
                     } catch (JsonSyntaxException | IOException e) {
                         logger.warn("Exception occurred during execution: {}", e.getMessage(), e);
                         updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR, e.getMessage());
@@ -367,8 +384,15 @@ public class VehicleHandler extends BaseThingHandler {
         if (bridgeHandler != null) {
             if (activeOptions.containsKey(action)) {
                 try {
-                    String command = start ? "start" : "stop";
-                    bridgeHandler.postURL(SERVICE_URL + "vehicles/" + configuration.vin + "/heater/" + command, null);
+                    if (action.contains(REMOTE_HEATER)) {
+                        String command = start ? "start" : "stop";
+                        String address = SERVICE_URL + "vehicles/" + configuration.vin + "/heater/" + command;
+                        bridgeHandler.postURL(address, start ? "{}" : null);
+                    } else if (action.contains(PRECLIMATIZATION)) {
+                        String command = start ? "start" : "stop";
+                        String address = SERVICE_URL + "vehicles/" + configuration.vin + "/preclimatization/" + command;
+                        bridgeHandler.postURL(address, start ? "{}" : null);
+                    }
                 } catch (JsonSyntaxException | IOException e) {
                     logger.warn("Exception occurred during execution: {}", e.getMessage(), e);
                     updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR, e.getMessage());
@@ -383,6 +407,10 @@ public class VehicleHandler extends BaseThingHandler {
         actionHeater(REMOTE_HEATER, start);
     }
 
+    public void actionPreclimatization(Boolean start) {
+        actionHeater(PRECLIMATIZATION, start);
+    }
+
     public void actionOpen() {
         actionOpenClose(UNLOCK, OnOffType.OFF);
     }
@@ -395,8 +423,8 @@ public class VehicleHandler extends BaseThingHandler {
         VolvoOnCallBridgeHandler bridgeHandler = getBridgeHandler();
         if (bridgeHandler != null) {
             if (activeOptions.containsKey(ENGINE_START)) {
-                String url = new String(SERVICE_URL + "vehicles/" + vehicle.vehicleId + "/engine/start");
-                String json = new String("{\"runtime\":" + runtime.toString() + "}");
+                String url = SERVICE_URL + "vehicles/" + vehicle.vehicleId + "/engine/start";
+                String json = "{\"runtime\":" + runtime.toString() + "}";
 
                 try {
                     bridgeHandler.postURL(url, json);
@@ -437,5 +465,4 @@ public class VehicleHandler extends BaseThingHandler {
     public Collection<Class<? extends ThingHandlerService>> getServices() {
         return Collections.singletonList(VolvoOnCallActions.class);
     }
-
 }

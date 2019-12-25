@@ -18,8 +18,6 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
@@ -126,6 +124,17 @@ public class LightsAndGroupsTests {
         HueGroupEntry device = cs.ds.groups.get(cs.mapItemUIDtoHueID(item));
         assertThat(device.groupItem, is(item));
         assertThat(device.action, is(instanceOf(HueStatePlug.class)));
+    }
+
+    @Test
+    public void addDeviceAsGroupSwitchableByTag() {
+        GroupItem item = new GroupItem("group1", new SwitchItem("switch1"));
+        item.addTag("Switchable");
+        item.addTag("Huelight");
+        itemRegistry.add(item);
+        HueLightEntry device = cs.ds.lights.get(cs.mapItemUIDtoHueID(item));
+        assertThat(device.item, is(item));
+        assertThat(device.state, is(instanceOf(HueStatePlug.class)));
     }
 
     @Test

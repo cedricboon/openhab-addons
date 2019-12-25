@@ -48,9 +48,9 @@ network:speedtest:local "SpeedTest 50Mo" @ "Internet" [refreshInterval=20, uploa
 Use the following options for a **network:pingdevice**:
 
 -   **hostname:** IP address or hostname of the device
--   **retry:** After how many refresh interval cycles the device will be assumed to be offline. Default is 1.
--   **timeout:** How long the ping will wait for an answer, in milliseconds. Default: `5000` (5 seconds)
--   **refreshInterval:** How often the device will be checked, in milliseconds. Default: `60000` (one minute)
+-   **retry:** After how many refresh interval cycles the device will be assumed to be offline. Default: `1`.
+-   **timeout:** How long the ping will wait for an answer, in milliseconds. Default: `5000` (5 seconds).
+-   **refreshInterval:** How often the device will be checked, in milliseconds. Default: `60000` (one minute).
 
 Use the following additional options for a **network:servicedevice**:
 
@@ -58,11 +58,11 @@ Use the following additional options for a **network:servicedevice**:
 
 Use the following options for a **network:speedtest**:
 
--   **refreshInterval:** How often the test will be operated, in minutes. Default: `60000` (one minute)
--   **uploadSize:** Size of the file to be uploaded in bytes. Default is 1000000.
+-   **refreshInterval:** Interval between each test execution, in minutes. Default: `20`.
+-   **uploadSize:** Size of the file to be uploaded in bytes. Default: `1000000`.
 -   **url:** Url of the speed test server.
--   **fileName:** Name of the file to download from test server
--   **initialDelay:** Delay (in minutes) before starting the first speed test (can help avoid flooding your server at startup). Default : 5.
+-   **fileName:** Name of the file to download from test server.
+-   **initialDelay:** Delay (in minutes) before starting the first speed test (can help avoid flooding your server at startup). Default: `5`.
 
 ## Presence detection - Configure target device
 
@@ -130,11 +130,11 @@ Linux has three different tools:
 *   arping by Thomas Habets (Ubuntu/Debian: `apt-get install arping`)
 *   arp-ping by Eli Fulkerson (Windows: https://www.elifulkerson.com/projects/arp-ping.php)
 
-arping by Thomas Habets runs on Windows and MacOS as well.
+arping by Thomas Habets runs on Windows and macOS as well.
 
 Make sure the tool is available in the PATH, or in the same path as the openHAB executable.
 
-On Linux and MacOS elevated access permissions may be needed, for instance by making the executable a suid executable (`chmod u+s /usr/sbin/arping`).
+On Linux and macOS elevated access permissions may be needed, for instance by making the executable a suid executable (`chmod u+s /usr/sbin/arping`).
 Just test the executable on the command line; if `sudo` is required, grant elevated permissions.
 
 ### DHCP Listen

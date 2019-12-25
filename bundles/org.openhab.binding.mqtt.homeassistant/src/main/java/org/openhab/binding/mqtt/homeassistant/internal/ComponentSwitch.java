@@ -37,12 +37,12 @@ public class ComponentSwitch extends AbstractComponent<ComponentSwitch.ChannelCo
         protected boolean optimistic = false;
 
         protected String state_topic = "";
-        protected String state_on = "true";
-        protected String state_off = "false";
+        protected String state_on = "ON";
+        protected String state_off = "OFF";
         protected @Nullable String command_topic;
-        protected String payload_on = "true";
-        protected String payload_off = "false";
-    };
+        protected String payload_on = "ON";
+        protected String payload_off = "OFF";
+    }
 
     public ComponentSwitch(CFactory.ComponentConfiguration componentConfiguration) {
         super(componentConfiguration, ChannelConfiguration.class);
@@ -55,8 +55,7 @@ public class ComponentSwitch extends AbstractComponent<ComponentSwitch.ChannelCo
         OnOffValue value = new OnOffValue(channelConfiguration.state_on, channelConfiguration.state_off,
                 channelConfiguration.payload_on, channelConfiguration.payload_off);
 
-        buildChannel(switchChannelID, value, channelConfiguration.name)
-                .listener(componentConfiguration.getUpdateListener())//
+        buildChannel(switchChannelID, value, channelConfiguration.name, componentConfiguration.getUpdateListener())//
                 .stateTopic(channelConfiguration.state_topic, channelConfiguration.value_template)//
                 .commandTopic(channelConfiguration.command_topic, channelConfiguration.retain)//
                 .build();
