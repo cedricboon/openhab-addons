@@ -12,12 +12,15 @@
  */
 package org.openhab.binding.velbus.internal;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusFirstGenerationDeviceModuleAddress} represents the address Velbus
  * module of the 1st generation.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusFirstGenerationDeviceModuleAddress extends VelbusModuleAddress {
 
     public VelbusFirstGenerationDeviceModuleAddress(byte address) {

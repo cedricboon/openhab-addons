@@ -17,6 +17,7 @@ import static org.openhab.binding.velbus.internal.VelbusBindingConstants.*;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.thing.ThingTypeUID;
 import org.eclipse.smarthome.core.thing.ThingUID;
 import org.openhab.binding.velbus.internal.handler.VelbusBridgeHandler;
@@ -28,6 +29,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusChannelNameRequestPacke
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusModule {
     private VelbusModuleAddress velbusModuleAddress;
     private byte highByteOfSerialNumber;
@@ -94,7 +96,7 @@ public class VelbusModule {
             }
         }
 
-        return channelName.length() > 0 ? channelName : null;
+        return channelName;
     }
 
     public void sendChannelNameRequests(VelbusBridgeHandler bridgeHandler) {
@@ -130,7 +132,7 @@ public class VelbusModule {
 
         for (int i = 1; i <= channelNames.length; i++) {
             String channelName = getChannelName(i);
-            if (channelName != null) {
+            if (channelName.length() > 0) {
                 properties.put(CHANNEL + i, channelName);
             }
         }

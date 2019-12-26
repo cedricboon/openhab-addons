@@ -12,11 +12,14 @@
  */
 package org.openhab.binding.velbus.internal;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusClockAlarm} represents a class that contains the state representation of a velbus clock alarm.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusClockAlarm {
     private boolean enabled;
     private boolean isLocal;
