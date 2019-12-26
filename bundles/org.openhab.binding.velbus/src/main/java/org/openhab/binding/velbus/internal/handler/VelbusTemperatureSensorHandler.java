@@ -20,6 +20,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.measure.quantity.Temperature;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.library.types.QuantityType;
 import org.eclipse.smarthome.core.library.unit.SIUnits;
 import org.eclipse.smarthome.core.thing.ChannelUID;
@@ -37,8 +39,9 @@ import org.openhab.binding.velbus.internal.packets.VelbusSensorTemperatureReques
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public abstract class VelbusTemperatureSensorHandler extends VelbusSensorWithAlarmClockHandler {
-    private ScheduledFuture<?> refreshJob;
+    private @Nullable ScheduledFuture<?> refreshJob;
     private ChannelUID temperatureChannel;
 
     public VelbusTemperatureSensorHandler(Thing thing, int numberOfSubAddresses, ChannelUID temperatureChannel) {

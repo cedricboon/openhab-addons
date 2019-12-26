@@ -21,6 +21,8 @@ import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
@@ -39,6 +41,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusPacket;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusVMB7INHandler extends VelbusSensorWithAlarmClockHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMB7IN));
 
@@ -51,7 +54,7 @@ public class VelbusVMB7INHandler extends VelbusSensorWithAlarmClockHandler {
     private final ChannelUID COUNTER_4_CHANNEL = new ChannelUID(thing.getUID(), "counter#COUNTER4");
     private final ChannelUID COUNTER_4_CHANNEL_CURRENT = new ChannelUID(thing.getUID(), "counter#COUNTER4_CURRENT");
 
-    private ScheduledFuture<?> refreshJob;
+    private @Nullable ScheduledFuture<?> refreshJob;
 
     public VelbusVMB7INHandler(Thing thing) {
         super(thing, 0);

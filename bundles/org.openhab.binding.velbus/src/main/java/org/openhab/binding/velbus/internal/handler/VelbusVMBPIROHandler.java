@@ -20,6 +20,7 @@ import java.util.Set;
 
 import javax.measure.quantity.Illuminance;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.library.types.QuantityType;
 import org.eclipse.smarthome.core.library.unit.SmartHomeUnits;
 import org.eclipse.smarthome.core.thing.ChannelUID;
@@ -38,6 +39,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusPacket;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusVMBPIROHandler extends VelbusTemperatureSensorHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMBPIRO));
 

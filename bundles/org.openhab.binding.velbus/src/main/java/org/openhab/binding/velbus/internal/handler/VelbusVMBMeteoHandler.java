@@ -22,6 +22,7 @@ import javax.measure.quantity.Illuminance;
 import javax.measure.quantity.Length;
 import javax.measure.quantity.Speed;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.library.types.QuantityType;
 import org.eclipse.smarthome.core.library.unit.MetricPrefix;
 import org.eclipse.smarthome.core.library.unit.SIUnits;
@@ -40,6 +41,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusSensorReadoutRequestPac
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusVMBMeteoHandler extends VelbusTemperatureSensorHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMBMETEO));
 

@@ -12,6 +12,7 @@
  */
 package org.openhab.binding.velbus.internal.handler;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.library.types.StringType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
@@ -26,6 +27,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusMemoTextPacket;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public abstract class VelbusMemoHandler extends VelbusThermostatHandler {
     private final ChannelUID MEMO_CHANNEL = new ChannelUID(thing.getUID(), "oledDisplay#MEMO");
     public final int MEMO_TEXT_MAX_LENGTH = 63;

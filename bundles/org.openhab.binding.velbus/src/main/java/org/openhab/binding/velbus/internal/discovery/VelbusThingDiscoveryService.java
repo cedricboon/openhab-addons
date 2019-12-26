@@ -63,7 +63,7 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
     @Override
     public void deactivate() {
         removeOlderResults(new Date().getTime());
-        velbusBridgeHandler.setDefaultPacketListener(null);
+        velbusBridgeHandler.clearDefaultPacketListener();
     }
 
     @Override

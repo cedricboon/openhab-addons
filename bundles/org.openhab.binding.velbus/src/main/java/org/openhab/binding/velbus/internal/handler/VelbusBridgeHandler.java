@@ -26,6 +26,8 @@ import java.util.TimeZone;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.ThingStatus;
@@ -46,19 +48,20 @@ import org.slf4j.LoggerFactory;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
-    private Logger logger = LoggerFactory.getLogger(VelbusBridgeHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(VelbusBridgeHandler.class);
 
     private long lastPacketTimeMillis;
 
-    protected VelbusPacketListener defaultPacketListener;
+    protected @Nullable VelbusPacketListener defaultPacketListener;
     protected Map<Byte, VelbusPacketListener> packetListeners = new HashMap<Byte, VelbusPacketListener>();
 
-    private ScheduledFuture<?> timeUpdateJob;
-    private ScheduledFuture<?> reconnectionHandler;
+    private @Nullable ScheduledFuture<?> timeUpdateJob;
+    private @Nullable ScheduledFuture<?> reconnectionHandler;
 
-    private OutputStream outputStream;
-    private VelbusPacketInputStream inputStream;
+    private @NonNullByDefault({}) OutputStream outputStream;
+    private @NonNullByDefault({}) VelbusPacketInputStream inputStream;
 
     private boolean listenerStopped;
 
@@ -128,7 +131,9 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
 
     @Override
     public void dispose() {
-        timeUpdateJob.cancel(true);
+        if (timeUpdateJob != null) {
+            timeUpdateJob.cancel(true);
+        }
         disconnect();
     }
 
@@ -160,8 +165,8 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
     private void readPacket(byte[] packet) {
         byte address = packet[2];
 
-        VelbusPacketListener packetListener = packetListeners.get(address);
-        if (packetListener != null) {
+        if (packetListeners.containsKey(address)) {
+            VelbusPacketListener packetListener = packetListeners.get(address);
             packetListener.onPacketReceived(packet);
         } else if (defaultPacketListener != null) {
             defaultPacketListener.onPacketReceived(packet);
@@ -174,7 +179,7 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
         listenerStopped = false;
 
         try {
-            while (!listenerStopped & inputStream != null & ((packet = inputStream.readPacket()).length > 0)) {
+            while (!listenerStopped & ((packet = inputStream.readPacket()).length > 0)) {
                 readPacket(packet);
             }
         } catch (IOException e) {
@@ -188,10 +193,8 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
 
     private void writePacket(byte[] packet) {
         try {
-            if (outputStream != null) {
-                outputStream.write(packet);
-                outputStream.flush();
-            }
+            outputStream.write(packet);
+            outputStream.flush();
         } catch (IOException e) {
             logger.error("Bridge write error", e);
 
@@ -211,26 +214,21 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
     protected void disconnect() {
         listenerStopped = true;
 
-        if (outputStream != null) {
-            try {
-                outputStream.close();
-            } catch (IOException e) {
-                logger.error("Error while closing output stream", e);
-            }
-            outputStream = null;
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            logger.error("Error while closing output stream", e);
         }
-        if (inputStream != null) {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                logger.error("Error while closing input stream", e);
-            }
-            inputStream = null;
+
+        try {
+            inputStream.close();
+        } catch (IOException e) {
+            logger.error("Error while closing input stream", e);
         }
     }
 
     public void startReconnectionHandler() {
-        if (reconnectionHandler == null || reconnectionHandler.isCancelled()) {
+        if (reconnectionHandler != null && reconnectionHandler.isCancelled()) {
             Object reconnectionIntervalObject = getConfig().get(RECONNECTION_INTERVAL);
             if (reconnectionIntervalObject != null) {
                 long reconnectionInterval = ((BigDecimal) reconnectionIntervalObject).longValue();
@@ -242,7 +240,9 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
                         public void run() {
                             try {
                                 connect();
-                                reconnectionHandler.cancel(false);
+                                if (reconnectionHandler != null) {
+                                    reconnectionHandler.cancel(false);
+                                }
                             } catch (Exception e) {
                                 logger.error("Reconnection failed", e);
                             }
@@ -257,11 +257,11 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
         defaultPacketListener = velbusPacketListener;
     }
 
-    public void registerPacketListener(byte address, VelbusPacketListener packetListener) {
-        if (packetListener == null) {
-            throw new IllegalArgumentException("It's not allowed to pass a null VelbusPacketListener.");
-        }
+    public void clearDefaultPacketListener() {
+        defaultPacketListener = null;
+    }
 
+    public void registerPacketListener(byte address, VelbusPacketListener packetListener) {
         packetListeners.put(Byte.valueOf(address), packetListener);
     }
 
