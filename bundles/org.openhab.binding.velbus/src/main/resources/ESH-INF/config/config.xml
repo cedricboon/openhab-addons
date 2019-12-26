@@ -43,12 +43,12 @@
 			<default>360</default>
 			<advanced>true</advanced>
 		</parameter>
-        <parameter name="reconnectionInterval" type="integer">
-            <label>Reconnection interval</label>
-            <description>The interval (in seconds) at which reconnections should be reattempted in case of a communication problem, default 15. If set to 0 or left empty, no reconnections will be attempted.</description>
-            <default>15</default>
-            <advanced>true</advanced>
-        </parameter>
+		<parameter name="reconnectionInterval" type="integer">
+			<label>Reconnection interval</label>
+			<description>The interval (in seconds) at which reconnections should be reattempted in case of a communication problem, default 15. If set to 0 or left empty, no reconnections will be attempted.</description>
+			<default>15</default>
+			<advanced>true</advanced>
+		</parameter>
 	</config-description>
 
 	<config-description uri="thing-type:velbus:temperatureSensorDevice">
