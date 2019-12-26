@@ -14,17 +14,22 @@ package org.openhab.binding.velbus.internal.handler;
 
 import static org.openhab.binding.velbus.internal.VelbusBindingConstants.PORT;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.TooManyListenersException;
 
+import org.apache.commons.io.IOUtils;
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.ThingStatusDetail;
+import org.eclipse.smarthome.io.transport.serial.PortInUseException;
+import org.eclipse.smarthome.io.transport.serial.SerialPort;
+import org.eclipse.smarthome.io.transport.serial.SerialPortEvent;
+import org.eclipse.smarthome.io.transport.serial.SerialPortEventListener;
+import org.eclipse.smarthome.io.transport.serial.SerialPortIdentifier;
+import org.eclipse.smarthome.io.transport.serial.SerialPortManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import gnu.io.NRSerialPort;
-import gnu.io.SerialPortEvent;
-import gnu.io.SerialPortEventListener;
 
 /**
  * {@link VelbusSerialBridgeHandler} is the handler for a Velbus Serial-interface and connects it to
@@ -35,11 +40,16 @@ import gnu.io.SerialPortEventListener;
 public class VelbusSerialBridgeHandler extends VelbusBridgeHandler implements SerialPortEventListener {
     private Logger logger = LoggerFactory.getLogger(VelbusSerialBridgeHandler.class);
 
-    private static final int BAUD = 9600;
-    private NRSerialPort serialPort;
+    private SerialPortManager serialPortManager;
 
-    public VelbusSerialBridgeHandler(Bridge velbusBridge) {
+    private SerialPortIdentifier portId;
+    private SerialPort serialPort;
+
+    private InputStream inputStream;
+
+    public VelbusSerialBridgeHandler(Bridge velbusBridge, SerialPortManager serialPortManager) {
         super(velbusBridge);
+        this.serialPortManager = serialPortManager;
     }
 
     @Override
@@ -55,25 +65,37 @@ public class VelbusSerialBridgeHandler extends VelbusBridgeHandler implements Se
     protected void connect() {
         String port = (String) getConfig().get(PORT);
         if (port != null) {
-            serialPort = new NRSerialPort(port, BAUD);
-            if (serialPort.connect()) {
+            // parse ports and if the port is found, initialize the reader
+            portId = serialPortManager.getIdentifier(port);
+            if (portId == null) {
+                updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.OFFLINE.CONFIGURATION_ERROR, "Port is not known!");
+                return;
+            }
+
+            // initialize serial port
+            try {
+                serialPort = portId.open(getThing().getUID().toString(), 2000);
                 initializeStreams(serialPort.getOutputStream(), serialPort.getInputStream());
+
+                serialPort.addEventListener(this);
+                serialPort.notifyOnDataAvailable(true);
+                inputStream = serialPort.getInputStream();
 
                 updateStatus(ThingStatus.ONLINE);
                 logger.debug("Bridge online on serial port {}", port);
-
-                try {
-                    serialPort.addEventListener(this);
-                    serialPort.notifyOnDataAvailable(true);
-                } catch (TooManyListenersException e) {
-                    onConnectionLost();
-                    logger.debug("Failed to register event listener on serial port {}", port);
-                }
-            } else {
+            } catch (final IOException ex) {
                 onConnectionLost();
-                logger.debug("Failed to connect to serial port {}", port);
+                logger.debug("I/O error on serial port {}", port);
+            } catch (PortInUseException e) {
+                onConnectionLost();
+                logger.debug("Port {} is in use", port);
+            } catch (TooManyListenersException e) {
+                onConnectionLost();
+                logger.debug("Cannot attach listener to port {}", port);
             }
-        } else {
+        } else
+
+        {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR, "Serial port name not configured");
             logger.debug("Serial port name not configured");
         }
@@ -82,9 +104,9 @@ public class VelbusSerialBridgeHandler extends VelbusBridgeHandler implements Se
     @Override
     protected void disconnect() {
         if (serialPort != null) {
-            serialPort.disconnect();
-            serialPort = null;
+            serialPort.close();
         }
+        IOUtils.closeQuietly(inputStream);
 
         super.disconnect();
     }

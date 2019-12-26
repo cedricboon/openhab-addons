@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.config.discovery.DiscoveryService;
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.Thing;
@@ -26,6 +27,7 @@ import org.eclipse.smarthome.core.thing.ThingUID;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandlerFactory;
 import org.eclipse.smarthome.core.thing.binding.ThingHandler;
 import org.eclipse.smarthome.core.thing.binding.ThingHandlerFactory;
+import org.eclipse.smarthome.io.transport.serial.SerialPortManager;
 import org.openhab.binding.velbus.internal.discovery.VelbusThingDiscoveryService;
 import org.openhab.binding.velbus.internal.handler.VelbusBlindsHandler;
 import org.openhab.binding.velbus.internal.handler.VelbusBridgeHandler;
@@ -46,6 +48,7 @@ import org.openhab.binding.velbus.internal.handler.VelbusVMBMeteoHandler;
 import org.openhab.binding.velbus.internal.handler.VelbusVMBPIROHandler;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * The {@link VelbusHandlerFactory} is responsible for creating things and thing
@@ -56,6 +59,17 @@ import org.osgi.service.component.annotations.Component;
 @Component(service = ThingHandlerFactory.class, configurationPid = "binding.velbus")
 public class VelbusHandlerFactory extends BaseThingHandlerFactory {
     private Map<ThingUID, ServiceRegistration<?>> discoveryServiceRegs = new HashMap<>();
+
+    private @NonNullByDefault({}) SerialPortManager serialPortManager;
+
+    @Reference
+    protected void setSerialPortManager(final SerialPortManager serialPortManager) {
+        this.serialPortManager = serialPortManager;
+    }
+
+    protected void unsetSerialPortManager(final SerialPortManager serialPortManager) {
+        this.serialPortManager = null;
+    }
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
@@ -70,7 +84,7 @@ public class VelbusHandlerFactory extends BaseThingHandlerFactory {
         if (BRIDGE_THING_TYPES_UIDS.contains(thingTypeUID)) {
             VelbusBridgeHandler velbusBridgeHandler = thingTypeUID.equals(NETWORK_BRIDGE_THING_TYPE)
                     ? new VelbusNetworkBridgeHandler((Bridge) thing)
-                    : new VelbusSerialBridgeHandler((Bridge) thing);
+                    : new VelbusSerialBridgeHandler((Bridge) thing, serialPortManager);
             registerDiscoveryService(velbusBridgeHandler);
             thingHandler = velbusBridgeHandler;
         } else if (VelbusRelayHandler.SUPPORTED_THING_TYPES.contains(thingTypeUID)) {
