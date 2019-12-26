@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.library.types.OnOffType;
 import org.eclipse.smarthome.core.library.types.PercentType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
@@ -39,6 +40,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusStatusRequestPacket;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusDimmerHandler extends VelbusThingHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMB1DM,
             THING_TYPE_VMB1LED, THING_TYPE_VMB4DC, THING_TYPE_VMBDME, THING_TYPE_VMBDMI, THING_TYPE_VMBDMIR));
@@ -46,7 +48,7 @@ public class VelbusDimmerHandler extends VelbusThingHandler {
     private int dimSpeed = 0;
 
     public VelbusDimmerHandler(Thing thing) {
-        super(thing, 0, "Dimmer");
+        super(thing, 0);
     }
 
     @Override

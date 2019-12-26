@@ -21,6 +21,8 @@ import java.util.Set;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.library.types.PercentType;
 import org.eclipse.smarthome.core.library.types.QuantityType;
 import org.eclipse.smarthome.core.library.types.StringType;
@@ -45,6 +47,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusStatusRequestPacket;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMB4AN));
 
@@ -60,7 +63,7 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
 
     private String[] channelText = new String[] { "", "", "", "" };
 
-    private ScheduledFuture<?> refreshJob;
+    private @Nullable ScheduledFuture<?> refreshJob;
 
     public VelbusVMB4ANHandler(Thing thing) {
         super(thing, 0);

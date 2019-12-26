@@ -14,6 +14,7 @@ package org.openhab.binding.velbus.internal.handler;
 
 import static org.openhab.binding.velbus.internal.VelbusBindingConstants.*;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.library.types.QuantityType;
 import org.eclipse.smarthome.core.library.types.StringType;
@@ -37,6 +38,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusThermostatOperatingMode
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHandler {
     private final double THERMOSTAT_TEMPERATURE_SETPOINT_RESOLUTION = 0.5;
 

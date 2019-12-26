@@ -16,9 +16,11 @@ import static org.openhab.binding.velbus.internal.VelbusBindingConstants.PORT;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.TooManyListenersException;
 
-import org.apache.commons.io.IOUtils;
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.ThingStatusDetail;
@@ -37,15 +39,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusSerialBridgeHandler extends VelbusBridgeHandler implements SerialPortEventListener {
-    private Logger logger = LoggerFactory.getLogger(VelbusSerialBridgeHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(VelbusSerialBridgeHandler.class);
 
     private SerialPortManager serialPortManager;
 
-    private SerialPortIdentifier portId;
-    private SerialPort serialPort;
-
-    private InputStream inputStream;
+    private @Nullable SerialPort serialPort;
 
     public VelbusSerialBridgeHandler(Bridge velbusBridge, SerialPortManager serialPortManager) {
         super(velbusBridge);
@@ -66,7 +66,7 @@ public class VelbusSerialBridgeHandler extends VelbusBridgeHandler implements Se
         String port = (String) getConfig().get(PORT);
         if (port != null) {
             // parse ports and if the port is found, initialize the reader
-            portId = serialPortManager.getIdentifier(port);
+            SerialPortIdentifier portId = serialPortManager.getIdentifier(port);
             if (portId == null) {
                 updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.OFFLINE.CONFIGURATION_ERROR, "Port is not known!");
                 return;
@@ -74,15 +74,21 @@ public class VelbusSerialBridgeHandler extends VelbusBridgeHandler implements Se
 
             // initialize serial port
             try {
-                serialPort = portId.open(getThing().getUID().toString(), 2000);
-                initializeStreams(serialPort.getOutputStream(), serialPort.getInputStream());
+                SerialPort serialPort = portId.open(getThing().getUID().toString(), 2000);
+                this.serialPort = serialPort;
 
-                serialPort.addEventListener(this);
-                serialPort.notifyOnDataAvailable(true);
-                inputStream = serialPort.getInputStream();
+                OutputStream outputStream = serialPort.getOutputStream();
+                InputStream inputStream = serialPort.getInputStream();
 
-                updateStatus(ThingStatus.ONLINE);
-                logger.debug("Bridge online on serial port {}", port);
+                if (outputStream != null && inputStream != null) {
+                    initializeStreams(outputStream, inputStream);
+
+                    serialPort.addEventListener(this);
+                    serialPort.notifyOnDataAvailable(true);
+
+                    updateStatus(ThingStatus.ONLINE);
+                    logger.debug("Bridge online on serial port {}", port);
+                }
             } catch (final IOException ex) {
                 onConnectionLost();
                 logger.debug("I/O error on serial port {}", port);
@@ -106,7 +112,6 @@ public class VelbusSerialBridgeHandler extends VelbusBridgeHandler implements Se
         if (serialPort != null) {
             serialPort.close();
         }
-        IOUtils.closeQuietly(inputStream);
 
         super.disconnect();
     }

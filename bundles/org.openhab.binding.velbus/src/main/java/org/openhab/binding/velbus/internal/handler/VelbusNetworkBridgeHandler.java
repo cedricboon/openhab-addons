@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.Socket;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.thing.Bridge;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.ThingStatusDetail;
@@ -30,10 +32,11 @@ import org.slf4j.LoggerFactory;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusNetworkBridgeHandler extends VelbusBridgeHandler {
-    private Logger logger = LoggerFactory.getLogger(VelbusNetworkBridgeHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(VelbusNetworkBridgeHandler.class);
 
-    private Socket socket;
+    private @Nullable Socket socket;
 
     public VelbusNetworkBridgeHandler(Bridge velbusBridge) {
         super(velbusBridge);
@@ -57,8 +60,10 @@ public class VelbusNetworkBridgeHandler extends VelbusBridgeHandler {
         if (address != null && port != null) {
             int portInt = port.intValue();
             try {
-                this.socket = new Socket(address, portInt);
-                initializeStreams(this.socket.getOutputStream(), this.socket.getInputStream());
+                Socket socket = new Socket(address, portInt);
+                this.socket = socket;
+
+                initializeStreams(socket.getOutputStream(), socket.getInputStream());
 
                 updateStatus(ThingStatus.ONLINE);
                 logger.debug("Bridge online on network address {}:{}", address, portInt);
