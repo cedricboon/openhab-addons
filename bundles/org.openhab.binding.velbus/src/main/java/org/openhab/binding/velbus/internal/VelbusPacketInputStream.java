@@ -103,20 +103,25 @@ public class VelbusPacketInputStream {
     }
 
     protected byte[] getCurrentPacket() {
-        byte[] packet = new byte[6 + currentDataLength];
-        packet[0] = currentSTX;
-        packet[1] = currentPriority;
-        packet[2] = currentAddress;
-        packet[3] = currentDataLength;
+        if (currentDataLength != null && currentSTX != null && currentPriority != null && currentAddress != null
+                && currentChecksum != null) {
+            byte[] packet = new byte[6 + currentDataLength];
+            packet[0] = currentSTX;
+            packet[1] = currentPriority;
+            packet[2] = currentAddress;
+            packet[3] = currentDataLength;
 
-        for (int i = 0; i < currentDataLength; i++) {
-            packet[4 + i] = currentData.get(i);
+            for (int i = 0; i < currentDataLength; i++) {
+                packet[4 + i] = currentData.get(i);
+            }
+
+            packet[4 + currentDataLength] = currentChecksum;
+            packet[5 + currentDataLength] = VelbusPacket.ETX;
+
+            return packet;
         }
 
-        packet[4 + currentDataLength] = currentChecksum;
-        packet[5 + currentDataLength] = VelbusPacket.ETX;
-
-        return packet;
+        return new byte[0];
     }
 
     protected void resetCurrentState() {

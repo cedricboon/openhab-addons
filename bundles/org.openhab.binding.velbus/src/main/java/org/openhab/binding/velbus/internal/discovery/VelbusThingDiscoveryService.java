@@ -275,9 +275,9 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
     }
 
     private void handleModuleSubtypeCommand(byte[] packet, byte address) {
-        VelbusModule velbusModule = velbusModules.get(address);
+        if (velbusModules.containsKey(address)) {
+            VelbusModule velbusModule = velbusModules.get(address);
 
-        if (velbusModule != null) {
             byte[] subAddresses = new byte[4];
             System.arraycopy(packet, 8, subAddresses, 0, 4);
 
@@ -301,9 +301,9 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
     }
 
     private void handleChannelNameCommand(byte[] packet, byte address, byte length, int namePartNumber) {
-        VelbusModule velbusModule = velbusModules.get(address);
+        if (velbusModules.containsKey(address)) {
+            VelbusModule velbusModule = velbusModules.get(address);
 
-        if (velbusModule != null) {
             byte channel = packet[5];
             byte[] namePart = Arrays.copyOfRange(packet, 6, 6 + length - 2);
 
