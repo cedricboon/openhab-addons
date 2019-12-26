@@ -16,12 +16,15 @@ import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND
 
 import java.time.ZonedDateTime;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusSetDaylightSavingsStatusPacket} represents a Velbus packet that can be used to
  * set the daylight saving status of the given Velbus module.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusSetDaylightSavingsStatusPacket extends VelbusPacket {
     private ZonedDateTime zonedDateTime;
 

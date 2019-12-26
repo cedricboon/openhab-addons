@@ -14,6 +14,7 @@ package org.openhab.binding.velbus.internal;
 
 import java.util.ArrayList;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.thing.ChannelUID;
 
 /**
@@ -21,6 +22,7 @@ import org.eclipse.smarthome.core.thing.ChannelUID;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusModuleAddress {
     private byte address;
     private byte[] subAddresses;

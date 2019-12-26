@@ -16,12 +16,15 @@ import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND
 
 import java.time.ZonedDateTime;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusSetDatePacket} represents a Velbus packet that can be used to
  * set the date of the given Velbus module.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusSetDatePacket extends VelbusPacket {
     private ZonedDateTime zonedDateTime;
 

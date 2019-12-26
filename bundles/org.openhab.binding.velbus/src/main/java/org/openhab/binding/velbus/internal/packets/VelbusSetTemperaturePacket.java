@@ -14,12 +14,15 @@ package org.openhab.binding.velbus.internal.packets;
 
 import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_SET_TEMP;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusSetTemperaturePacket} represents a Velbus packet that can be used to
  * set the value of a temperature variable of the given Velbus module.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusSetTemperaturePacket extends VelbusPacket {
 
     private byte temperatureVariable;

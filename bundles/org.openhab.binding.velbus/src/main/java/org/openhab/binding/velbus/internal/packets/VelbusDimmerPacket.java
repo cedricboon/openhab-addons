@@ -12,6 +12,7 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
 
 /**
@@ -20,6 +21,7 @@ import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusDimmerPacket extends VelbusPacket {
     private final byte FIRST_GENERATION_DEVICE_FASTEST_DIMSPEED_HIGH_BYTE = (byte) 0xFF;
     private final byte FIRST_GENERATION_DEVICE_FASTEST_DIMSPEED_LOW_BYTE = (byte) 0xFF;
