@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.config.discovery.AbstractDiscoveryService;
 import org.eclipse.smarthome.config.discovery.DiscoveryResult;
 import org.eclipse.smarthome.config.discovery.DiscoveryResultBuilder;
@@ -40,6 +41,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusThingDiscoveryService extends AbstractDiscoveryService implements VelbusPacketListener {
     private static final int SEARCH_TIME = 60;
 
