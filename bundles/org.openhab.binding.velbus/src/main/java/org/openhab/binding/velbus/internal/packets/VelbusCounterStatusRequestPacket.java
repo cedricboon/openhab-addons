@@ -14,6 +14,7 @@ package org.openhab.binding.velbus.internal.packets;
 
 import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_COUNTER_STATUS_REQUEST;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
 
 /**
@@ -22,6 +23,7 @@ import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusCounterStatusRequestPacket extends VelbusPacket {
     private byte channel;
 

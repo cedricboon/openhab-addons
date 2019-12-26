@@ -14,6 +14,7 @@ package org.openhab.binding.velbus.internal.packets;
 
 import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_SET_ALARM_CLOCK;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.binding.velbus.internal.VelbusClockAlarm;
 
 /**
@@ -22,6 +23,7 @@ import org.openhab.binding.velbus.internal.VelbusClockAlarm;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusSetLocalClockAlarmPacket extends VelbusPacket {
     private byte alarmNumber;
     private VelbusClockAlarm alarmClock;

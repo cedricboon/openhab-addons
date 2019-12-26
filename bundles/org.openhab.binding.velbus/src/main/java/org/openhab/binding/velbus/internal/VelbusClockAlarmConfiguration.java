@@ -12,11 +12,14 @@
  */
 package org.openhab.binding.velbus.internal;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusClockAlarmConfiguration} represents a class that contains the configuration of a velbus clock alarm.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusClockAlarmConfiguration {
     private VelbusClockAlarm alarmClock1;
     private VelbusClockAlarm alarmClock2;

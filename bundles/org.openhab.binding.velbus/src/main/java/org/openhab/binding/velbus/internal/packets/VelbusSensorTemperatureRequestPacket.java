@@ -14,12 +14,15 @@ package org.openhab.binding.velbus.internal.packets;
 
 import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_SENSOR_READOUT_REQUEST;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusSensorTemperatureRequestPacket} represents a Velbus packet that can be used to
  * request the value of the temperature sensor of the given Velbus module.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusSensorTemperatureRequestPacket extends VelbusPacket {
 
     private final byte autosendTimeInterval = 0x00;

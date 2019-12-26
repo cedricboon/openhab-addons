@@ -12,12 +12,15 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusThermostatOperatingModePacket} represents a Velbus packet that can be used to
  * set the operating mode (heating/cooling) of the given Velbus thermostat module.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusThermostatOperatingModePacket extends VelbusPacket {
 
     private byte commandByte;

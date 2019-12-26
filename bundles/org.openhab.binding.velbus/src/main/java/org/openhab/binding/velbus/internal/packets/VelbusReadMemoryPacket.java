@@ -14,12 +14,15 @@ package org.openhab.binding.velbus.internal.packets;
 
 import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_READ_DATA_FROM_MEMORY;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusReadMemoryPacket} represents a Velbus packet that can be used to
  * request a byte from the memory of the given Velbus module.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusReadMemoryPacket extends VelbusPacket {
     private byte highMemoryAddress;
     private byte lowMemoryAddress;

@@ -17,12 +17,15 @@ import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusSetRealtimeClockPacket} represents a Velbus packet that can be used to
  * set the clock of the given Velbus module.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusSetRealtimeClockPacket extends VelbusPacket {
     private ZonedDateTime zonedDateTime;
 

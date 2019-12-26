@@ -14,12 +14,15 @@ package org.openhab.binding.velbus.internal.packets;
 
 import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_TEXT;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+
 /**
  * The {@link VelbusMemoTextPacket} represents a Velbus packet that can be used to
  * set the mode (comfort/day/night/safe) of the given Velbus thermostat module.
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusMemoTextPacket extends VelbusPacket {
     private byte textStartPosition;
     private byte character1;
