@@ -174,7 +174,7 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
         listenerStopped = false;
 
         try {
-            while (!listenerStopped & inputStream != null & ((packet = inputStream.readPacket()) != null)) {
+            while (!listenerStopped & inputStream != null & ((packet = inputStream.readPacket()).length > 0)) {
                 readPacket(packet);
             }
         } catch (IOException e) {

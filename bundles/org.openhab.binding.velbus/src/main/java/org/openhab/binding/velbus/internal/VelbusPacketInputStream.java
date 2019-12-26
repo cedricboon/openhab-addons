@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.binding.velbus.internal.packets.VelbusPacket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,17 +28,18 @@ import org.slf4j.LoggerFactory;
  *
  * @author Cedric Boon - Initial contribution
  */
+@NonNullByDefault
 public class VelbusPacketInputStream {
-    private Logger logger = LoggerFactory.getLogger(VelbusPacketInputStream.class);
+    private final Logger logger = LoggerFactory.getLogger(VelbusPacketInputStream.class);
 
     public InputStream inputStream;
 
-    private Byte currentSTX = null;
-    private Byte currentPriority = null;
-    private Byte currentAddress = null;
-    private Byte currentDataLength = null;
     private ArrayList<Byte> currentData = new ArrayList<Byte>();
-    private Byte currentChecksum = null;
+    private @Nullable Byte currentSTX = null;
+    private @Nullable Byte currentPriority = null;
+    private @Nullable Byte currentAddress = null;
+    private @Nullable Byte currentDataLength = null;
+    private @Nullable Byte currentChecksum = null;
 
     public VelbusPacketInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
@@ -68,7 +71,7 @@ public class VelbusPacketInputStream {
             } else if (currentDataLength == null) {
                 currentDataLength = 1;
                 currentData.add((byte) currentDataByte);
-            } else if (currentData.size() < currentDataLength) {
+            } else if (currentDataLength != null && currentData.size() < currentDataLength) {
                 currentData.add((byte) currentDataByte);
             } else if (currentChecksum == null) {
                 currentChecksum = (byte) currentDataByte;
@@ -92,13 +95,11 @@ public class VelbusPacketInputStream {
             }
         }
 
-        return null;
+        return new byte[0];
     }
 
     public void close() throws IOException {
-        if (inputStream != null) {
-            inputStream.close();
-        }
+        inputStream.close();
     }
 
     protected byte[] getCurrentPacket() {
