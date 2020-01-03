@@ -70,7 +70,9 @@ public abstract class VelbusTemperatureSensorHandler extends VelbusSensorWithAla
 
     @Override
     public void dispose() {
-        refreshJob.cancel(true);
+        if (refreshJob != null) {
+            refreshJob.cancel(true);
+        }
     }
 
     private void startAutomaticRefresh(int refreshInterval) {

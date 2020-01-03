@@ -71,7 +71,7 @@ public class VelbusPacketInputStream {
             } else if (currentDataLength == null) {
                 currentDataLength = 1;
                 currentData.add((byte) currentDataByte);
-            } else if (currentDataLength != null && currentData.size() < currentDataLength) {
+            } else if (currentDataLength != null && (currentData.size() < currentDataLength)) {
                 currentData.add((byte) currentDataByte);
             } else if (currentChecksum == null) {
                 currentChecksum = (byte) currentDataByte;

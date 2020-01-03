@@ -80,7 +80,9 @@ public class VelbusVMB7INHandler extends VelbusSensorWithAlarmClockHandler {
 
     @Override
     public void dispose() {
-        refreshJob.cancel(true);
+        if (refreshJob != null) {
+            refreshJob.cancel(true);
+        }
     }
 
     private void startAutomaticRefresh(int refreshInterval) {

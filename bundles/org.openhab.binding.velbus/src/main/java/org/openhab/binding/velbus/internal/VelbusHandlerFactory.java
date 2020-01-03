@@ -138,13 +138,11 @@ public class VelbusHandlerFactory extends BaseThingHandlerFactory {
 
     private synchronized void unregisterDiscoveryService(VelbusBridgeHandler bridgeHandler) {
         ServiceRegistration<?> serviceReg = this.discoveryServiceRegs.remove(bridgeHandler.getThing().getUID());
-        if (serviceReg != null) {
-            VelbusThingDiscoveryService service = (VelbusThingDiscoveryService) bundleContext
-                    .getService(serviceReg.getReference());
-            serviceReg.unregister();
-            if (service != null) {
-                service.deactivate();
-            }
+        VelbusThingDiscoveryService service = (VelbusThingDiscoveryService) bundleContext
+                .getService(serviceReg.getReference());
+        serviceReg.unregister();
+        if (service != null) {
+            service.deactivate();
         }
     }
 }
