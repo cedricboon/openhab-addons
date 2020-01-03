@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2019 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -12,32 +12,27 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.internal.VelbusBindingConstants.*;
-
 import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
 
 /**
- * The {@link VelbusStatusRequestPacket} represents a Velbus packet that can be used to
- * request the state of the given Velbus module.
+ * The {@link VelbusFeedbackLEDPacket} represents a Velbus packet that can be used to
+ * set the feedback led (clear/set/slow blink/fast blink/very fast blink) of the given Velbus module.
  *
  * @author Cedric Boon - Initial contribution
  */
-public class VelbusStatusRequestPacket extends VelbusPacket {
+public class VelbusFeedbackLEDPacket extends VelbusPacket {
+    private byte command;
     private byte channel;
 
-    public VelbusStatusRequestPacket(byte address) {
-        this(new VelbusChannelIdentifier(address, ALL_CHANNELS));
-    }
-
-    public VelbusStatusRequestPacket(VelbusChannelIdentifier velbusChannelIdentifier) {
+    public VelbusFeedbackLEDPacket(VelbusChannelIdentifier velbusChannelIdentifier, byte command) {
         super(velbusChannelIdentifier.getAddress(), PRIO_LOW);
 
         this.channel = velbusChannelIdentifier.getChannelByte();
+        this.command = command;
     }
 
     @Override
     protected byte[] getDataBytes() {
-        return new byte[] { COMMAND_STATUS_REQUEST, channel };
+        return new byte[] { command, channel };
     }
-
 }

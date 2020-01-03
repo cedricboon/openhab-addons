@@ -72,7 +72,8 @@ public class VelbusModuleAddress {
     }
 
     public int getChannelNumber(ChannelUID channelUID) {
-        return Integer.parseInt(channelUID.getId().substring(2));
+        String id = channelUID.getId();
+        return Integer.parseInt(id.substring(id.indexOf("#") + 1).substring(2));
     }
 
     public int getChannelIndex(ChannelUID channelUID) {
@@ -81,6 +82,10 @@ public class VelbusModuleAddress {
 
     public String getChannelId(VelbusChannelIdentifier velbusChannelIdentifier) {
         return "CH" + getChannelNumber(velbusChannelIdentifier);
+    }
+
+    public int getChannelIndex(VelbusChannelIdentifier velbusChannelIdentifier) {
+        return this.getChannelNumber(velbusChannelIdentifier) - 1;
     }
 
     public int getChannelNumber(VelbusChannelIdentifier velbusChannelIdentifier) {

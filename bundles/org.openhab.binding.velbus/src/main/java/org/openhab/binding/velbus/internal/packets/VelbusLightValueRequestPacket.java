@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2019 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -12,24 +12,24 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_SENSOR_READOUT_REQUEST;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_LIGHT_VALUE_REQUEST;
 
 /**
- * The {@link VelbusSensorTemperatureRequestPacket} represents a Velbus packet that can be used to
- * request the value of the temperature sensor of the given Velbus module.
+ * The {@link VelbusLightValueRequestPacket} represents a Velbus packet that can be used to
+ * request the value of the light sensor of the given Velbus module.
  *
  * @author Cedric Boon - Initial contribution
  */
-public class VelbusSensorTemperatureRequestPacket extends VelbusPacket {
+public class VelbusLightValueRequestPacket extends VelbusPacket {
 
     private final byte autosendTimeInterval = 0x00;
 
-    public VelbusSensorTemperatureRequestPacket(byte address) {
+    public VelbusLightValueRequestPacket(byte address) {
         super(address, PRIO_LOW);
     }
 
     @Override
     protected byte[] getDataBytes() {
-        return new byte[] { COMMAND_SENSOR_READOUT_REQUEST, autosendTimeInterval };
+        return new byte[] { COMMAND_LIGHT_VALUE_REQUEST, autosendTimeInterval };
     }
 }

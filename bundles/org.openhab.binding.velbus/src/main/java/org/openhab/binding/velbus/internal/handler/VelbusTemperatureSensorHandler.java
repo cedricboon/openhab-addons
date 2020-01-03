@@ -37,7 +37,7 @@ import org.openhab.binding.velbus.internal.packets.VelbusSensorTemperatureReques
  *
  * @author Cedric Boon - Initial contribution
  */
-public abstract class VelbusTemperatureSensorHandler extends VelbusSensorHandler {
+public abstract class VelbusTemperatureSensorHandler extends VelbusSensorWithAlarmClockHandler {
     private ScheduledFuture<?> refreshJob;
     private ChannelUID temperatureChannel;
 
@@ -78,12 +78,14 @@ public abstract class VelbusTemperatureSensorHandler extends VelbusSensorHandler
         }
 
         refreshJob = scheduler.scheduleWithFixedDelay(() -> {
-            sendSensorTemperatureRequest(velbusBridgeHandler);
+            sendSensorReadoutRequest(velbusBridgeHandler);
         }, 0, refreshInterval, TimeUnit.SECONDS);
     }
 
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
+        super.handleCommand(channelUID, command);
+
         VelbusBridgeHandler velbusBridgeHandler = getVelbusBridgeHandler();
         if (velbusBridgeHandler == null) {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.BRIDGE_OFFLINE);
@@ -92,12 +94,12 @@ public abstract class VelbusTemperatureSensorHandler extends VelbusSensorHandler
 
         if (command instanceof RefreshType) {
             if (channelUID.equals(temperatureChannel)) {
-                sendSensorTemperatureRequest(velbusBridgeHandler);
+                sendSensorReadoutRequest(velbusBridgeHandler);
+            }
         }
     }
-        }
 
-    protected void sendSensorTemperatureRequest(VelbusBridgeHandler velbusBridgeHandler) {
+    protected void sendSensorReadoutRequest(VelbusBridgeHandler velbusBridgeHandler) {
         VelbusSensorTemperatureRequestPacket packet = new VelbusSensorTemperatureRequestPacket(
                 getModuleAddress().getAddress());
 
@@ -118,8 +120,9 @@ public abstract class VelbusTemperatureSensorHandler extends VelbusSensorHandler
                 byte highByteCurrentSensorTemperature = packet[5];
                 byte lowByteCurrentSensorTemperature = packet[6];
 
-                double temperature = ((highByteCurrentSensorTemperature << 3) + (lowByteCurrentSensorTemperature >> 5))
-                        * 0.0625 * ((lowByteCurrentSensorTemperature & 0x1F) == 0x1F ? -1 : 1);
+                boolean negative = (highByteCurrentSensorTemperature & 0x80) == 0x80;
+                double temperature = ((((highByteCurrentSensorTemperature & 0x7f) << 3)
+                        + ((lowByteCurrentSensorTemperature & 0xff) >> 5)) - (negative ? 0x400 : 0)) * 0.0625;
                 QuantityType<Temperature> state = new QuantityType<>(temperature, SIUnits.CELSIUS);
                 updateState(temperatureChannel, state);
             }

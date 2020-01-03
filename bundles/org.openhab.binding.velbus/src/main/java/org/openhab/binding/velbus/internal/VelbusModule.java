@@ -113,7 +113,7 @@ public class VelbusModule {
         }
 
         if (channelNames.length <= 8) {
-            channelNames[channelIdentifier.getChannelNumberFromBitNumber() - 1][namePartNumber - 1] = contents
+            channelNames[velbusModuleAddress.getChannelIndex(channelIdentifier)][namePartNumber - 1] = contents
                     .toString();
         } else {
             channelNames[channelIdentifier.getChannelByte() - 1][namePartNumber - 1] = contents.toString();
@@ -123,7 +123,7 @@ public class VelbusModule {
     public Map<String, Object> getProperties() {
         Map<String, Object> properties = new TreeMap<String, Object>();
 
-        properties.put(MODULE_ADDRESS, getAddress());
+        properties.put(ADDRESS, getAddress());
         properties.put(MODULE_SERIAL_NUMBER, getModuleSerialNumber());
         properties.put(MODULE_MEMORY_MAP_VERSION, getMemoryMapVersion());
         properties.put(MODULE_BUILD, getModuleBuild());

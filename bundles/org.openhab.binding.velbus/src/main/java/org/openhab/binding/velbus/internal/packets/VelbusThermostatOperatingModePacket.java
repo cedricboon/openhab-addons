@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2019 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -12,23 +12,24 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.internal.VelbusBindingConstants.*;
-
 /**
- * The {@link VelbusChannelNameRequestPacket} represents a Velbus packet that can be used to
- * request the name of a given channel.
+ * The {@link VelbusThermostatOperatingModePacket} represents a Velbus packet that can be used to
+ * set the operating mode (heating/cooling) of the given Velbus thermostat module.
  *
  * @author Cedric Boon - Initial contribution
  */
-public class VelbusChannelNameRequestPacket extends VelbusPacket {
+public class VelbusThermostatOperatingModePacket extends VelbusPacket {
 
-    public VelbusChannelNameRequestPacket(byte address) {
+    private byte commandByte;
+
+    public VelbusThermostatOperatingModePacket(byte address, byte commandByte) {
         super(address, PRIO_LOW);
+
+        this.commandByte = commandByte;
     }
 
     @Override
     protected byte[] getDataBytes() {
-        return new byte[] { COMMAND_MODULE_NAME_REQUEST, ALL_CHANNELS };
+        return new byte[] { commandByte, 0x00 };
     }
-
 }

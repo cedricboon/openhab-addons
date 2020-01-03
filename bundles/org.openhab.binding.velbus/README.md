@@ -17,7 +17,7 @@ A Velbus configuration module (e.g. VMB1USB) is required as a "bridge" for acces
 The supported Velbus devices are:
 
 ```
-vmb1bls, vmb1dm, vmb1led, vmb1ry, vmb1ryno, vmb1rynos, vmb2ble, vmb2pbn, vmb4dc, vmb4ry, vmb4ryld, vmb4ryno, vmb6in, vmb6pbn, vmb7in, vmb8ir, vmb8pb, vmb8pbu, vmbdme, vmbdmi, vmbdmir, vmbgp1, vmbgp2, vmbgp4, vmbgp4pir, vmbgpo, vmbgpod, vmbpirc, vmbpirm, vmbpiro
+vmb1bl, vmb1bls, vmb1dm, vmb1led, vmb1ry, vmb1ryno, vmb1rynos, vmb2bl, vmb2ble, vmb2pbn, vmb4dc, vmb4ry, vmb4ryld, vmb4ryno, vmb6in, vmb6pbn, vmb7in, vmb8ir, vmb8pb, vmb8pbu, vmbdme, vmbdmi, vmbdmir, vmbgp1, vmbgp2, vmbgp4, vmbgp4pir, vmbgpo, vmbgpod, vmbpirc, vmbpirm, vmbpiro
 ```
 
 The type of a specific device can be found in the configuration section for things in the Paper UI. It is part of the unique thing id which could look like:
@@ -62,7 +62,7 @@ or nested in the bridge configuration:
 The following thing types are valid for configuration:
 
 ```
-vmb1bls, vmb1dm, vmb1led, vmb1ry, vmb1ryno, vmb1rynos, vmb2ble, vmb2pbn, vmb4dc, vmb4ry, vmb4ryld, vmb4ryno, vmb6in, vmb6pbn, vmb7in, vmb8ir, vmb8pb, vmb8pbu, vmbdme, vmbdmi, vmbdmir, vmbgp1, vmbgp2, vmbgp4, vmbgp4pir, vmbgpo, vmbgpod, vmbpirc, vmbpirm, vmbpiro
+vmb1bl, vmb1bls, vmb1dm, vmb1led, vmb1ry, vmb1ryno, vmb1rynos, vmb2bl, vmb2ble, vmb2pbn, vmb4dc, vmb4ry, vmb4ryld, vmb4ryno, vmb6in, vmb6pbn, vmb7in, vmb8ir, vmb8pb, vmb8pbu, vmbdme, vmbdmi, vmbdmir, vmbgp1, vmbgp2, vmbgp4, vmbgp4pir, vmbgpo, vmbgpod, vmbpirc, vmbpirm, vmbpiro
 ```
 
 `thingId` is the hexadecimal Velbus address of the thing.
@@ -76,7 +76,7 @@ vmb1bls, vmb1dm, vmb1led, vmb1ry, vmb1ryno, vmb1rynos, vmb2ble, vmb2pbn, vmb4dc,
 
 ## Channels
 
-For thing type `vmb1bls` the supported channels is `CH1`. UpDown, StopMove and Percent command types are supported.
+For thing types `vmb1bl` and `vmb1bls` the supported channel is `CH1`. UpDown, StopMove and Percent command types are supported.
 
 For thing types `vmb1dm`, `vmb1led`, `vmbdme`, `vmbdmi` and `vmbdmir` the supported channel is `CH1`.
 OnOff and Percent command types are supported.
@@ -85,7 +85,7 @@ Sending an ON command will switch the dimmer to the value stored when last turni
 For thing types `vmb1ryno`, `vmb1rynos`, `vmb4ryld` and `vmb4ryno` 5 channels are available `CH1` ... `CH5`.
 OnOff command types are supported.
 
-For thing type `vmb2ble` the supported channels are `CH1` and `CH2`. UpDown, StopMove and Percent command types are supported.
+For thing types `vmb2bl` and `vmb2ble` the supported channels are `CH1` and `CH2`. UpDown, StopMove and Percent command types are supported.
 
 Thing types `vmb2pbn`, `vmb6pbn`, `vmb7in`, `vmb8ir`, `vmb8pb` and `vmb8pbu` have 8 trigger channels `CH1` ... `CH8`.
 

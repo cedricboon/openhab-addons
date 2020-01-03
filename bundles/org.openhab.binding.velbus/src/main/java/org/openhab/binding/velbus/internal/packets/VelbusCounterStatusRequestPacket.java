@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2019 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -12,24 +12,22 @@
  */
 package org.openhab.binding.velbus.internal.packets;
 
-import static org.openhab.binding.velbus.internal.VelbusBindingConstants.*;
+import static org.openhab.binding.velbus.internal.VelbusBindingConstants.COMMAND_COUNTER_STATUS_REQUEST;
 
 import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
 
 /**
- * The {@link VelbusStatusRequestPacket} represents a Velbus packet that can be used to
- * request the state of the given Velbus module.
+ * The {@link VelbusCounterStatusRequestPacket} represents a Velbus packet that can be used to
+ * request the counter status of the given Velbus module.
  *
  * @author Cedric Boon - Initial contribution
  */
-public class VelbusStatusRequestPacket extends VelbusPacket {
+public class VelbusCounterStatusRequestPacket extends VelbusPacket {
     private byte channel;
 
-    public VelbusStatusRequestPacket(byte address) {
-        this(new VelbusChannelIdentifier(address, ALL_CHANNELS));
-    }
+    private final byte autosendTimeInterval = 0x00;
 
-    public VelbusStatusRequestPacket(VelbusChannelIdentifier velbusChannelIdentifier) {
+    public VelbusCounterStatusRequestPacket(VelbusChannelIdentifier velbusChannelIdentifier) {
         super(velbusChannelIdentifier.getAddress(), PRIO_LOW);
 
         this.channel = velbusChannelIdentifier.getChannelByte();
@@ -37,7 +35,6 @@ public class VelbusStatusRequestPacket extends VelbusPacket {
 
     @Override
     protected byte[] getDataBytes() {
-        return new byte[] { COMMAND_STATUS_REQUEST, channel };
+        return new byte[] { COMMAND_COUNTER_STATUS_REQUEST, channel, autosendTimeInterval };
     }
-
 }

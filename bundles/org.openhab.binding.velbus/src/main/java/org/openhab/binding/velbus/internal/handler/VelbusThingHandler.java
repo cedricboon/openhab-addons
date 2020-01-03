@@ -35,7 +35,10 @@ import org.eclipse.smarthome.core.thing.type.ChannelTypeUID;
 import org.eclipse.smarthome.core.util.HexUtils;
 import org.openhab.binding.velbus.internal.VelbusModuleAddress;
 import org.openhab.binding.velbus.internal.VelbusPacketListener;
+import org.openhab.binding.velbus.internal.packets.VelbusReadMemoryBlockPacket;
+import org.openhab.binding.velbus.internal.packets.VelbusReadMemoryPacket;
 import org.openhab.binding.velbus.internal.packets.VelbusStatusRequestPacket;
+import org.openhab.binding.velbus.internal.packets.VelbusWriteMemoryPacket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,6 +71,21 @@ public abstract class VelbusThingHandler extends BaseThingHandler implements Vel
         initializeThing(bridge == null ? null : bridge.getStatus());
         initializeChannelNames();
         initializeChannelStates();
+    }
+
+    @Override
+    public void handleRemoval() {
+        VelbusBridgeHandler velbusBridgeHandler = getVelbusBridgeHandler();
+
+        if (velbusBridgeHandler != null && velbusModuleAddress != null) {
+            byte[] activeAddresses = velbusModuleAddress.getActiveAddresses();
+
+            for (int i = 0; i < activeAddresses.length; i++) {
+                this.velbusBridgeHandler.unregisterRelayStatusListener(activeAddresses[i]);
+            }
+        }
+
+        super.handleRemoval();
     }
 
     protected VelbusModuleAddress getModuleAddress() {
@@ -115,8 +133,8 @@ public abstract class VelbusThingHandler extends BaseThingHandler implements Vel
         }
     }
 
-    private VelbusModuleAddress createVelbusModuleAddress(Thing thing, int numberOfSubAddresses) {
-        byte address = hexToByte((String) getConfig().get(MODULE_ADDRESS));
+    protected VelbusModuleAddress createVelbusModuleAddress(Thing thing, int numberOfSubAddresses) {
+        byte address = hexToByte((String) getConfig().get(ADDRESS));
 
         byte[] subAddresses = new byte[numberOfSubAddresses];
         for (int i = 0; i < numberOfSubAddresses; i++) {
@@ -137,6 +155,11 @@ public abstract class VelbusThingHandler extends BaseThingHandler implements Vel
         for (int i = 0; i < channels.size(); i++) {
             Channel channel = channels.get(i);
             String channelUID = channel.getUID().getId();
+
+            if (channelUID.contains("#")) {
+                channelUID = channelUID.substring(channelUID.indexOf("#")).replace("#", "");
+            }
+
             if (getConfig().containsKey(channelUID)) {
                 String channelName = getConfig().get(channelUID).toString();
                 if (!channelName.equals(channel.getLabel())) {
@@ -153,12 +176,32 @@ public abstract class VelbusThingHandler extends BaseThingHandler implements Vel
         velbusBridgeHandler.sendPacket(packetBytes);
     }
 
-    private byte hexToByte(String hexString) {
+    protected byte hexToByte(String hexString) {
         if (hexString.length() > 2) {
             throw new IllegalArgumentException("hexString contains more than one byte: " + hexString);
         }
 
         return HexUtils.hexToBytes(hexString)[0];
+    }
+
+    protected void sendReadMemoryBlockPacket(VelbusBridgeHandler velbusBridgeHandler, int memoryAddress) {
+        VelbusReadMemoryBlockPacket packet = new VelbusReadMemoryBlockPacket(getModuleAddress().getAddress(),
+                memoryAddress);
+        byte[] packetBytes = packet.getBytes();
+        velbusBridgeHandler.sendPacket(packetBytes);
+    }
+
+    protected void sendReadMemoryPacket(VelbusBridgeHandler velbusBridgeHandler, int memoryAddress) {
+        VelbusReadMemoryPacket packet = new VelbusReadMemoryPacket(getModuleAddress().getAddress(), memoryAddress);
+        byte[] packetBytes = packet.getBytes();
+        velbusBridgeHandler.sendPacket(packetBytes);
+    }
+
+    protected void sendWriteMemoryPacket(VelbusBridgeHandler velbusBridgeHandler, int memoryAddress, byte data) {
+        VelbusWriteMemoryPacket packet = new VelbusWriteMemoryPacket(getModuleAddress().getAddress(), memoryAddress,
+                data);
+        byte[] packetBytes = packet.getBytes();
+        velbusBridgeHandler.sendPacket(packetBytes);
     }
 
     protected synchronized VelbusBridgeHandler getVelbusBridgeHandler() {
