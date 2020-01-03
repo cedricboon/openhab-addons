@@ -42,11 +42,11 @@ public class VelbusSensorHandler extends VelbusThingHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(
             Arrays.asList(THING_TYPE_VMB6IN, THING_TYPE_VMB8IR, THING_TYPE_VMB8PB));
 
-    private final StringType SET_LED = new StringType("SET_LED");
-    private final StringType SLOW_BLINK_LED = new StringType("SLOW_BLINK_LED");
-    private final StringType FAST_BLINK_LED = new StringType("FAST_BLINK_LED");
-    private final StringType VERY_FAST_BLINK_LED = new StringType("VERY_FAST_BLINK_LED");
-    private final StringType CLEAR_LED = new StringType("CLEAR_LED");
+    private static final StringType SET_LED = new StringType("SET_LED");
+    private static final StringType SLOW_BLINK_LED = new StringType("SLOW_BLINK_LED");
+    private static final StringType FAST_BLINK_LED = new StringType("FAST_BLINK_LED");
+    private static final StringType VERY_FAST_BLINK_LED = new StringType("VERY_FAST_BLINK_LED");
+    private static final StringType CLEAR_LED = new StringType("CLEAR_LED");
 
     public VelbusSensorHandler(Thing thing) {
         this(thing, 0);

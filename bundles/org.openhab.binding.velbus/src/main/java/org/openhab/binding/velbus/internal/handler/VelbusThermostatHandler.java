@@ -40,52 +40,52 @@ import org.openhab.binding.velbus.internal.packets.VelbusThermostatOperatingMode
  */
 @NonNullByDefault
 public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHandler {
-    private final double THERMOSTAT_TEMPERATURE_SETPOINT_RESOLUTION = 0.5;
+    private static final double THERMOSTAT_TEMPERATURE_SETPOINT_RESOLUTION = 0.5;
 
-    private final StringType OPERATING_MODE_HEATING = new StringType("HEATING");
-    private final StringType OPERATING_MODE_COOLING = new StringType("COOLING");
+    private static final StringType OPERATING_MODE_HEATING = new StringType("HEATING");
+    private static final StringType OPERATING_MODE_COOLING = new StringType("COOLING");
 
-    private final byte OPERATING_MODE_MASK = (byte) 0x80;
-    private final byte COOLING_MODE_MASK = (byte) 0x80;
+    private static final byte OPERATING_MODE_MASK = (byte) 0x80;
+    private static final byte COOLING_MODE_MASK = (byte) 0x80;
 
-    private final StringType MODE_COMFORT = new StringType("COMFORT");
-    private final StringType MODE_DAY = new StringType("DAY");
-    private final StringType MODE_NIGHT = new StringType("NIGHT");
-    private final StringType MODE_SAFE = new StringType("SAFE");
+    private static final StringType MODE_COMFORT = new StringType("COMFORT");
+    private static final StringType MODE_DAY = new StringType("DAY");
+    private static final StringType MODE_NIGHT = new StringType("NIGHT");
+    private static final StringType MODE_SAFE = new StringType("SAFE");
 
-    private final byte MODE_MASK = (byte) 0x70;
-    private final byte COMFORT_MODE_MASK = (byte) 0x40;
-    private final byte DAY_MODE_MASK = (byte) 0x20;
-    private final byte NIGHT_MODE_MASK = (byte) 0x10;
+    private static final byte MODE_MASK = (byte) 0x70;
+    private static final byte COMFORT_MODE_MASK = (byte) 0x40;
+    private static final byte DAY_MODE_MASK = (byte) 0x20;
+    private static final byte NIGHT_MODE_MASK = (byte) 0x10;
 
-    private final ChannelUID CURRENT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
+    private final ChannelUID currentTemperatureSetpointChannel = new ChannelUID(thing.getUID(),
             "thermostat#CURRENTTEMPERATURESETPOINT");
-    private final ChannelUID HEATING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
+    private final ChannelUID heatingModeComfortTemperatureSetpointChannel = new ChannelUID(thing.getUID(),
             "thermostat#HEATINGMODECOMFORTTEMPERATURESETPOINT");
-    private final ChannelUID HEATING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
+    private final ChannelUID heatingModeDayTemperatureSetpointChannel = new ChannelUID(thing.getUID(),
             "thermostat#HEATINGMODEDAYTEMPERATURESETPOINT");
-    private final ChannelUID HEATING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
+    private final ChannelUID heatingModeNightTemperatureSetpointChannel = new ChannelUID(thing.getUID(),
             "thermostat#HEATINGMODENIGHTTEMPERATURESETPOINT");
-    private final ChannelUID HEATING_MODE_ANTIFROST_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
+    private final ChannelUID heatingModeAntifrostTemperatureSetpointChannel = new ChannelUID(thing.getUID(),
             "thermostat#HEATINGMODEANTIFROSTTEMPERATURESETPOINT");
-    private final ChannelUID COOLING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
+    private final ChannelUID coolingModeComfortTemperatureSetpointChannel = new ChannelUID(thing.getUID(),
             "thermostat#COOLINGMODECOMFORTTEMPERATURESETPOINT");
-    private final ChannelUID COOLING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
+    private final ChannelUID coolingModeDayTemperatureSetpointChannel = new ChannelUID(thing.getUID(),
             "thermostat#COOLINGMODEDAYTEMPERATURESETPOINT");
-    private final ChannelUID COOLING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
+    private final ChannelUID coolingModeNightTemperatureSetpointChannel = new ChannelUID(thing.getUID(),
             "thermostat#COOLINGMODENIGHTTEMPERATURESETPOINT");
-    private final ChannelUID COOLING_MODE_SAFE_TEMPERATURE_SETPOINT_CHANNEL = new ChannelUID(thing.getUID(),
+    private final ChannelUID coolingModeSafeTemperatureSetpointChannel = new ChannelUID(thing.getUID(),
             "thermostat#COOLINGMODESAFETEMPERATURESETPOINT");
-    private final ChannelUID OPERATING_MODE_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#OPERATINGMODE");
-    private final ChannelUID MODE_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#MODE");
-    private final ChannelUID HEATER_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#HEATER");
-    private final ChannelUID BOOST_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#BOOST");
-    private final ChannelUID PUMP_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#PUMP");
-    private final ChannelUID COOLER_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#COOLER");
-    private final ChannelUID ALARM1_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#ALARM1");
-    private final ChannelUID ALARM2_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#ALARM2");
-    private final ChannelUID ALARM3_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#ALARM3");
-    private final ChannelUID ALARM4_CHANNEL = new ChannelUID(thing.getUID(), "thermostat#ALARM4");
+    private final ChannelUID operatingModeChannel = new ChannelUID(thing.getUID(), "thermostat#OPERATINGMODE");
+    private final ChannelUID modeChannel = new ChannelUID(thing.getUID(), "thermostat#MODE");
+    private final ChannelUID heaterChannel = new ChannelUID(thing.getUID(), "thermostat#HEATER");
+    private final ChannelUID boostChannel = new ChannelUID(thing.getUID(), "thermostat#BOOST");
+    private final ChannelUID pumpChannel = new ChannelUID(thing.getUID(), "thermostat#PUMP");
+    private final ChannelUID coolerChannel = new ChannelUID(thing.getUID(), "thermostat#COOLER");
+    private final ChannelUID alarm1Channel = new ChannelUID(thing.getUID(), "thermostat#ALARM1");
+    private final ChannelUID alarm2Channel = new ChannelUID(thing.getUID(), "thermostat#ALARM2");
+    private final ChannelUID alarm3Channel = new ChannelUID(thing.getUID(), "thermostat#ALARM3");
+    private final ChannelUID alarm4Channel = new ChannelUID(thing.getUID(), "thermostat#ALARM4");
 
     public VelbusThermostatHandler(Thing thing, int numberOfSubAddresses, ChannelUID temperatureChannel) {
         super(thing, numberOfSubAddresses, temperatureChannel);
@@ -124,7 +124,7 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
                 byte[] packetBytes = packet.getBytes();
                 velbusBridgeHandler.sendPacket(packetBytes);
             }
-        } else if (channelUID.equals(OPERATING_MODE_CHANNEL) && command instanceof StringType) {
+        } else if (channelUID.equals(operatingModeChannel) && command instanceof StringType) {
             byte commandByte = ((StringType) command).equals(OPERATING_MODE_HEATING) ? COMMAND_SET_HEATING_MODE
                     : COMMAND_SET_COOLING_MODE;
 
@@ -133,7 +133,7 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
 
             byte[] packetBytes = packet.getBytes();
             velbusBridgeHandler.sendPacket(packetBytes);
-        } else if (channelUID.equals(MODE_CHANNEL) && command instanceof StringType) {
+        } else if (channelUID.equals(modeChannel) && command instanceof StringType) {
             byte commandByte = COMMAND_SWITCH_TO_SAFE_MODE;
 
             StringType stringTypeCommand = (StringType) command;
@@ -183,15 +183,15 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
                 double heatingModeAntiFrostTemperatureSet = convertFromTwoComplementByte(
                         heatingModeAntiFrostTemperatureSetByte, THERMOSTAT_TEMPERATURE_SETPOINT_RESOLUTION);
 
-                updateState(CURRENT_TEMPERATURE_SETPOINT_CHANNEL,
+                updateState(currentTemperatureSetpointChannel,
                         new QuantityType<>(currentTemperatureSet, SIUnits.CELSIUS));
-                updateState(HEATING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL,
+                updateState(heatingModeComfortTemperatureSetpointChannel,
                         new QuantityType<>(heatingModeComfortTemperatureSet, SIUnits.CELSIUS));
-                updateState(HEATING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL,
+                updateState(heatingModeDayTemperatureSetpointChannel,
                         new QuantityType<>(heatingModeDayTemperatureSet, SIUnits.CELSIUS));
-                updateState(HEATING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL,
+                updateState(heatingModeNightTemperatureSetpointChannel,
                         new QuantityType<>(heatingModeNightTemperatureSet, SIUnits.CELSIUS));
-                updateState(HEATING_MODE_ANTIFROST_TEMPERATURE_SETPOINT_CHANNEL,
+                updateState(heatingModeAntifrostTemperatureSetpointChannel,
                         new QuantityType<>(heatingModeAntiFrostTemperatureSet, SIUnits.CELSIUS));
             } else if (command == COMMAND_TEMP_SENSOR_SETTINGS_PART2 && packet.length >= 8) {
                 byte coolingModeComfortTemperatureSetByte = packet[5];
@@ -208,37 +208,37 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
                 double coolingModeSafeTemperatureSet = convertFromTwoComplementByte(coolingModeSafeTemperatureSetByte,
                         THERMOSTAT_TEMPERATURE_SETPOINT_RESOLUTION);
 
-                updateState(COOLING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL,
+                updateState(coolingModeComfortTemperatureSetpointChannel,
                         new QuantityType<>(coolingModeComfortTemperatureSet, SIUnits.CELSIUS));
-                updateState(COOLING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL,
+                updateState(coolingModeDayTemperatureSetpointChannel,
                         new QuantityType<>(coolingModeDayTemperatureSet, SIUnits.CELSIUS));
-                updateState(COOLING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL,
+                updateState(coolingModeNightTemperatureSetpointChannel,
                         new QuantityType<>(coolingModeNightTemperatureSet, SIUnits.CELSIUS));
-                updateState(COOLING_MODE_SAFE_TEMPERATURE_SETPOINT_CHANNEL,
+                updateState(coolingModeSafeTemperatureSetpointChannel,
                         new QuantityType<>(coolingModeSafeTemperatureSet, SIUnits.CELSIUS));
             } else if (command == COMMAND_TEMP_SENSOR_STATUS && packet.length >= 9) {
                 byte operatingMode = packet[5];
                 byte targetTemperature = packet[9];
 
                 if ((operatingMode & OPERATING_MODE_MASK) == COOLING_MODE_MASK) {
-                    updateState(OPERATING_MODE_CHANNEL, OPERATING_MODE_COOLING);
+                    updateState(operatingModeChannel, OPERATING_MODE_COOLING);
                 } else {
-                    updateState(OPERATING_MODE_CHANNEL, OPERATING_MODE_HEATING);
+                    updateState(operatingModeChannel, OPERATING_MODE_HEATING);
                 }
 
                 if ((operatingMode & MODE_MASK) == COMFORT_MODE_MASK) {
-                    updateState(MODE_CHANNEL, MODE_COMFORT);
+                    updateState(modeChannel, MODE_COMFORT);
                 } else if ((operatingMode & MODE_MASK) == DAY_MODE_MASK) {
-                    updateState(MODE_CHANNEL, MODE_DAY);
+                    updateState(modeChannel, MODE_DAY);
                 } else if ((operatingMode & MODE_MASK) == NIGHT_MODE_MASK) {
-                    updateState(MODE_CHANNEL, MODE_NIGHT);
+                    updateState(modeChannel, MODE_NIGHT);
                 } else {
-                    updateState(MODE_CHANNEL, MODE_SAFE);
+                    updateState(modeChannel, MODE_SAFE);
                 }
 
                 double targetTemperatureValue = convertFromTwoComplementByte(targetTemperature,
                         THERMOSTAT_TEMPERATURE_SETPOINT_RESOLUTION);
-                updateState(CURRENT_TEMPERATURE_SETPOINT_CHANNEL,
+                updateState(currentTemperatureSetpointChannel,
                         new QuantityType<>(targetTemperatureValue, SIUnits.CELSIUS));
             } else if (address != this.getModuleAddress().getAddress() && command == COMMAND_PUSH_BUTTON_STATUS) {
                 byte outputChannelsJustActivated = packet[5];
@@ -252,62 +252,62 @@ public abstract class VelbusThermostatHandler extends VelbusTemperatureSensorHan
 
     private void triggerThermostatChannels(byte outputChannels, String event) {
         if ((outputChannels & 0x01) == 0x01) {
-            triggerChannel(HEATER_CHANNEL, event);
+            triggerChannel(heaterChannel, event);
         }
         if ((outputChannels & 0x02) == 0x02) {
-            triggerChannel(BOOST_CHANNEL, event);
+            triggerChannel(boostChannel, event);
         }
         if ((outputChannels & 0x04) == 0x04) {
-            triggerChannel(PUMP_CHANNEL, event);
+            triggerChannel(pumpChannel, event);
         }
         if ((outputChannels & 0x08) == 0x08) {
-            triggerChannel(COOLER_CHANNEL, event);
+            triggerChannel(coolerChannel, event);
         }
         if ((outputChannels & 0x10) == 0x10) {
-            triggerChannel(ALARM1_CHANNEL, event);
+            triggerChannel(alarm1Channel, event);
         }
         if ((outputChannels & 0x20) == 0x20) {
-            triggerChannel(ALARM2_CHANNEL, event);
+            triggerChannel(alarm2Channel, event);
         }
         if ((outputChannels & 0x40) == 0x40) {
-            triggerChannel(ALARM3_CHANNEL, event);
+            triggerChannel(alarm3Channel, event);
         }
         if ((outputChannels & 0x80) == 0x80) {
-            triggerChannel(ALARM4_CHANNEL, event);
+            triggerChannel(alarm4Channel, event);
         }
     }
 
     protected boolean isThermostatChannel(ChannelUID channelUID) {
-        return channelUID.equals(CURRENT_TEMPERATURE_SETPOINT_CHANNEL)
-                || channelUID.equals(HEATING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL)
-                || channelUID.equals(HEATING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL)
-                || channelUID.equals(HEATING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL)
-                || channelUID.equals(HEATING_MODE_ANTIFROST_TEMPERATURE_SETPOINT_CHANNEL)
-                || channelUID.equals(COOLING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL)
-                || channelUID.equals(COOLING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL)
-                || channelUID.equals(COOLING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL)
-                || channelUID.equals(COOLING_MODE_SAFE_TEMPERATURE_SETPOINT_CHANNEL)
-                || channelUID.equals(OPERATING_MODE_CHANNEL) || channelUID.equals(MODE_CHANNEL);
+        return channelUID.equals(currentTemperatureSetpointChannel)
+                || channelUID.equals(heatingModeComfortTemperatureSetpointChannel)
+                || channelUID.equals(heatingModeDayTemperatureSetpointChannel)
+                || channelUID.equals(heatingModeNightTemperatureSetpointChannel)
+                || channelUID.equals(heatingModeAntifrostTemperatureSetpointChannel)
+                || channelUID.equals(coolingModeComfortTemperatureSetpointChannel)
+                || channelUID.equals(coolingModeDayTemperatureSetpointChannel)
+                || channelUID.equals(coolingModeNightTemperatureSetpointChannel)
+                || channelUID.equals(coolingModeSafeTemperatureSetpointChannel)
+                || channelUID.equals(operatingModeChannel) || channelUID.equals(modeChannel);
     }
 
     protected byte determineTemperatureVariable(ChannelUID channelUID) {
-        if (channelUID.equals(CURRENT_TEMPERATURE_SETPOINT_CHANNEL)) {
+        if (channelUID.equals(currentTemperatureSetpointChannel)) {
             return 0x00;
-        } else if (channelUID.equals(HEATING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL)) {
+        } else if (channelUID.equals(heatingModeComfortTemperatureSetpointChannel)) {
             return 0x01;
-        } else if (channelUID.equals(HEATING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL)) {
+        } else if (channelUID.equals(heatingModeDayTemperatureSetpointChannel)) {
             return 0x02;
-        } else if (channelUID.equals(HEATING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL)) {
+        } else if (channelUID.equals(heatingModeNightTemperatureSetpointChannel)) {
             return 0x03;
-        } else if (channelUID.equals(HEATING_MODE_ANTIFROST_TEMPERATURE_SETPOINT_CHANNEL)) {
+        } else if (channelUID.equals(heatingModeAntifrostTemperatureSetpointChannel)) {
             return 0x04;
-        } else if (channelUID.equals(COOLING_MODE_COMFORT_TEMPERATURE_SETPOINT_CHANNEL)) {
+        } else if (channelUID.equals(coolingModeComfortTemperatureSetpointChannel)) {
             return 0x07;
-        } else if (channelUID.equals(COOLING_MODE_DAY_TEMPERATURE_SETPOINT_CHANNEL)) {
+        } else if (channelUID.equals(coolingModeDayTemperatureSetpointChannel)) {
             return 0x08;
-        } else if (channelUID.equals(COOLING_MODE_NIGHT_TEMPERATURE_SETPOINT_CHANNEL)) {
+        } else if (channelUID.equals(coolingModeNightTemperatureSetpointChannel)) {
             return 0x09;
-        } else if (channelUID.equals(COOLING_MODE_SAFE_TEMPERATURE_SETPOINT_CHANNEL)) {
+        } else if (channelUID.equals(coolingModeSafeTemperatureSetpointChannel)) {
             return 0x0A;
         } else {
             throw new IllegalArgumentException("The given channelUID is not a thermostat channel: " + channelUID);

@@ -29,8 +29,9 @@ import org.openhab.binding.velbus.internal.packets.VelbusMemoTextPacket;
  */
 @NonNullByDefault
 public abstract class VelbusMemoHandler extends VelbusThermostatHandler {
-    private final ChannelUID MEMO_CHANNEL = new ChannelUID(thing.getUID(), "oledDisplay#MEMO");
-    public final int MEMO_TEXT_MAX_LENGTH = 63;
+    public static final int MEMO_TEXT_MAX_LENGTH = 63;
+
+    private final ChannelUID memoChannel = new ChannelUID(thing.getUID(), "oledDisplay#MEMO");
 
     public VelbusMemoHandler(Thing thing) {
         super(thing, 4, new ChannelUID(thing.getUID(), "input#CH33"));
@@ -46,7 +47,7 @@ public abstract class VelbusMemoHandler extends VelbusThermostatHandler {
             return;
         }
 
-        if (channelUID.equals(MEMO_CHANNEL) && command instanceof StringType) {
+        if (channelUID.equals(memoChannel) && command instanceof StringType) {
             String memoText = ((StringType) command).toFullString();
             String trucatedMemoText = memoText.substring(0, Math.min(memoText.length(), MEMO_TEXT_MAX_LENGTH));
             String[] splittedMemoText = trucatedMemoText.split("(?<=\\G.....)");

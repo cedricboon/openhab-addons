@@ -43,7 +43,7 @@ public class VelbusVMBGPOHandler extends VelbusMemoHandler {
     public static final int MODULESETTINGS_MEMORY_ADDRESS = 0x02F0;
     public static final int LAST_MEMORY_LOCATION_ADDRESS = 0x1A03;
 
-    private final ChannelUID SCREENSAVER_CHANNEL = new ChannelUID(thing.getUID(), "oledDisplay#SCREENSAVER");
+    private final ChannelUID screensaverChannel = new ChannelUID(thing.getUID(), "oledDisplay#SCREENSAVER");
 
     private byte moduleSettings;
 
@@ -61,11 +61,11 @@ public class VelbusVMBGPOHandler extends VelbusMemoHandler {
             return;
         }
 
-        if (channelUID.equals(SCREENSAVER_CHANNEL) && command instanceof RefreshType) {
+        if (channelUID.equals(screensaverChannel) && command instanceof RefreshType) {
             sendReadMemoryPacket(velbusBridgeHandler, MODULESETTINGS_MEMORY_ADDRESS);
         }
 
-        if (channelUID.equals(SCREENSAVER_CHANNEL) && command instanceof OnOffType) {
+        if (channelUID.equals(screensaverChannel) && command instanceof OnOffType) {
             byte screenSaverOnOffByte = (byte) ((command == OnOffType.ON) ? 0x80 : 0x00);
             moduleSettings = (byte) (screenSaverOnOffByte | (moduleSettings & 0x7F));
             sendWriteMemoryPacket(velbusBridgeHandler, MODULESETTINGS_MEMORY_ADDRESS, moduleSettings);
@@ -96,7 +96,7 @@ public class VelbusVMBGPOHandler extends VelbusMemoHandler {
                     if ((memoryAddress + i) == MODULESETTINGS_MEMORY_ADDRESS) {
                         this.moduleSettings = data[i];
                         OnOffType state = ((this.moduleSettings & 0x80) != 0x00) ? OnOffType.ON : OnOffType.OFF;
-                        updateState(SCREENSAVER_CHANNEL, state);
+                        updateState(screensaverChannel, state);
                     }
                 }
             }

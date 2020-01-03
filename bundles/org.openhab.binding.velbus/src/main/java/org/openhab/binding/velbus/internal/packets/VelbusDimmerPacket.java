@@ -23,8 +23,8 @@ import org.openhab.binding.velbus.internal.VelbusChannelIdentifier;
  */
 @NonNullByDefault
 public class VelbusDimmerPacket extends VelbusPacket {
-    private final byte FIRST_GENERATION_DEVICE_FASTEST_DIMSPEED_HIGH_BYTE = (byte) 0xFF;
-    private final byte FIRST_GENERATION_DEVICE_FASTEST_DIMSPEED_LOW_BYTE = (byte) 0xFF;
+    private static final byte FIRST_GENERATION_DEVICE_FASTEST_DIMSPEED_HIGH_BYTE = (byte) 0xFF;
+    private static final byte FIRST_GENERATION_DEVICE_FASTEST_DIMSPEED_LOW_BYTE = (byte) 0xFF;
 
     private Boolean isFirstGenerationDevice;
     private byte command;

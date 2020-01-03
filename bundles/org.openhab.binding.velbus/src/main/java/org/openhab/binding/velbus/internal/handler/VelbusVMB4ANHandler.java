@@ -51,10 +51,10 @@ import org.openhab.binding.velbus.internal.packets.VelbusStatusRequestPacket;
 public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = new HashSet<>(Arrays.asList(THING_TYPE_VMB4AN));
 
-    private static final String alarmChannelPrefix = "alarm#CH";
-    private static final String analogInputChannelPrefix = "analogInput#CH";
-    private static final String analogOutputChannelPrefix = "analogOutput#CH";
-    private static final String rawChannelSuffix = "RAW";
+    private static final String ALARM_CHANNEL_PREFIX = "alarm#CH";
+    private static final String ANALOG_INPUT_CHANNEL_PREFIX = "analogInput#CH";
+    private static final String ANALOG_OUTPUT_CHANNEL_PREFIX = "analogOutput#CH";
+    private static final String RAW_CHANNEL_SUFFIX = "RAW";
 
     private static final byte VOLTAGE_SENSOR_TYPE = 0x00;
     private static final byte CURRENT_SENSOR_TYPE = 0x01;
@@ -227,55 +227,55 @@ public class VelbusVMB4ANHandler extends VelbusSensorWithAlarmClockHandler {
     }
 
     protected boolean isAlarmChannel(ChannelUID channelUID) {
-        return channelUID.getId().startsWith(alarmChannelPrefix);
+        return channelUID.getId().startsWith(ALARM_CHANNEL_PREFIX);
     }
 
     protected byte convertAlarmChannelUIDToChannelByte(ChannelUID channelUID) {
-        return Byte.parseByte(channelUID.getId().replaceAll(alarmChannelPrefix, ""));
+        return Byte.parseByte(channelUID.getId().replaceAll(ALARM_CHANNEL_PREFIX, ""));
     }
 
     protected String convertAlarmChannelByteToChannelUID(byte channelByte) {
-        return alarmChannelPrefix + channelByte;
+        return ALARM_CHANNEL_PREFIX + channelByte;
     }
 
     protected boolean isTextAnalogInputChannel(ChannelUID channelUID) {
         String id = channelUID.getId();
 
-        return id.startsWith(analogInputChannelPrefix) && !id.endsWith(rawChannelSuffix);
+        return id.startsWith(ANALOG_INPUT_CHANNEL_PREFIX) && !id.endsWith(RAW_CHANNEL_SUFFIX);
     }
 
     protected boolean isRawAnalogInputChannel(ChannelUID channelUID) {
         String id = channelUID.getId();
 
-        return id.startsWith(analogInputChannelPrefix) && id.endsWith(rawChannelSuffix);
+        return id.startsWith(ANALOG_INPUT_CHANNEL_PREFIX) && id.endsWith(RAW_CHANNEL_SUFFIX);
     }
 
     protected byte convertRawAnalogInputChannelUIDToChannelByte(ChannelUID channelUID) {
         return Byte.parseByte(
-                channelUID.getId().replaceAll(analogInputChannelPrefix, "").replaceAll(rawChannelSuffix, ""));
+                channelUID.getId().replaceAll(ANALOG_INPUT_CHANNEL_PREFIX, "").replaceAll(RAW_CHANNEL_SUFFIX, ""));
     }
 
     protected byte convertTextAnalogInputChannelUIDToChannelByte(ChannelUID channelUID) {
-        return Byte.parseByte(channelUID.getId().replaceAll(analogInputChannelPrefix, ""));
+        return Byte.parseByte(channelUID.getId().replaceAll(ANALOG_INPUT_CHANNEL_PREFIX, ""));
     }
 
     protected String convertAnalogInputChannelByteToRawChannelUID(byte channelByte) {
-        return convertAnalogInputChannelByteToChannelUID(channelByte) + rawChannelSuffix;
+        return convertAnalogInputChannelByteToChannelUID(channelByte) + RAW_CHANNEL_SUFFIX;
     }
 
     protected String convertAnalogInputChannelByteToChannelUID(byte channelByte) {
-        return analogInputChannelPrefix + channelByte;
+        return ANALOG_INPUT_CHANNEL_PREFIX + channelByte;
     }
 
     protected boolean isAnalogOutputChannel(ChannelUID channelUID) {
-        return channelUID.getId().startsWith(analogOutputChannelPrefix);
+        return channelUID.getId().startsWith(ANALOG_OUTPUT_CHANNEL_PREFIX);
     }
 
     protected byte convertAnalogOutputChannelUIDToChannelByte(ChannelUID channelUID) {
-        return Byte.parseByte(channelUID.getId().replaceAll(analogOutputChannelPrefix, ""));
+        return Byte.parseByte(channelUID.getId().replaceAll(ANALOG_OUTPUT_CHANNEL_PREFIX, ""));
     }
 
     protected String convertOutputChannelByteToChannelUID(byte channelByte) {
-        return analogOutputChannelPrefix + channelByte;
+        return ANALOG_OUTPUT_CHANNEL_PREFIX + channelByte;
     }
 }
