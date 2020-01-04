@@ -1,6 +1,6 @@
 # Velbus Binding
 
-The Velbus binding integrates with a [Velbus](https://www.velbus.eu/) system through a Velbus configuration module (VMB1USB or VMB1RS).
+The Velbus binding integrates with a [Velbus](https://www.velbus.eu/) system through a Velbus configuration module (VMB1USB or VMB1RS) or a network connection (TCP/IP).
 
 The binding has been tested with a USB configuration module for universal mounting (VMB1USB).
 
@@ -12,12 +12,12 @@ Pushbutton, temperature sensors and input module states are retrieved and made a
 ## Supported Things
 
 
-A Velbus configuration module (e.g. VMB1USB) is required as a "bridge" for accessing any other Velbus devices.
+A Velbus configuration module (e.g. VMB1USB) or a network server (e.g. [velserv](https://github.com/StefCoene/velserver/wiki/TCP-server-for-Velbus)) is required as a "bridge" for accessing any other Velbus devices.
 
 The supported Velbus devices are:
 
 ```
-vmb1bl, vmb1bls, vmb1dm, vmb1led, vmb1ry, vmb1ryno, vmb1rynos, vmb2bl, vmb2ble, vmb2pbn, vmb4dc, vmb4ry, vmb4ryld, vmb4ryno, vmb6in, vmb6pbn, vmb7in, vmb8ir, vmb8pb, vmb8pbu, vmbdme, vmbdmi, vmbdmir, vmbgp1, vmbgp2, vmbgp4, vmbgp4pir, vmbgpo, vmbgpod, vmbpirc, vmbpirm, vmbpiro
+vmb1bl, vmb1bls, vmb1dm, vmb1led, vmb1ry, vmb1ryno, vmb1rynos, vmb1ts, vmb2bl, vmb2ble, vmb2pbn, vmb4an, vmb4dc, vmb4ry, vmb4ryld, vmb4ryno, vmb6in, vmb6pbn, vmb7in, vmb8ir, vmb8pb, vmb8pbu, vmbdme, vmbdmi, vmbdmir, vmbel1, vmbel2, vmbel4, vmbelo, vmbgp1, vmbgp2, vmbgp4, vmbgp4pir, vmbgpo, vmbgpod, vmbmeteo, vmbpirc, vmbpirm, vmbpiro
 ```
 
 The type of a specific device can be found in the configuration section for things in the Paper UI. It is part of the unique thing id which could look like:
@@ -30,14 +30,15 @@ The thing type is the second string behind the first colon and in this example i
 
 ## Discovery
 
-The Velbus bridge cannot be discovered automatically. It has to be added manually by defining the serial port of the Velbus Configuration module.
+The Velbus bridge cannot be discovered automatically. It has to be added manually by defining the serial port of the Velbus Configuration module for the Velbus Serial Bridge or by defining the IP Address and port for the Velbus Network Bridge.
 
 Once the bridge has been added as a thing, a manual scan can be launched to discover all other supported Velbus devices on the bus. These devices will be available in the inbox. The discovery scan will also retrieve the channel names of the Velbus devices.
 
 ## Thing Configuration
 
 The Velbus bridge needs to be added first in the things file or through Paper UI.
-It is necessary to specify the serial port device used for communication.
+
+For the Velbus Serial Bridge it is necessary to specify the serial port device used for communication.
 On Linux systems, this will usually be either `/dev/ttyS0`, `/dev/ttyUSB0` or `/dev/ttyACM0` (or a higher  number than `0` if multiple devices are present).
 On Windows it will be `COM1`, `COM2`, etc.
 
@@ -46,6 +47,31 @@ In the things file, this looks e.g. like
 ```
 Bridge velbus:bridge:1 [ port="COM1" ]
 ```
+
+For the Velbus Network Bridge it is necessary to specify the IP Address or hostname and the port of the Velbus network server.
+
+In the things file, this looks e.g. like
+
+```
+Bridge velbus:networkbridge:1 [ address="192.168.1.2", port="3788" ]
+```
+
+Optionally, both the serial bridge and the network bridge can also update the realtime clock, date and daylight savings status of the Velbus modules. This is achieved by setting the Time Update Interval (in minutes) on the bridge, e.g.:
+
+```
+Bridge velbus:bridge:1 [ port="COM1", timeUpdateInterval="360" ]
+```
+
+The default time update interval is every 360 minutes. Setting the interval to 0 minutes or leaving it empty disables the update of the realtime clock, date and daylight savings status of the Velbus modules.
+
+In case of a connection error, the bridges can also try to reconnect automatically. You can specify at which interval the bridge should try to reconnect by setting the Reconnection Interval (in seconds), e.g.:
+
+```
+Bridge velbus:bridge:1 [ port="COM1", reconnectionInterval="15" ]
+```
+
+The default reconnection interval is 15 seconds.
+
 
 For the other Velbus devices, the thing configuration has the following syntax:
 
@@ -62,7 +88,7 @@ or nested in the bridge configuration:
 The following thing types are valid for configuration:
 
 ```
-vmb1bl, vmb1bls, vmb1dm, vmb1led, vmb1ry, vmb1ryno, vmb1rynos, vmb2bl, vmb2ble, vmb2pbn, vmb4dc, vmb4ry, vmb4ryld, vmb4ryno, vmb6in, vmb6pbn, vmb7in, vmb8ir, vmb8pb, vmb8pbu, vmbdme, vmbdmi, vmbdmir, vmbgp1, vmbgp2, vmbgp4, vmbgp4pir, vmbgpo, vmbgpod, vmbpirc, vmbpirm, vmbpiro
+vmb1bl, vmb1bls, vmb1dm, vmb1led, vmb1ry, vmb1ryno, vmb1rynos, vmb1ts, vmb2bl, vmb2ble, vmb2pbn, vmb4an, vmb4dc, vmb4ry, vmb4ryld, vmb4ryno, vmb6in, vmb6pbn, vmb7in, vmb8ir, vmb8pb, vmb8pbu, vmbdme, vmbdmi, vmbdmir, vmbel1, vmbel2, vmbel4, vmbelo, vmbgp1, vmbgp2, vmbgp4, vmbgp4pir, vmbgpo, vmbgpod, vmbmeteo, vmbpirc, vmbpirm, vmbpiro
 ```
 
 `thingId` is the hexadecimal Velbus address of the thing.
@@ -73,6 +99,33 @@ vmb1bl, vmb1bls, vmb1dm, vmb1led, vmb1ry, vmb1ryno, vmb1rynos, vmb2bl, vmb2ble, 
 
 `[CHx="..."]` is optional, and represents the name of channel x, e.g. CH1 specifies the name of channel 1.
 
+For thing types with builtin sensors (e.g. temperature), the interval at which the sensors should be checked can be set by specifying the Refresh Interval, e.g.:
+
+```
+Thing velbus:vmbelo:<bridgeId>:<thingId> [refresh="300"]
+```
+
+The default refresh interval for the sensors is 300 seconds. Setting the refresh interval to 0 or leaving it empty will prevent the thing from periodically refreshing the sensor values.
+
+The following thing types support a sensor refresh interval:
+
+```
+vmb1ts, vmb4an, vmbel1, vmbel2, vmbel4, vmbelo, vmbgp1, vmbgp2, vmbgp4, vmbgp4pir, vmbgpo, vmbgpod, vmbmeteo, vmbpirc, vmbpirm, vmbpiro
+```
+
+The `vmb7in` thing type also supports a refresh interval. For this thing type, the refresh interval is the interval at which the counter values should be refreshed.
+
+For dimmers the speed (in seconds) at which the modules should dim from 0% to 100% can be set by specifying the Dimspeed, e.g.:
+
+```
+Thing velbus:vmb4dc:<bridgeId>:<thingId> [dimspeed="5"]
+```
+
+The following thing types support setting the dimspeed:
+
+```
+vmb1dm, vmb1led, vmb4dc, vmbdme, vmbdmi, vmbdmir
+```
 
 ## Channels
 
@@ -82,10 +135,20 @@ For thing types `vmb1dm`, `vmb1led`, `vmbdme`, `vmbdmi` and `vmbdmir` the suppor
 OnOff and Percent command types are supported.
 Sending an ON command will switch the dimmer to the value stored when last turning the dimmer off.
 
+For thing type `vmb1ry` the supported channel is `CH1`.
+OnOff command types are supported.
+
+For thing type `vmb4ry` 4 channels are available `CH1` ... `CH4`.
+OnOff command types are supported.
+
 For thing types `vmb1ryno`, `vmb1rynos`, `vmb4ryld` and `vmb4ryno` 5 channels are available `CH1` ... `CH5`.
 OnOff command types are supported.
 
 For thing types `vmb2bl` and `vmb2ble` the supported channels are `CH1` and `CH2`. UpDown, StopMove and Percent command types are supported.
+
+Thing type `vmb6in` has 6 trigger channels `input#CH1` ... `input#CH6`.
+
+Thing type `vmb7in` has 8 trigger channels `input#CH1` ... `input#CH8`.
 
 Thing types `vmb2pbn`, `vmb6pbn`, `vmb7in`, `vmb8ir`, `vmb8pb` and `vmb8pbu` have 8 trigger channels `CH1` ... `CH8`.
 
