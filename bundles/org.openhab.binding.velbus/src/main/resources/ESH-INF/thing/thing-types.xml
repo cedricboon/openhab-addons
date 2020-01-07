@@ -138,6 +138,7 @@
 		<label>VMB1TS</label>
 		<description>Temperature Sensor Module</description>
 		<channel-groups>
+			<channel-group id="input" typeId="1channelInputModuleWithTemperatureSensor" />
 			<channel-group id="thermostat" typeId="thermostat" />
 		</channel-groups>
 
@@ -850,6 +851,13 @@
 			</options>
 		</event>
 	</channel-type>
+	<channel-group-type id="1channelInputModuleWithTemperatureSensor">
+		<label>Input Module with Temperature sensor</label>
+		<description>This is a generic module with 8 input channels and a temperature sensor.</description>
+		<channels>
+			<channel id="CH1" typeId="temperature" />
+		</channels>
+	</channel-group-type>
 	<channel-group-type id="4channelAnalogInputModule">
 		<label>Analog Input</label>
 		<description>

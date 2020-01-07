@@ -112,7 +112,10 @@ public class VelbusSensorWithAlarmClockHandler extends VelbusSensorHandler {
     public void initialize() {
         super.initialize();
 
-        this.clockAlarmConfigurationMemoryAddress = ALARM_CONFIGURATION_MEMORY_ADDRESSES.get(thing.getThingTypeUID());
+        if (ALARM_CONFIGURATION_MEMORY_ADDRESSES.containsKey(thing.getThingTypeUID())) {
+            this.clockAlarmConfigurationMemoryAddress = ALARM_CONFIGURATION_MEMORY_ADDRESSES
+                    .get(thing.getThingTypeUID());
+        }
     }
 
     @Override
