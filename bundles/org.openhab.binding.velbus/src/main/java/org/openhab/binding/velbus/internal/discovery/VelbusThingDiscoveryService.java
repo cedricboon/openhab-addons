@@ -243,6 +243,10 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
                         lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBGP4PIR, 9);
                 break;
+            case MODULE_TYPE_VMBGP4PIR2:
+                velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
+                        lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBGP4PIR2, 9);
+                break;
             case MODULE_TYPE_VMBGPO:
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
                         lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBGPO, 33);
@@ -250,6 +254,10 @@ public class VelbusThingDiscoveryService extends AbstractDiscoveryService implem
             case MODULE_TYPE_VMBGPOD:
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
                         lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBGPOD, 33);
+                break;
+            case MODULE_TYPE_VMBGPOD2:
+                velbusModule = new VelbusModule(new VelbusModuleAddress(address, 4), moduleType, highByteOfSerialNumber,
+                        lowByteOfSerialNumber, memoryMapVersion, buildYear, buildWeek, THING_TYPE_VMBGPOD2, 33);
                 break;
             case MODULE_TYPE_VMBMETEO:
                 velbusModule = new VelbusModule(new VelbusModuleAddress(address, 0), moduleType, highByteOfSerialNumber,
