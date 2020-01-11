@@ -517,6 +517,24 @@
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
+	<thing-type id="vmbgp1-2">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge" />
+			<bridge-type-ref id="networkbridge" />
+		</supported-bridge-type-refs>
+
+		<label>VMBGP1-2</label>
+		<description>Glass control module with 1 touch key (Edition 2)</description>
+		<channel-groups>
+			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="feedback" typeId="1channelFeedbackModule" />
+			<channel-group id="thermostat" typeId="thermostat" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
+
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+	</thing-type>
+
 	<thing-type id="vmbgp2">
 		<supported-bridge-type-refs>
 			<bridge-type-ref id="bridge" />
@@ -525,6 +543,24 @@
 
 		<label>VMBGP2</label>
 		<description>Glass control module with 2 touch keys</description>
+		<channel-groups>
+			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="feedback" typeId="2channelFeedbackModule" />
+			<channel-group id="thermostat" typeId="thermostat" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
+
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+	</thing-type>
+
+	<thing-type id="vmbgp2-2">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge" />
+			<bridge-type-ref id="networkbridge" />
+		</supported-bridge-type-refs>
+
+		<label>VMBGP2-2</label>
+		<description>Glass control module with 2 touch keys (Edition 2)</description>
 		<channel-groups>
 			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
 			<channel-group id="feedback" typeId="2channelFeedbackModule" />
@@ -553,6 +589,24 @@
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
+	<thing-type id="vmbgp4-2">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge" />
+			<bridge-type-ref id="networkbridge" />
+		</supported-bridge-type-refs>
+
+		<label>VMBGP4-2</label>
+		<description>Glass control module with 4 touch keys (Edition 2)</description>
+		<channel-groups>
+			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="feedback" typeId="4channelFeedbackModule" />
+			<channel-group id="thermostat" typeId="thermostat" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
+
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+	</thing-type>
+
 	<thing-type id="vmbgp4pir">
 		<supported-bridge-type-refs>
 			<bridge-type-ref id="bridge" />
@@ -570,24 +624,24 @@
 
 		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
 	</thing-type>
-	
-	   <thing-type id="vmbgp4pir2">
-        <supported-bridge-type-refs>
-            <bridge-type-ref id="bridge" />
-            <bridge-type-ref id="networkbridge" />
-        </supported-bridge-type-refs>
 
-        <label>VMBGP4PIR-2</label>
-        <description>Glass control module with 4 touch keys and built-in motion and twilight sensor (Edition 2)</description>
-        <channel-groups>
-            <channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
-            <channel-group id="feedback" typeId="4channelFeedbackModule" />
-            <channel-group id="thermostat" typeId="thermostat" />
-            <channel-group id="clockAlarm" typeId="clockAlarm" />
-        </channel-groups>
+	<thing-type id="vmbgp4pir-2">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="bridge" />
+			<bridge-type-ref id="networkbridge" />
+		</supported-bridge-type-refs>
 
-        <config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
-    </thing-type>
+		<label>VMBGP4PIR-2</label>
+		<description>Glass control module with 4 touch keys and built-in motion and twilight sensor (Edition 2)</description>
+		<channel-groups>
+			<channel-group id="input" typeId="9channelInputModuleWithTemperatureSensor" />
+			<channel-group id="feedback" typeId="4channelFeedbackModule" />
+			<channel-group id="thermostat" typeId="thermostat" />
+			<channel-group id="clockAlarm" typeId="clockAlarm" />
+		</channel-groups>
+
+		<config-description-ref uri="thing-type:velbus:9channelDeviceWithTemperatureSensor" />
+	</thing-type>
 
 	<thing-type id="vmbgpo">
 		<supported-bridge-type-refs>
@@ -627,7 +681,7 @@
 		<config-description-ref uri="thing-type:velbus:33channelDeviceWithTemperatureSensor" />
 	</thing-type>
 
-	<thing-type id="vmbgpod2">
+	<thing-type id="vmbgpod-2">
 		<supported-bridge-type-refs>
 			<bridge-type-ref id="bridge" />
 			<bridge-type-ref id="networkbridge" />
