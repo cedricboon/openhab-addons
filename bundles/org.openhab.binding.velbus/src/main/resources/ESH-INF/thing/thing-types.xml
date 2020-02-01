@@ -1301,7 +1301,7 @@
 				<label>Clock Alarm 1 Wakeup Hour</label>
 			</channel>
 			<channel id="CLOCKALARM1WAKEUPMINUTE" typeId="minute">
-				<label>Clock Alarm 1 Wakup Minute</label>
+				<label>Clock Alarm 1 Minute</label>
 			</channel>
 			<channel id="CLOCKALARM1BEDTIMEHOUR" typeId="hour">
 				<label>Clock Alarm 1 Bedtime Hour</label>
