@@ -80,6 +80,7 @@ public class VelbusBindingConstants {
     public static final ThingTypeUID THING_TYPE_VMBPIRC = new ThingTypeUID(BINDING_ID, "vmbpirc");
     public static final ThingTypeUID THING_TYPE_VMBPIRM = new ThingTypeUID(BINDING_ID, "vmbpirm");
     public static final ThingTypeUID THING_TYPE_VMBPIRO = new ThingTypeUID(BINDING_ID, "vmbpiro");
+    public static final ThingTypeUID THING_TYPE_VMBRFR8S = new ThingTypeUID(BINDING_ID, "vmbrfr8s");
 
     // thing type sets
     public static final Set<ThingTypeUID> BRIDGE_THING_TYPES_UIDS = Collections
@@ -94,7 +95,7 @@ public class VelbusBindingConstants {
                     THING_TYPE_VMBELO, THING_TYPE_VMBGP1, THING_TYPE_VMBGP1_2, THING_TYPE_VMBGP2, THING_TYPE_VMBGP2_2,
                     THING_TYPE_VMBGP4, THING_TYPE_VMBGP4_2, THING_TYPE_VMBGP4PIR, THING_TYPE_VMBGP4PIR_2,
                     THING_TYPE_VMBGPO, THING_TYPE_VMBGPOD, THING_TYPE_VMBGPOD_2, THING_TYPE_VMBMETEO,
-                    THING_TYPE_VMBPIRC, THING_TYPE_VMBPIRM, THING_TYPE_VMBPIRO)));
+                    THING_TYPE_VMBPIRC, THING_TYPE_VMBPIRM, THING_TYPE_VMBPIRO, THING_TYPE_VMBRFR8S)));
 
     // Velbus module types
     public static final byte MODULE_TYPE_VMB8PB = 0x01;
@@ -130,6 +131,7 @@ public class VelbusBindingConstants {
     public static final byte MODULE_TYPE_VMBGP4PIR = 0x2D;
     public static final byte MODULE_TYPE_VMB1BLS = 0x2E;
     public static final byte MODULE_TYPE_VMBDMIR = 0x2F;
+    public static final byte MODULE_TYPE_VMBRFR8S = 0x30;
     public static final byte MODULE_TYPE_VMBMETEO = 0x31;
     public static final byte MODULE_TYPE_VMB4AN = 0x32;
     public static final byte MODULE_TYPE_VMBEL1 = 0x34;
