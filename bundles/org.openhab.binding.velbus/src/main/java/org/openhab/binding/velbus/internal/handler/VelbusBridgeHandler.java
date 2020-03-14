@@ -174,6 +174,11 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
     }
 
     protected void readPackets() {
+        if (inputStream == null) {
+            onConnectionLost();
+            return;
+        }
+
         byte[] packet;
 
         listenerStopped = false;
@@ -184,20 +189,21 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
             }
         } catch (IOException e) {
             if (!listenerStopped) {
-                logger.error("Network read error", e);
-
                 onConnectionLost();
             }
         }
     }
 
     private void writePacket(byte[] packet) {
+        if (outputStream == null) {
+            onConnectionLost();
+            return;
+        }
+
         try {
             outputStream.write(packet);
             outputStream.flush();
         } catch (IOException e) {
-            logger.error("Bridge write error", e);
-
             onConnectionLost();
         }
     }
@@ -215,20 +221,24 @@ public abstract class VelbusBridgeHandler extends BaseBridgeHandler {
         listenerStopped = true;
 
         try {
-            outputStream.close();
+            if (outputStream != null) {
+                outputStream.close();
+            }
         } catch (IOException e) {
             logger.error("Error while closing output stream", e);
         }
 
         try {
-            inputStream.close();
+            if (inputStream != null) {
+                inputStream.close();
+            }
         } catch (IOException e) {
             logger.error("Error while closing input stream", e);
         }
     }
 
     public void startReconnectionHandler() {
-        if (reconnectionHandler != null && reconnectionHandler.isCancelled()) {
+        if (reconnectionHandler == null || reconnectionHandler.isCancelled()) {
             Object reconnectionIntervalObject = getConfig().get(RECONNECTION_INTERVAL);
             if (reconnectionIntervalObject != null) {
                 long reconnectionInterval = ((BigDecimal) reconnectionIntervalObject).longValue();
