@@ -54,6 +54,11 @@ public class VelbusVMB7INHandler extends VelbusSensorWithAlarmClockHandler {
     private final ChannelUID counter4Channel = new ChannelUID(thing.getUID(), "counter#COUNTER4");
     private final ChannelUID counter4ChannelCurrent = new ChannelUID(thing.getUID(), "counter#COUNTER4_CURRENT");
 
+    private double counter1PulseMultiplier = 1;
+    private double counter2PulseMultiplier = 1;
+    private double counter3PulseMultiplier = 1;
+    private double counter4PulseMultiplier = 1;
+
     private @Nullable ScheduledFuture<?> refreshJob;
 
     public VelbusVMB7INHandler(Thing thing) {
@@ -64,6 +69,7 @@ public class VelbusVMB7INHandler extends VelbusSensorWithAlarmClockHandler {
     public void initialize() {
         super.initialize();
 
+        initializePulseCounterMultipliers();
         initializeAutomaticRefresh();
     }
 
@@ -75,6 +81,28 @@ public class VelbusVMB7INHandler extends VelbusSensorWithAlarmClockHandler {
             if (refreshInterval > 0) {
                 startAutomaticRefresh(refreshInterval);
             }
+        }
+    }
+
+    private void initializePulseCounterMultipliers() {
+        Object counter1PulseMultiplierObject = getConfig().get(COUNTER1_PULSE_MULTIPLIER);
+        if (counter1PulseMultiplierObject != null) {
+            counter1PulseMultiplier = ((BigDecimal) counter1PulseMultiplierObject).doubleValue();
+        }
+
+        Object counter2PulseMultiplierObject = getConfig().get(COUNTER2_PULSE_MULTIPLIER);
+        if (counter2PulseMultiplierObject != null) {
+            counter2PulseMultiplier = ((BigDecimal) counter2PulseMultiplierObject).doubleValue();
+        }
+
+        Object counter3PulseMultiplierObject = getConfig().get(COUNTER3_PULSE_MULTIPLIER);
+        if (counter3PulseMultiplierObject != null) {
+            counter3PulseMultiplier = ((BigDecimal) counter3PulseMultiplierObject).doubleValue();
+        }
+
+        Object counter4PulseMultiplierObject = getConfig().get(COUNTER4_PULSE_MULTIPLIER);
+        if (counter4PulseMultiplierObject != null) {
+            counter4PulseMultiplier = ((BigDecimal) counter4PulseMultiplierObject).doubleValue();
         }
     }
 
@@ -148,20 +176,20 @@ public class VelbusVMB7INHandler extends VelbusSensorWithAlarmClockHandler {
 
                 switch (counterChannel) {
                     case 0x00:
-                        updateState(counter1Channel, new DecimalType(counterValue));
-                        updateState(counter1ChannelCurrent, new DecimalType(currentValue));
+                        updateState(counter1Channel, new DecimalType(counterValue / counter1PulseMultiplier));
+                        updateState(counter1ChannelCurrent, new DecimalType(currentValue / counter1PulseMultiplier));
                         break;
                     case 0x01:
-                        updateState(counter2Channel, new DecimalType(counterValue));
-                        updateState(counter2ChannelCurrent, new DecimalType(currentValue));
+                        updateState(counter2Channel, new DecimalType(counterValue / counter2PulseMultiplier));
+                        updateState(counter2ChannelCurrent, new DecimalType(currentValue / counter2PulseMultiplier));
                         break;
                     case 0x02:
-                        updateState(counter3Channel, new DecimalType(counterValue));
-                        updateState(counter3ChannelCurrent, new DecimalType(currentValue));
+                        updateState(counter3Channel, new DecimalType(counterValue / counter3PulseMultiplier));
+                        updateState(counter3ChannelCurrent, new DecimalType(currentValue / counter3PulseMultiplier));
                         break;
                     case 0x03:
-                        updateState(counter4Channel, new DecimalType(counterValue));
-                        updateState(counter4ChannelCurrent, new DecimalType(currentValue));
+                        updateState(counter4Channel, new DecimalType(counterValue / counter4PulseMultiplier));
+                        updateState(counter4ChannelCurrent, new DecimalType(currentValue / counter4PulseMultiplier));
                         break;
                     default:
                         throw new IllegalArgumentException(

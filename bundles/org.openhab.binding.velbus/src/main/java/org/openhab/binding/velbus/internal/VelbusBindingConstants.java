@@ -207,6 +207,10 @@ public class VelbusBindingConstants {
     public static final String PORT = "port";
     public static final String ADDRESS = "address";
     public static final String REFRESH_INTERVAL = "refresh";
+    public static final String COUNTER1_PULSE_MULTIPLIER = "COUNTER1_PULSE_MULTIPLIER";
+    public static final String COUNTER2_PULSE_MULTIPLIER = "COUNTER2_PULSE_MULTIPLIER";
+    public static final String COUNTER3_PULSE_MULTIPLIER = "COUNTER3_PULSE_MULTIPLIER";
+    public static final String COUNTER4_PULSE_MULTIPLIER = "COUNTER4_PULSE_MULTIPLIER";
     public static final String RECONNECTION_INTERVAL = "reconnectionInterval";
     public static final String TIME_UPDATE_INTERVAL = "timeUpdateInterval";
     public static final String MODULE_SERIAL_NUMBER = "serial number";

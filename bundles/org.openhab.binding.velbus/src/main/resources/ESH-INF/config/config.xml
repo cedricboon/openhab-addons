@@ -316,6 +316,98 @@
 			<default>CH7</default>
 			<advanced>true</advanced>
 		</parameter>
+		<parameter name="COUNTER1_UNIT" type="text">
+			<label>Counter 1 Unit</label>
+			<description>The unit for Counter 1.</description>
+			<default>kWh</default>
+			<options>
+				<option value="kWh">kWh</option>
+				<option value="liters">liters</option>
+				<option value="m³">m³</option>
+			</options>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="COUNTER1_PULSE_MULTIPLIER" type="decimal">
+			<label>Counter 1 Pulse multiplier</label>
+			<description>The pulse multiplier for counter 1</description>
+			<default>1</default>
+			<options>
+				<option value="1">x1</option>
+				<option value="2.5">x2.5</option>
+				<option value="0.05">x0.05</option>
+				<option value="0.01">x0.01</option>
+			</options>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="COUNTER2_UNIT" type="text">
+			<label>Counter 2 Unit</label>
+			<description>The unit for Counter 2.</description>
+			<default>kWh</default>
+			<options>
+				<option value="kWh">kWh</option>
+				<option value="liters">liters</option>
+				<option value="m³">m³</option>
+			</options>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="COUNTER2_PULSE_MULTIPLIER" type="decimal">
+			<label>Counter 2 Pulse multiplier</label>
+			<description>The pulse multiplier for counter 2</description>
+			<default>1</default>
+			<options>
+				<option value="1">x1</option>
+				<option value="2.5">x2.5</option>
+				<option value="0.05">x0.05</option>
+				<option value="0.01">x0.01</option>
+			</options>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="COUNTER3_UNIT" type="text">
+			<label>Counter 3 Unit</label>
+			<description>The unit for Counter 3.</description>
+			<default>kWh</default>
+			<options>
+				<option value="kWh">kWh</option>
+				<option value="liters">liters</option>
+				<option value="m³">m³</option>
+			</options>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="COUNTER3_PULSE_MULTIPLIER" type="decimal">
+			<label>Counter 3 Pulse multiplier</label>
+			<description>The pulse multiplier for counter 3</description>
+			<default>1</default>
+			<options>
+				<option value="1">x1</option>
+				<option value="2.5">x2.5</option>
+				<option value="0.05">x0.05</option>
+				<option value="0.01">x0.01</option>
+			</options>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="COUNTER4_UNIT" type="text">
+			<label>Counter 4 Unit</label>
+			<description>The unit for Counter 4.</description>
+			<default>kWh</default>
+			<options>
+				<option value="kWh">kWh</option>
+				<option value="liters">liters</option>
+				<option value="m³">m³</option>
+			</options>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="COUNTER4_PULSE_MULTIPLIER" type="decimal">
+			<label>Counter 4 Pulse multiplier</label>
+			<description>The pulse multiplier for counter 4</description>
+			<default>1</default>
+			<options>
+				<option value="1">x1</option>
+				<option value="2.5">x2.5</option>
+				<option value="0.05">x0.05</option>
+				<option value="0.01">x0.01</option>
+			</options>
+			<advanced>true</advanced>
+		</parameter>
 	</config-description>
 
 	<config-description uri="thing-type:velbus:7channelDeviceWithTemperatureSensor">
