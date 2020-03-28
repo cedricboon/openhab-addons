@@ -82,8 +82,8 @@ public class VelbusVMBPIROHandler extends VelbusTemperatureSensorHandler {
             byte command = packet[4];
 
             if (command == COMMAND_MODULE_STATUS && packet.length >= 6) {
-                byte highByteCurrentLightValue = packet[5];
-                byte lowByteCurrentLightValue = packet[6];
+                byte highByteCurrentLightValue = packet[6];
+                byte lowByteCurrentLightValue = packet[7];
 
                 double lightValue = (((highByteCurrentLightValue & 0xff) << 8) + (lowByteCurrentLightValue & 0xff));
                 QuantityType<Illuminance> lightValueState = new QuantityType<>(lightValue, SmartHomeUnits.LUX);
