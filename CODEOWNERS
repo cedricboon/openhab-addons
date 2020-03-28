@@ -5,6 +5,7 @@
 *       @openhab/2-x-add-ons-maintainers
 
 # Add-on maintainers:
+/bundles/org.openhab.binding.adorne/ @theiding
 /bundles/org.openhab.binding.airquality/ @kubawolanin
 /bundles/org.openhab.binding.airvisualnode/ @3cky
 /bundles/org.openhab.binding.allplay/ @dominicdesu
@@ -72,6 +73,7 @@
 /bundles/org.openhab.binding.icloud/ @pgfeller
 /bundles/org.openhab.binding.ihc/ @paulianttila
 /bundles/org.openhab.binding.innogysmarthome/ @ollie-dev
+/bundles/org.openhab.binding.insteon/ @robnielsen
 /bundles/org.openhab.binding.ipp/ @peuter
 /bundles/org.openhab.binding.irtrans/ @kgoderis
 /bundles/org.openhab.binding.jeelink/ @vbier
